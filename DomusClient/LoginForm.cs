@@ -33,7 +33,7 @@ namespace DomusClient
 
             stream = server.GetStream();
 
-            ServerWrite(stream, "<Login>" + tb_user.Text + ";" + tb_passwd.Text + ";<Login>");
+            ServerWrite(stream, "<Login>" + tb_user.Text + ";" + tb_passwd.Text + "<Login>");
 
             while (server.Connected && retry == false)
             {
@@ -84,6 +84,7 @@ namespace DomusClient
 
         private void bt_cancel_Click(object sender, EventArgs e)
         {
+            ServerWrite(server.GetStream(),"<exit>");
             this.Close();
         }
 
