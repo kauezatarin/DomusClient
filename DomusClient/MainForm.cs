@@ -9,10 +9,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetroFramework.Forms;
 
 namespace DomusClient
 {
-    public partial class MainForm : Form
+    public partial class MainForm : MetroForm
     {
         private TcpClient server;
         private LoginForm loginForm;

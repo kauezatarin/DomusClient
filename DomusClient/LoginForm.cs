@@ -8,10 +8,11 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetroFramework.Forms;
 
 namespace DomusClient
 {
-    public partial class LoginForm : Form
+    public partial class LoginForm : MetroForm
     {
         private TcpClient server;
         public bool success = false;//após o login deve ser true

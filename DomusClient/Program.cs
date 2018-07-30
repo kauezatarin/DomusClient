@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DomusClient
@@ -14,6 +11,8 @@ namespace DomusClient
         [STAThread]
         static void Main()
         {
+            System.Globalization.CultureInfo cultureInfo = new System.Globalization.CultureInfo("pt-BR");
+            Application.CurrentCulture = cultureInfo;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
