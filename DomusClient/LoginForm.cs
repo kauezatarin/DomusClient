@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework.Forms;
+using DomusSharedClasses;
 
 namespace DomusClient
 {
     public partial class LoginForm : MetroForm
     {
         private TcpClient server;
-        public bool success = false;//após o login deve ser true
 
         public LoginForm(TcpClient server)
         {
@@ -24,13 +26,15 @@ namespace DomusClient
             this.server = server;
         }
 
-        private void bt_login_Click(object sender, EventArgs e)
+        private async void bt_login_ClickAsync(object sender, EventArgs e)
         {
             NetworkStream stream;
             Byte[] bytes = new Byte[1024];
             string data;
             int i;
             bool retry = false;
+            bool success = false;
+            bool receivingSerial = false;
 
             stream = server.GetStream();
 
@@ -54,9 +58,10 @@ namespace DomusClient
 
                             if (data == "sucessfullLogin")
                             {
-                                success = true;
-                                this.Close();
-                                break;
+                                //solicita as informações do usuário
+                                ServerWrite(stream, "<SendUser>");
+
+                                receivingSerial = true;
                             }
                             else if (data == "wrongLogin")
                             {
@@ -66,17 +71,25 @@ namespace DomusClient
                                 break;
                             }
 
+                            if (receivingSerial)
+                            { 
+                                Application.OpenForms.OfType<MainForm>().First().user = (User) await ServerReadSerilizedAssync(stream);
+
+                                receivingSerial = false;
+                                success = true;
+                                this.Hide();
+                            }
 
                             if (stream.DataAvailable == false)//impede o lock da função
                                 break;
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-
+                        throw ex;
                     }
                 }
-                if (success == true)
+                if (success)
                     break;
             }
 
@@ -85,8 +98,8 @@ namespace DomusClient
 
         private void bt_cancel_Click(object sender, EventArgs e)
         {
-            ServerWrite(server.GetStream(),"<exit>");
-            this.Close();
+            ServerWrite(server.GetStream(), "<exit>");
+            this.Hide();
         }
 
         //Função que envia mensagens ao cliente conectado
@@ -103,6 +116,31 @@ namespace DomusClient
             {
                 return false;
             }
+        }
+
+        private async Task<object> ServerReadSerilizedAssync(NetworkStream stream)
+        {
+            byte[] readMsgLen = new byte[4];
+            int dataLen;
+            byte[] readMsgData;
+            BinaryFormatter bf1 = new BinaryFormatter();
+            MemoryStream ms;
+
+            //le o tamanho dos dados que serão recebidos
+            stream.Read(readMsgLen, 0, 4);
+            dataLen = BitConverter.ToInt32(readMsgLen, 0);
+            readMsgData = new byte[dataLen];
+
+            //le os dados que estão sendo recebidos
+            stream.Read(readMsgData, 0, dataLen);
+
+            ms = new MemoryStream(readMsgData);
+            ms.Position = 0;
+
+            //converte os dados recebidos para um objeto
+            object objeto = bf1.Deserialize(ms);
+            
+            return objeto;
         }
     }
 }

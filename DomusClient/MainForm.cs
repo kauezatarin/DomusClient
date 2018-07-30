@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework.Forms;
+using DomusSharedClasses;
 
 namespace DomusClient
 {
@@ -18,6 +19,7 @@ namespace DomusClient
         private TcpClient server;
         private LoginForm loginForm;
         private NetworkStream stream;
+        public User user;
 
         public MainForm()
         {
@@ -98,12 +100,13 @@ namespace DomusClient
 
             loginForm.ShowDialog();
 
-            if (!loginForm.success)//se o login falhar encerra o programa
-                this.Close();
+            if (user != null)//se o login falhar encerra o programa
+                loginForm.Dispose();
             else
             {
-                loginForm.Dispose();
+                this.Close();
             }
+
         }
 
         //Função que envia mensagens ao cliente conectado
@@ -129,7 +132,7 @@ namespace DomusClient
                 server.Close();
                 server.Dispose();
             }
-            catch (Exception)
+            catch
             {
 
             }
