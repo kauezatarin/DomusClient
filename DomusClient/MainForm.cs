@@ -37,7 +37,7 @@ namespace DomusClient
             {
                 client.Connect(ip, port);
             }
-            catch (Exception e)
+            catch (SocketException e)
             {
                 throw e;
             }
@@ -90,12 +90,13 @@ namespace DomusClient
                 }*/
 
             }
-            catch (Exception exception)
+            catch (SocketException exception)
             {
-                MetroMessageBox.Show(this, "Não foi possivel conectar ao servidor.\r\n" + exception.Message,
+                MetroMessageBox.Show(this, "Não foi possivel conectar ao servidor.\r\n" + exception.SocketErrorCode + " - " + exception.Message,
                     "Domus Client - Error", 
                     MessageBoxButtons.OK, 
-                    MessageBoxIcon.Error);
+                    MessageBoxIcon.Error,
+                    150);
 
                 this.Close();
             }
@@ -112,7 +113,6 @@ namespace DomusClient
             {
                 this.Close();
             }
-
         }
 
         //Função que envia mensagens ao cliente conectado

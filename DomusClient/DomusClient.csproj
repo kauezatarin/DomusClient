@@ -124,6 +124,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Dome.ico" />
+    <None Include="Resources\plug.png" />
+    <None Include="Resources\watertower.png" />
+    <None Include="Resources\leaf.png" />
+    <None Include="Resources\circuitboard.png" />
+    <None Include="Resources\lightning-bolt.png" />
+    <None Include="Resources\drop4.png" />
+    <None Include="Resources\drop.png" />
     <None Include="Resources\Domus.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

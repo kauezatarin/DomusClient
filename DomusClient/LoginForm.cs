@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 using DomusSharedClasses;
+using MetroFramework;
 
 namespace DomusClient
 {
@@ -65,8 +66,11 @@ namespace DomusClient
                             }
                             else if (data == "wrongLogin")
                             {
-                                MessageBox.Show("Login incorreto.", "Login", MessageBoxButtons.OK,
-                                    MessageBoxIcon.Exclamation);
+                                MetroMessageBox.Show(this, "Login incorreto.",
+                                    "",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error,
+                                    100);
                                 retry = true;
                                 break;
                             }
