@@ -148,10 +148,15 @@ namespace DomusClient
 
         private void bt_devices_Click(object sender, EventArgs e)
         {
-            MetroMessageBox.Show(this, "Não foi possivel conectar ao servidor.",
-                "Domus Client - Error",
+            MetroMessageBox.Show(this, "Função ainda não implementada.",
+                "Domus Client - Em breve",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
+        }
+
+        private void bt_exit_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

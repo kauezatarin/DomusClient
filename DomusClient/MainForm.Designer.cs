@@ -48,7 +48,8 @@
             this.bt_devices.Name = "bt_devices";
             this.bt_devices.Size = new System.Drawing.Size(100, 68);
             this.bt_devices.Style = MetroFramework.MetroColorStyle.Purple;
-            this.bt_devices.TabIndex = 2;
+            this.bt_devices.TabIndex = 7;
+            this.bt_devices.TabStop = false;
             this.bt_devices.Text = "Dispositivos";
             this.bt_devices.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.bt_devices.TileImage = ((System.Drawing.Image)(resources.GetObject("bt_devices.TileImage")));
@@ -65,6 +66,7 @@
             this.bt_wather.Name = "bt_wather";
             this.bt_wather.Size = new System.Drawing.Size(100, 68);
             this.bt_wather.TabIndex = 1;
+            this.bt_wather.TabStop = false;
             this.bt_wather.Text = "Água";
             this.bt_wather.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.bt_wather.TileImage = ((System.Drawing.Image)(resources.GetObject("bt_wather.TileImage")));
@@ -81,6 +83,7 @@
             this.bt_energy.Name = "bt_energy";
             this.bt_energy.Size = new System.Drawing.Size(100, 68);
             this.bt_energy.TabIndex = 0;
+            this.bt_energy.TabStop = false;
             this.bt_energy.Text = "Energia";
             this.bt_energy.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.bt_energy.TileImage = global::DomusClient.Properties.Resources.lightningbolt;
@@ -97,7 +100,8 @@
             this.bt_irrigation.Name = "bt_irrigation";
             this.bt_irrigation.Size = new System.Drawing.Size(100, 68);
             this.bt_irrigation.Style = MetroFramework.MetroColorStyle.Green;
-            this.bt_irrigation.TabIndex = 3;
+            this.bt_irrigation.TabIndex = 4;
+            this.bt_irrigation.TabStop = false;
             this.bt_irrigation.Text = "Irrigação";
             this.bt_irrigation.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.bt_irrigation.TileImage = ((System.Drawing.Image)(resources.GetObject("bt_irrigation.TileImage")));
@@ -113,7 +117,8 @@
             this.bt_cistern.Location = new System.Drawing.Point(23, 141);
             this.bt_cistern.Name = "bt_cistern";
             this.bt_cistern.Size = new System.Drawing.Size(100, 68);
-            this.bt_cistern.TabIndex = 4;
+            this.bt_cistern.TabIndex = 3;
+            this.bt_cistern.TabStop = false;
             this.bt_cistern.Text = "Cisterna";
             this.bt_cistern.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.bt_cistern.TileImage = global::DomusClient.Properties.Resources.watertower;
@@ -131,7 +136,8 @@
             this.bt_plugs.Name = "bt_plugs";
             this.bt_plugs.Size = new System.Drawing.Size(100, 68);
             this.bt_plugs.Style = MetroFramework.MetroColorStyle.Orange;
-            this.bt_plugs.TabIndex = 5;
+            this.bt_plugs.TabIndex = 6;
+            this.bt_plugs.TabStop = false;
             this.bt_plugs.Text = "Tomadas";
             this.bt_plugs.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.bt_plugs.TileImage = ((System.Drawing.Image)(resources.GetObject("bt_plugs.TileImage")));
@@ -148,7 +154,8 @@
             this.bt_users.Name = "bt_users";
             this.bt_users.Size = new System.Drawing.Size(100, 68);
             this.bt_users.Style = MetroFramework.MetroColorStyle.Purple;
-            this.bt_users.TabIndex = 6;
+            this.bt_users.TabIndex = 2;
+            this.bt_users.TabStop = false;
             this.bt_users.Text = "Usuários";
             this.bt_users.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.bt_users.TileImage = ((System.Drawing.Image)(resources.GetObject("bt_users.TileImage")));
@@ -164,7 +171,8 @@
             this.bt_settings.Location = new System.Drawing.Point(243, 141);
             this.bt_settings.Name = "bt_settings";
             this.bt_settings.Size = new System.Drawing.Size(100, 68);
-            this.bt_settings.TabIndex = 7;
+            this.bt_settings.TabIndex = 5;
+            this.bt_settings.TabStop = false;
             this.bt_settings.Text = "Configurações";
             this.bt_settings.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.bt_settings.TileImage = ((System.Drawing.Image)(resources.GetObject("bt_settings.TileImage")));
@@ -184,6 +192,7 @@
             this.bt_exit.Size = new System.Drawing.Size(100, 68);
             this.bt_exit.Style = MetroFramework.MetroColorStyle.Silver;
             this.bt_exit.TabIndex = 8;
+            this.bt_exit.TabStop = false;
             this.bt_exit.Text = "Sair";
             this.bt_exit.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.bt_exit.TileImage = global::DomusClient.Properties.Resources.logout;
@@ -191,10 +200,10 @@
             this.bt_exit.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Regular;
             this.bt_exit.UseSelectable = true;
             this.bt_exit.UseTileImage = true;
+            this.bt_exit.Click += new System.EventHandler(this.bt_exit_Click);
             // 
             // MainForm
             // 
-            this.ApplyImageInvert = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackImage = global::DomusClient.Properties.Resources.Domus;
