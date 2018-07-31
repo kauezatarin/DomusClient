@@ -35,6 +35,9 @@
             this.bt_irrigation = new MetroFramework.Controls.MetroTile();
             this.bt_cistern = new MetroFramework.Controls.MetroTile();
             this.bt_plugs = new MetroFramework.Controls.MetroTile();
+            this.bt_users = new MetroFramework.Controls.MetroTile();
+            this.bt_settings = new MetroFramework.Controls.MetroTile();
+            this.bt_exit = new MetroFramework.Controls.MetroTile();
             this.SuspendLayout();
             // 
             // bt_devices
@@ -137,6 +140,58 @@
             this.bt_plugs.UseSelectable = true;
             this.bt_plugs.UseTileImage = true;
             // 
+            // bt_users
+            // 
+            this.bt_users.ActiveControl = null;
+            this.bt_users.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(184)))), ((int)(((byte)(23)))), ((int)(((byte)(178)))));
+            this.bt_users.Location = new System.Drawing.Point(243, 63);
+            this.bt_users.Name = "bt_users";
+            this.bt_users.Size = new System.Drawing.Size(100, 68);
+            this.bt_users.Style = MetroFramework.MetroColorStyle.Purple;
+            this.bt_users.TabIndex = 6;
+            this.bt_users.Text = "Usuários";
+            this.bt_users.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.bt_users.TileImage = ((System.Drawing.Image)(resources.GetObject("bt_users.TileImage")));
+            this.bt_users.TileImageAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.bt_users.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Regular;
+            this.bt_users.UseSelectable = true;
+            this.bt_users.UseTileImage = true;
+            // 
+            // bt_settings
+            // 
+            this.bt_settings.ActiveControl = null;
+            this.bt_settings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.bt_settings.Location = new System.Drawing.Point(243, 141);
+            this.bt_settings.Name = "bt_settings";
+            this.bt_settings.Size = new System.Drawing.Size(100, 68);
+            this.bt_settings.TabIndex = 7;
+            this.bt_settings.Text = "Configurações";
+            this.bt_settings.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.bt_settings.TileImage = ((System.Drawing.Image)(resources.GetObject("bt_settings.TileImage")));
+            this.bt_settings.TileImageAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.bt_settings.TileTextFontSize = MetroFramework.MetroTileTextSize.Small;
+            this.bt_settings.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Regular;
+            this.bt_settings.UseCustomBackColor = true;
+            this.bt_settings.UseSelectable = true;
+            this.bt_settings.UseTileImage = true;
+            // 
+            // bt_exit
+            // 
+            this.bt_exit.ActiveControl = null;
+            this.bt_exit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(184)))), ((int)(((byte)(23)))), ((int)(((byte)(178)))));
+            this.bt_exit.Location = new System.Drawing.Point(243, 219);
+            this.bt_exit.Name = "bt_exit";
+            this.bt_exit.Size = new System.Drawing.Size(100, 68);
+            this.bt_exit.Style = MetroFramework.MetroColorStyle.Silver;
+            this.bt_exit.TabIndex = 8;
+            this.bt_exit.Text = "Sair";
+            this.bt_exit.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.bt_exit.TileImage = global::DomusClient.Properties.Resources.logout;
+            this.bt_exit.TileImageAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.bt_exit.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Regular;
+            this.bt_exit.UseSelectable = true;
+            this.bt_exit.UseTileImage = true;
+            // 
             // MainForm
             // 
             this.ApplyImageInvert = true;
@@ -146,6 +201,9 @@
             this.BackImagePadding = new System.Windows.Forms.Padding(120, 10, 0, 0);
             this.BackMaxSize = 55;
             this.ClientSize = new System.Drawing.Size(570, 308);
+            this.Controls.Add(this.bt_exit);
+            this.Controls.Add(this.bt_settings);
+            this.Controls.Add(this.bt_users);
             this.Controls.Add(this.bt_plugs);
             this.Controls.Add(this.bt_cistern);
             this.Controls.Add(this.bt_irrigation);
@@ -170,5 +228,8 @@
         private MetroFramework.Controls.MetroTile bt_irrigation;
         private MetroFramework.Controls.MetroTile bt_cistern;
         private MetroFramework.Controls.MetroTile bt_plugs;
+        private MetroFramework.Controls.MetroTile bt_users;
+        private MetroFramework.Controls.MetroTile bt_settings;
+        private MetroFramework.Controls.MetroTile bt_exit;
     }
 }

@@ -124,6 +124,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Dome.ico" />
+    <None Include="Resources\logout.png" />
+    <None Include="Resources\settings.png" />
+    <None Include="Resources\user.png" />
     <None Include="Resources\plug.png" />
     <None Include="Resources\watertower.png" />
     <None Include="Resources\leaf.png" />
