@@ -127,12 +127,14 @@
             // 
             // metroButton2
             // 
-            this.metroButton2.Location = new System.Drawing.Point(259, 181);
+            this.metroButton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            this.metroButton2.Location = new System.Drawing.Point(228, 171);
             this.metroButton2.Name = "metroButton2";
-            this.metroButton2.Size = new System.Drawing.Size(75, 23);
-            this.metroButton2.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroButton2.Size = new System.Drawing.Size(106, 42);
+            this.metroButton2.Style = MetroFramework.MetroColorStyle.White;
             this.metroButton2.TabIndex = 5;
             this.metroButton2.Text = "Login";
+            this.metroButton2.UseCustomBackColor = true;
             this.metroButton2.UseSelectable = true;
             this.metroButton2.UseStyleColors = true;
             this.metroButton2.Click += new System.EventHandler(this.bt_login_ClickAsync);
@@ -151,7 +153,7 @@
             this.Controls.Add(this.tb_user);
             this.Name = "LoginForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "LoginForm";
+            this.Text = "Domus - Login";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 using DomusSharedClasses;
+using MetroFramework;
 
 namespace DomusClient
 {
@@ -19,6 +20,8 @@ namespace DomusClient
         private TcpClient server;
         private LoginForm loginForm;
         private NetworkStream stream;
+        private string serverIp = Properties.Settings.Default.serverIp;
+        private int serverPort = Properties.Settings.Default.serverPort;
         public User user;
 
         public MainForm()
@@ -26,7 +29,7 @@ namespace DomusClient
             InitializeComponent();
         }
 
-        private TcpClient Connect(String ip, int port = 9090)
+        private TcpClient Connect(string ip, int port = 9090)
         {
             TcpClient client = new TcpClient();
 
@@ -46,7 +49,7 @@ namespace DomusClient
         {
             try
             {
-                server = Connect("127.0.0.1", 9090);
+                server = Connect(serverIp, serverPort);
 
                 stream = server.GetStream();
 
@@ -89,8 +92,9 @@ namespace DomusClient
             }
             catch (Exception exception)
             {
-                MessageBox.Show("Não foi possivel conectar ao servidor.\r\n" + exception.Message, "Erro",
-                    MessageBoxButtons.OK,
+                MetroMessageBox.Show(this, "Não foi possivel conectar ao servidor.\r\n" + exception.Message,
+                    "Domus Client - Error", 
+                    MessageBoxButtons.OK, 
                     MessageBoxIcon.Error);
 
                 this.Close();
@@ -100,8 +104,10 @@ namespace DomusClient
 
             loginForm.ShowDialog();
 
-            if (user != null)//se o login falhar encerra o programa
+            if (user != null) //se o login falhar encerra o programa
+            {
                 loginForm.Dispose();
+            }
             else
             {
                 this.Close();
@@ -129,6 +135,7 @@ namespace DomusClient
         {
             try
             {
+                ServerWrite(stream, "<exit>");
                 server.Close();
                 server.Dispose();
             }
@@ -137,6 +144,14 @@ namespace DomusClient
 
             }
 
+        }
+
+        private void bt_devices_Click(object sender, EventArgs e)
+        {
+            MetroMessageBox.Show(this, "Não foi possivel conectar ao servidor.",
+                "Domus Client - Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
         }
     }
 }
