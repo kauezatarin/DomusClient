@@ -39,8 +39,6 @@ namespace DomusClient
             Invoke(new Action(() =>
             {
                 pb_spinner.Value = 0;
-                pb_spinner.Minimum = 0;
-                pb_spinner.Maximum = 3;
                 pb_spinner.Visible = true;
                 bt_login.Enabled = false;
             }));
@@ -135,7 +133,6 @@ namespace DomusClient
                                 this.Hide();
                             }));
                         }
-                        
                     }
                     catch
                     {
