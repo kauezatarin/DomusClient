@@ -39,9 +39,22 @@ namespace DomusClient
             }
             catch (SocketException exception)
             {
-                MetroMessageBox.Show(this, "Não foi possivel conectar ao servidor.\r\n" + exception.SocketErrorCode + " - " + exception.Message,
-                    "Domus Client - Error", 
-                    MessageBoxButtons.OK, 
+                MetroMessageBox.Show(this,
+                    "Não foi possivel conectar ao servidor.\r\n" + exception.SocketErrorCode + " - " +
+                    exception.Message,
+                    "Domus Client - Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error,
+                    150);
+
+                this.Close();
+            }
+            catch (Exception exception)
+            {
+                MetroMessageBox.Show(this,
+                    "Não foi possivel conectar ao servidor.\r\n" + exception.Message,
+                    "Domus Client - Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error,
                     150);
 

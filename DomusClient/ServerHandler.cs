@@ -62,12 +62,34 @@ namespace DomusClient
         public static void Connect()
         {
             server = new TcpClient();
+            string data = null;
 
             try
             {
                 server.Connect(serverIp, serverPort);
+
+                ServerWrite(stream, "shakeback");
+
+                data = ServerRead(stream, 10000);
+
+                if (data == "SendInfos")
+                    ServerWrite(stream, "??\u001f?? ??\u0018??'??\u0001??\u0003??\u0003", 1000);
+
+                data = ServerRead(stream, 10000);
+
+                if (data == "WrongPort")
+                {
+                    server.Close();
+                    server.Dispose();
+
+                    throw new Exception("Porta de conexão incorreta");
+                }
             }
             catch (SocketException e)
+            {
+                throw e;
+            }
+            catch (Exception e)
             {
                 throw e;
             }

@@ -35,6 +35,7 @@
             this.dtg_users = new MetroFramework.Controls.MetroGrid();
             this.bt_newUser = new MetroFramework.Controls.MetroButton();
             this.pb_spinner = new MetroFramework.Controls.MetroProgressSpinner();
+            this.bt_edit = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_users)).BeginInit();
             this.SuspendLayout();
             // 
@@ -71,7 +72,7 @@
             this.dtg_users.EnableHeadersVisualStyles = false;
             this.dtg_users.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.dtg_users.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.dtg_users.Location = new System.Drawing.Point(23, 63);
+            this.dtg_users.Location = new System.Drawing.Point(23, 104);
             this.dtg_users.Name = "dtg_users";
             this.dtg_users.ReadOnly = true;
             this.dtg_users.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -83,7 +84,7 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dtg_users.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.dtg_users.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dtg_users.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dtg_users.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtg_users.Size = new System.Drawing.Size(852, 384);
             this.dtg_users.TabIndex = 0;
@@ -92,7 +93,7 @@
             // 
             this.bt_newUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.bt_newUser.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            this.bt_newUser.Location = new System.Drawing.Point(790, 463);
+            this.bt_newUser.Location = new System.Drawing.Point(790, 63);
             this.bt_newUser.Name = "bt_newUser";
             this.bt_newUser.Size = new System.Drawing.Size(85, 35);
             this.bt_newUser.Style = MetroFramework.MetroColorStyle.White;
@@ -108,7 +109,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pb_spinner.Enabled = false;
-            this.pb_spinner.Location = new System.Drawing.Point(436, 223);
+            this.pb_spinner.Location = new System.Drawing.Point(436, 264);
             this.pb_spinner.Maximum = 4;
             this.pb_spinner.Name = "pb_spinner";
             this.pb_spinner.Size = new System.Drawing.Size(32, 32);
@@ -118,12 +119,25 @@
             this.pb_spinner.Value = 1;
             this.pb_spinner.Visible = false;
             // 
+            // bt_edit
+            // 
+            this.bt_edit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.bt_edit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.bt_edit.Location = new System.Drawing.Point(695, 63);
+            this.bt_edit.Name = "bt_edit";
+            this.bt_edit.Size = new System.Drawing.Size(85, 35);
+            this.bt_edit.TabIndex = 3;
+            this.bt_edit.Text = "Editar";
+            this.bt_edit.UseSelectable = true;
+            this.bt_edit.Click += new System.EventHandler(this.bt_edit_Click);
+            // 
             // ManageUsersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(898, 511);
+            this.Controls.Add(this.bt_edit);
             this.Controls.Add(this.pb_spinner);
             this.Controls.Add(this.bt_newUser);
             this.Controls.Add(this.dtg_users);
@@ -144,5 +158,6 @@
         private MetroFramework.Controls.MetroGrid dtg_users;
         private MetroFramework.Controls.MetroButton bt_newUser;
         private MetroFramework.Controls.MetroProgressSpinner pb_spinner;
+        private MetroFramework.Controls.MetroButton bt_edit;
     }
 }
