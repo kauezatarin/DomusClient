@@ -93,55 +93,49 @@ namespace DomusClient
                 {
                     try
                     {
-                        // Loop to receive all the data sent by the client
-                        while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+                        // Translate data bytes to a ASCII string.
+                        data = ServerHandler.ServerRead(ServerHandler.stream, 10000);
+
+                        if (data == "sucessfullLogin")
                         {
-                            // Translate data bytes to a ASCII string.
-                            data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                            //solicita as informações do usuário
+                            ServerHandler.ServerWrite(stream, "<SendUser>", 10000);
 
-                            if (data == "sucessfullLogin")
-                            {
-                                //solicita as informações do usuário
-                                ServerHandler.ServerWrite(stream, "<SendUser>", 10000);
+                            setSpinnerValue(1);
 
-                                setSpinnerValue(1);
-
-                                receivingSerial = true;
-                            }
-                            else if (data == "wrongLogin")
-                            {
-                                MetroMessageBox.Show(this, "Login incorreto.",
-                                    "",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error,
-                                    100);
-                                retry = true;
-
-                                resetSpinner();
-
-                                break;
-                            }
-
-                            if (receivingSerial)
-                            {
-                                setSpinnerValue(2);
-
-                                Application.OpenForms.OfType<MainForm>().First().user = (User) ServerHandler.ServerReadSerilized(stream, 30000);
-
-                                receivingSerial = false;
-                                success = true;
-
-                                setSpinnerValue(3);
-
-                                Invoke(new Action(() =>
-                                {
-                                    this.Hide();
-                                }));
-                            }
-
-                            if (stream.DataAvailable == false)//impede o lock da função
-                                break;
+                            receivingSerial = true;
                         }
+                        else if (data == "wrongLogin")
+                        {
+                            MetroMessageBox.Show(this, "Login incorreto.",
+                                "",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error,
+                                100);
+                            retry = true;
+
+                            resetSpinner();
+
+                            break;
+                        }
+
+                        if (receivingSerial)
+                        {
+                            setSpinnerValue(2);
+
+                            Application.OpenForms.OfType<MainForm>().First().user = (User) ServerHandler.ServerReadSerilized(stream, 30000);
+
+                            receivingSerial = false;
+                            success = true;
+
+                            setSpinnerValue(3);
+
+                            Invoke(new Action(() =>
+                            {
+                                this.Hide();
+                            }));
+                        }
+                        
                     }
                     catch
                     {

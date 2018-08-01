@@ -150,6 +150,9 @@ namespace DomusClient
                 {
                     // Translate data bytes to a ASCII string.
                     data += System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+
+                    if (stream.DataAvailable == false)//impede o lock da função
+                        break;
                 }
 
                 return data;
