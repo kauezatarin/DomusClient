@@ -33,7 +33,8 @@
             this.lb_user = new MetroFramework.Controls.MetroLabel();
             this.lb_passwd = new MetroFramework.Controls.MetroLabel();
             this.bt_cancel = new MetroFramework.Controls.MetroButton();
-            this.metroButton2 = new MetroFramework.Controls.MetroButton();
+            this.bt_login = new MetroFramework.Controls.MetroButton();
+            this.pb_spinner = new MetroFramework.Controls.MetroProgressSpinner();
             this.SuspendLayout();
             // 
             // tb_user
@@ -125,19 +126,30 @@
             this.bt_cancel.UseSelectable = true;
             this.bt_cancel.Click += new System.EventHandler(this.bt_cancel_Click);
             // 
-            // metroButton2
+            // bt_login
             // 
-            this.metroButton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            this.metroButton2.Location = new System.Drawing.Point(228, 171);
-            this.metroButton2.Name = "metroButton2";
-            this.metroButton2.Size = new System.Drawing.Size(106, 42);
-            this.metroButton2.Style = MetroFramework.MetroColorStyle.White;
-            this.metroButton2.TabIndex = 5;
-            this.metroButton2.Text = "Login";
-            this.metroButton2.UseCustomBackColor = true;
-            this.metroButton2.UseSelectable = true;
-            this.metroButton2.UseStyleColors = true;
-            this.metroButton2.Click += new System.EventHandler(this.bt_login_ClickAsync);
+            this.bt_login.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            this.bt_login.Location = new System.Drawing.Point(228, 171);
+            this.bt_login.Name = "bt_login";
+            this.bt_login.Size = new System.Drawing.Size(106, 42);
+            this.bt_login.Style = MetroFramework.MetroColorStyle.White;
+            this.bt_login.TabIndex = 5;
+            this.bt_login.Text = "Login";
+            this.bt_login.UseCustomBackColor = true;
+            this.bt_login.UseSelectable = true;
+            this.bt_login.UseStyleColors = true;
+            this.bt_login.Click += new System.EventHandler(this.bt_login_Click);
+            // 
+            // pb_spinner
+            // 
+            this.pb_spinner.Location = new System.Drawing.Point(171, 106);
+            this.pb_spinner.Maximum = 100;
+            this.pb_spinner.Name = "pb_spinner";
+            this.pb_spinner.Size = new System.Drawing.Size(16, 16);
+            this.pb_spinner.TabIndex = 6;
+            this.pb_spinner.TabStop = false;
+            this.pb_spinner.UseSelectable = true;
+            this.pb_spinner.Visible = false;
             // 
             // LoginForm
             // 
@@ -145,7 +157,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(357, 227);
             this.ControlBox = false;
-            this.Controls.Add(this.metroButton2);
+            this.Controls.Add(this.pb_spinner);
+            this.Controls.Add(this.bt_login);
             this.Controls.Add(this.bt_cancel);
             this.Controls.Add(this.lb_passwd);
             this.Controls.Add(this.lb_user);
@@ -166,6 +179,7 @@
         private MetroFramework.Controls.MetroLabel lb_user;
         private MetroFramework.Controls.MetroLabel lb_passwd;
         private MetroFramework.Controls.MetroButton bt_cancel;
-        private MetroFramework.Controls.MetroButton metroButton2;
+        private MetroFramework.Controls.MetroButton bt_login;
+        private MetroFramework.Controls.MetroProgressSpinner pb_spinner;
     }
 }
