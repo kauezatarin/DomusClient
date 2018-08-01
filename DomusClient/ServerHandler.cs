@@ -118,6 +118,30 @@ namespace DomusClient
         }
 
         /// <summary>
+        /// Envia um objeto serializado para o servidor
+        /// </summary>
+        public static void ServerWriteSerialized(NetworkStream stream, object sendObj, int timeout = -1)
+        {
+            byte[] userDataBytes;
+            MemoryStream ms = new MemoryStream();
+            BinaryFormatter bf1 = new BinaryFormatter();
+
+            bf1.Serialize(ms, sendObj);
+            userDataBytes = ms.ToArray();
+            byte[] userDataLen = BitConverter.GetBytes((Int32)userDataBytes.Length);
+
+            stream.WriteTimeout = timeout;
+
+            //primeiro envia o tamanho dos dados a serem enviados para que o cliente se prepare
+            stream.Write(userDataLen, 0, 4);
+
+            //envia os dados para o cliente
+            stream.Write(userDataBytes, 0, userDataBytes.Length);
+
+            stream.WriteTimeout = -1;
+        }
+
+        /// <summary>
         /// Recebe um objeto serializado do servidor.
         /// </summary>
         public static object ServerReadSerilized(NetworkStream stream, int timeout = -1)

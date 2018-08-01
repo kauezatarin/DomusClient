@@ -5,16 +5,19 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 using DomusSharedClasses;
+using MetroFramework;
 
 namespace DomusClient
 {
     public partial class EditUserForm : MetroForm
     {
         private User user;
+        private Thread workerThread;
 
         public EditUserForm(User user)
         {
@@ -23,7 +26,11 @@ namespace DomusClient
             this.BorderStyle = MetroFormBorderStyle.FixedSingle;
             this.ShadowType = MetroFormShadowType.AeroShadow;
 
+            tb_passwd.Enabled = false;
+
             this.user = user;
+
+            PopulateForm();
         }
 
         public EditUserForm()
@@ -38,6 +45,131 @@ namespace DomusClient
             bt_resetPasswd.Visible = false;
         }
 
+        private void PopulateForm()
+        {
+            tb_name.Text = user.name;
+            tb_lastName.Text = user.lastName;
+            tb_username.Text = user.username;
+            tb_email.Text = user.email;
+
+            tg_active.Checked = user.isActive;
+            tg_admin.Checked = user.isAdmin;
+        }
+
+        private void SaveThread()
+        {
+            try
+            {
+                startSpinner();
+
+                setSpinnerValue(1);
+
+                //caso esteja no modo de edição
+                if (user != null)
+                {
+                    user = new User(tb_username.Text, tb_email.Text, tb_name.Text, tb_lastName.Text, tg_admin.Checked, tg_active.Checked, DateTime.Now.ToString(), DateTime.Now.ToString(), user.password, user.userId);
+
+                    ServerHandler.ServerWrite(ServerHandler.stream, "UpdateUser", 10000);
+
+                    if(ServerHandler.ServerRead(ServerHandler.stream, 10000) == "sendUser")
+                        ServerHandler.ServerWriteSerialized(ServerHandler.stream, user, 10000);
+                    else
+                    {
+                        throw new Exception("Resposta inesperada.");
+                    }
+
+                    string response = ServerHandler.ServerRead(ServerHandler.stream, 10000);
+
+                    if (response == "UserUpdated")
+                    {
+                        MetroMessageBox.Show(this,"Usuário atualizado com sucesso.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Question, 150);
+                    }
+                    else if (response == "FailToUpdate")
+                    {
+                        MetroMessageBox.Show(this, "Não foi possivel atualizar o usuário.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                    }
+                    else
+                    {
+                        MetroMessageBox.Show(this, "Resposta inesperada.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                    }
+                }
+                //caso esteja no modo de cadastro
+                else
+                {
+                    throw new NotImplementedException();
+                }
+
+                resetSpinner();
+            }
+            catch (Exception e)
+            {
+                //ADICIONAR OUTRAS TRATATIVAS
+                resetSpinner();
+            }
+        }
+
+        private void startSpinner()
+        {
+            if (pb_spinner.InvokeRequired)
+            {
+                Invoke(new Action(() =>
+                {
+                    pb_spinner.Value = 0;
+                    pb_spinner.Visible = true;
+                    pb_spinner.Enabled = true;
+                    bt_save.Enabled = false;
+                    bt_resetPasswd.Enabled = false;
+                }));
+            }
+            else
+            {
+                pb_spinner.Value = 0;
+                pb_spinner.Visible = true;
+                pb_spinner.Enabled = true;
+                bt_save.Enabled = false;
+                bt_resetPasswd.Enabled = false;
+            }
+        }
+
+        private void resetSpinner()
+        {
+            if (pb_spinner.InvokeRequired)
+            {
+                Invoke(new Action(() =>
+                {
+                    pb_spinner.Value = 0;
+                    pb_spinner.Visible = false;
+                    pb_spinner.Enabled = false;
+                    bt_save.Enabled = true;
+                    bt_resetPasswd.Enabled = true;
+                }));
+            }
+            else
+            {
+                pb_spinner.Value = 0;
+                pb_spinner.Visible = false;
+                pb_spinner.Enabled = false;
+                bt_save.Enabled = true;
+                bt_resetPasswd.Enabled = true;
+            }
+        }
+
+        private void setSpinnerValue(int value)
+        {
+            if (pb_spinner.InvokeRequired)
+            {
+                Invoke(new Action(() =>
+                {
+                    pb_spinner.Value = value;
+                }));
+            }
+            else
+            {
+                pb_spinner.Value = value;
+            }
+        }
+
+
         private void bt_cancel_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -45,12 +177,13 @@ namespace DomusClient
 
         private void bt_save_Click(object sender, EventArgs e)
         {
-
+            this.workerThread = new Thread(()=>SaveThread());
+            this.workerThread.Start();
         }
 
         private void bt_resetPasswd_Click(object sender, EventArgs e)
         {
-
+            throw new NotImplementedException();
         }
     }
 }

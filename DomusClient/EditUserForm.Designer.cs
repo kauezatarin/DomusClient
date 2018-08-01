@@ -34,13 +34,18 @@
             this.lb_passwd = new MetroFramework.Controls.MetroLabel();
             this.tb_name = new MetroFramework.Controls.MetroTextBox();
             this.lb_name = new MetroFramework.Controls.MetroLabel();
-            this.metroTextBox2 = new MetroFramework.Controls.MetroTextBox();
+            this.tb_lastName = new MetroFramework.Controls.MetroTextBox();
             this.lb_lastName = new MetroFramework.Controls.MetroLabel();
             this.tb_email = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
             this.bt_resetPasswd = new MetroFramework.Controls.MetroButton();
             this.bt_cancel = new MetroFramework.Controls.MetroButton();
             this.bt_save = new MetroFramework.Controls.MetroButton();
+            this.tg_admin = new MetroFramework.Controls.MetroToggle();
+            this.lb_isAdmin = new MetroFramework.Controls.MetroLabel();
+            this.lb_isActive = new MetroFramework.Controls.MetroLabel();
+            this.tg_active = new MetroFramework.Controls.MetroToggle();
+            this.pb_spinner = new MetroFramework.Controls.MetroProgressSpinner();
             this.SuspendLayout();
             // 
             // metroLabel1
@@ -161,35 +166,35 @@
             this.lb_name.TabIndex = 4;
             this.lb_name.Text = "Nome:";
             // 
-            // metroTextBox2
+            // tb_lastName
             // 
             // 
             // 
             // 
-            this.metroTextBox2.CustomButton.Image = null;
-            this.metroTextBox2.CustomButton.Location = new System.Drawing.Point(354, 1);
-            this.metroTextBox2.CustomButton.Name = "";
-            this.metroTextBox2.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.metroTextBox2.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroTextBox2.CustomButton.TabIndex = 1;
-            this.metroTextBox2.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.metroTextBox2.CustomButton.UseSelectable = true;
-            this.metroTextBox2.CustomButton.Visible = false;
-            this.metroTextBox2.Lines = new string[0];
-            this.metroTextBox2.Location = new System.Drawing.Point(101, 177);
-            this.metroTextBox2.MaxLength = 32767;
-            this.metroTextBox2.Name = "metroTextBox2";
-            this.metroTextBox2.PasswordChar = '\0';
-            this.metroTextBox2.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.metroTextBox2.SelectedText = "";
-            this.metroTextBox2.SelectionLength = 0;
-            this.metroTextBox2.SelectionStart = 0;
-            this.metroTextBox2.ShortcutsEnabled = true;
-            this.metroTextBox2.Size = new System.Drawing.Size(376, 23);
-            this.metroTextBox2.TabIndex = 7;
-            this.metroTextBox2.UseSelectable = true;
-            this.metroTextBox2.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.metroTextBox2.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.tb_lastName.CustomButton.Image = null;
+            this.tb_lastName.CustomButton.Location = new System.Drawing.Point(354, 1);
+            this.tb_lastName.CustomButton.Name = "";
+            this.tb_lastName.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.tb_lastName.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.tb_lastName.CustomButton.TabIndex = 1;
+            this.tb_lastName.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.tb_lastName.CustomButton.UseSelectable = true;
+            this.tb_lastName.CustomButton.Visible = false;
+            this.tb_lastName.Lines = new string[0];
+            this.tb_lastName.Location = new System.Drawing.Point(101, 177);
+            this.tb_lastName.MaxLength = 32767;
+            this.tb_lastName.Name = "tb_lastName";
+            this.tb_lastName.PasswordChar = '\0';
+            this.tb_lastName.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.tb_lastName.SelectedText = "";
+            this.tb_lastName.SelectionLength = 0;
+            this.tb_lastName.SelectionStart = 0;
+            this.tb_lastName.ShortcutsEnabled = true;
+            this.tb_lastName.Size = new System.Drawing.Size(376, 23);
+            this.tb_lastName.TabIndex = 7;
+            this.tb_lastName.UseSelectable = true;
+            this.tb_lastName.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.tb_lastName.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // lb_lastName
             // 
@@ -251,7 +256,7 @@
             // 
             // bt_cancel
             // 
-            this.bt_cancel.Location = new System.Drawing.Point(305, 256);
+            this.bt_cancel.Location = new System.Drawing.Point(305, 316);
             this.bt_cancel.Name = "bt_cancel";
             this.bt_cancel.Size = new System.Drawing.Size(75, 23);
             this.bt_cancel.TabIndex = 14;
@@ -262,7 +267,7 @@
             // bt_save
             // 
             this.bt_save.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            this.bt_save.Location = new System.Drawing.Point(402, 256);
+            this.bt_save.Location = new System.Drawing.Point(402, 316);
             this.bt_save.Name = "bt_save";
             this.bt_save.Size = new System.Drawing.Size(75, 23);
             this.bt_save.Style = MetroFramework.MetroColorStyle.White;
@@ -273,17 +278,72 @@
             this.bt_save.UseStyleColors = true;
             this.bt_save.Click += new System.EventHandler(this.bt_save_Click);
             // 
+            // tg_admin
+            // 
+            this.tg_admin.AutoSize = true;
+            this.tg_admin.Location = new System.Drawing.Point(108, 271);
+            this.tg_admin.Name = "tg_admin";
+            this.tg_admin.Size = new System.Drawing.Size(80, 17);
+            this.tg_admin.TabIndex = 16;
+            this.tg_admin.Text = "Off";
+            this.tg_admin.UseSelectable = true;
+            // 
+            // lb_isAdmin
+            // 
+            this.lb_isAdmin.AutoSize = true;
+            this.lb_isAdmin.Location = new System.Drawing.Point(121, 249);
+            this.lb_isAdmin.Name = "lb_isAdmin";
+            this.lb_isAdmin.Size = new System.Drawing.Size(51, 19);
+            this.lb_isAdmin.TabIndex = 17;
+            this.lb_isAdmin.Text = "Admin:";
+            // 
+            // lb_isActive
+            // 
+            this.lb_isActive.AutoSize = true;
+            this.lb_isActive.Location = new System.Drawing.Point(282, 249);
+            this.lb_isActive.Name = "lb_isActive";
+            this.lb_isActive.Size = new System.Drawing.Size(42, 19);
+            this.lb_isActive.TabIndex = 19;
+            this.lb_isActive.Text = "Ativo:";
+            // 
+            // tg_active
+            // 
+            this.tg_active.AutoSize = true;
+            this.tg_active.Checked = true;
+            this.tg_active.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tg_active.Location = new System.Drawing.Point(269, 271);
+            this.tg_active.Name = "tg_active";
+            this.tg_active.Size = new System.Drawing.Size(80, 17);
+            this.tg_active.TabIndex = 18;
+            this.tg_active.Text = "On";
+            this.tg_active.UseSelectable = true;
+            // 
+            // pb_spinner
+            // 
+            this.pb_spinner.Location = new System.Drawing.Point(243, 157);
+            this.pb_spinner.Maximum = 4;
+            this.pb_spinner.Name = "pb_spinner";
+            this.pb_spinner.Size = new System.Drawing.Size(32, 32);
+            this.pb_spinner.TabIndex = 20;
+            this.pb_spinner.UseSelectable = true;
+            this.pb_spinner.Visible = false;
+            // 
             // EditUserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(515, 302);
+            this.ClientSize = new System.Drawing.Size(515, 362);
+            this.Controls.Add(this.pb_spinner);
+            this.Controls.Add(this.lb_isActive);
+            this.Controls.Add(this.tg_active);
+            this.Controls.Add(this.lb_isAdmin);
+            this.Controls.Add(this.tg_admin);
             this.Controls.Add(this.bt_save);
             this.Controls.Add(this.bt_cancel);
             this.Controls.Add(this.bt_resetPasswd);
             this.Controls.Add(this.tb_email);
             this.Controls.Add(this.metroLabel4);
-            this.Controls.Add(this.metroTextBox2);
+            this.Controls.Add(this.tb_lastName);
             this.Controls.Add(this.lb_lastName);
             this.Controls.Add(this.tb_name);
             this.Controls.Add(this.lb_name);
@@ -309,12 +369,17 @@
         private MetroFramework.Controls.MetroLabel lb_passwd;
         private MetroFramework.Controls.MetroTextBox tb_name;
         private MetroFramework.Controls.MetroLabel lb_name;
-        private MetroFramework.Controls.MetroTextBox metroTextBox2;
+        private MetroFramework.Controls.MetroTextBox tb_lastName;
         private MetroFramework.Controls.MetroLabel lb_lastName;
         private MetroFramework.Controls.MetroTextBox tb_email;
         private MetroFramework.Controls.MetroLabel metroLabel4;
         private MetroFramework.Controls.MetroButton bt_resetPasswd;
         private MetroFramework.Controls.MetroButton bt_cancel;
         private MetroFramework.Controls.MetroButton bt_save;
+        private MetroFramework.Controls.MetroToggle tg_admin;
+        private MetroFramework.Controls.MetroLabel lb_isAdmin;
+        private MetroFramework.Controls.MetroLabel lb_isActive;
+        private MetroFramework.Controls.MetroToggle tg_active;
+        private MetroFramework.Controls.MetroProgressSpinner pb_spinner;
     }
 }
