@@ -135,6 +135,33 @@ namespace DomusClient
         }
 
         /// <summary>
+        /// Recebe um objeto serializado do servidor.
+        /// </summary>
+        public static string ServerRead(NetworkStream stream, int timeout = -1)
+        {
+            Byte[] bytes = new Byte[1024];
+            string data = null;
+            int i;
+
+            try
+            {
+                // Loop to receive all the data sent by the client
+                while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+                {
+                    // Translate data bytes to a ASCII string.
+                    data += System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                }
+
+                return data;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Libera todos os recursos de conexão alocados.
         /// </summary>
         public static void Dispose()
