@@ -17,11 +17,7 @@ namespace DomusClient
 {
     public partial class MainForm : MetroForm
     {
-        private TcpClient server;
         private LoginForm loginForm;
-        private NetworkStream stream;
-        private string serverIp = Properties.Settings.Default.serverIp;
-        private int serverPort = Properties.Settings.Default.serverPort;
         public User user;
 
         public MainForm()
@@ -29,66 +25,13 @@ namespace DomusClient
             InitializeComponent();
         }
 
-        private TcpClient Connect(string ip, int port = 9090)
-        {
-            TcpClient client = new TcpClient();
-
-            try
-            {
-                client.Connect(ip, port);
-            }
-            catch (SocketException e)
-            {
-                throw e;
-            }
-
-            return client;
-        }
-
         private void Main_Load(object sender, EventArgs e)
         {
             try
             {
-                server = Connect(serverIp, serverPort);
-
-                stream = server.GetStream();
-
-                /*string data;
-                int i;
-                Byte[] bytes = new Byte[1024];
-
-                while (server.Connected)
-                {
-                    data = null;
-
-                    // Get a stream object for reading and writing
-                    stream = server.GetStream();
-
-
-                    if (stream.DataAvailable) //se houver dados a serem lidos
-                    {
-                        try
-                        {
-                            // Loop to receive all the data sent by the client
-                            while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
-                            {
-                                // Translate data bytes to a ASCII string.
-                                data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-
-                                
-
-                                if (stream.DataAvailable == false)//impede o lock da função
-                                    break;
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            //implementar escessão
-                        }
-                    }
-
-                }*/
-
+                //inicializa a classe de conexão com o servidor
+                ServerHandler.Initialize();
+                ServerHandler.Connect();
             }
             catch (SocketException exception)
             {
@@ -101,43 +44,25 @@ namespace DomusClient
                 this.Close();
             }
 
-            loginForm = new LoginForm(server);
+            loginForm = new LoginForm();
 
             loginForm.ShowDialog();
 
-            if (user != null) //se o login falhar encerra o programa
-            {
-                loginForm.Dispose();
-            }
-            else
+            loginForm.Dispose();
+
+            if (user == null) //se o login falhar encerra o programa
             {
                 this.Close();
             }
-        }
 
-        //Função que envia mensagens ao cliente conectado
-        private static bool ServerWrite(NetworkStream stream, String message)
-        {
-            try
-            {
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(message);
-                stream.Write(msg, 0, msg.Length);
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
         }
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
             try
             {
-                ServerWrite(stream, "<exit>");
-                server.Close();
-                server.Dispose();
+                ServerHandler.ServerWrite(ServerHandler.stream, "<exit>");
+                ServerHandler.Dispose();
             }
             catch
             {

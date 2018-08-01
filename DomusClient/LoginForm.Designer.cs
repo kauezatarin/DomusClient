@@ -142,10 +142,10 @@
             // 
             // pb_spinner
             // 
-            this.pb_spinner.Location = new System.Drawing.Point(171, 106);
-            this.pb_spinner.Maximum = 100;
+            this.pb_spinner.Location = new System.Drawing.Point(169, 93);
+            this.pb_spinner.Maximum = 3;
             this.pb_spinner.Name = "pb_spinner";
-            this.pb_spinner.Size = new System.Drawing.Size(16, 16);
+            this.pb_spinner.Size = new System.Drawing.Size(32, 32);
             this.pb_spinner.TabIndex = 6;
             this.pb_spinner.TabStop = false;
             this.pb_spinner.UseSelectable = true;
