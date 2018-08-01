@@ -163,6 +163,7 @@
             this.bt_users.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Regular;
             this.bt_users.UseSelectable = true;
             this.bt_users.UseTileImage = true;
+            this.bt_users.Click += new System.EventHandler(this.bt_users_Click);
             // 
             // bt_settings
             // 

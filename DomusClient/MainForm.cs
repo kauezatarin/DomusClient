@@ -18,11 +18,15 @@ namespace DomusClient
     public partial class MainForm : MetroForm
     {
         private LoginForm loginForm;
+        private ManageUsersForm manageUsersForm;
         public User user;
 
         public MainForm()
         {
             InitializeComponent();
+
+            this.BorderStyle = MetroFormBorderStyle.FixedSingle;
+            this.ShadowType = MetroFormShadowType.AeroShadow;
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -82,6 +86,24 @@ namespace DomusClient
         private void bt_exit_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void bt_users_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms.OfType<ManageUsersForm>().Count() == 0)//verifica se ja existe uma aba aberta
+            {
+                manageUsersForm = new ManageUsersForm();//cria o form
+                int x = this.Left + (this.Width / 2) - (manageUsersForm.Width / 2);
+                int y = this.Top + (this.Height / 2) - (manageUsersForm.Height / 2);
+
+                manageUsersForm.Location = new Point(x, y);//seta a posição do formulario filho
+
+                manageUsersForm.Show();//mostra o formulario
+            }
+            else
+            {
+                manageUsersForm.Focus();//caso a janela ja esteja aberta, foca na mesma
+            }
         }
     }
 }
