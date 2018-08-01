@@ -152,7 +152,7 @@ namespace DomusClient
         {
             if (Application.OpenForms.OfType<EditUserForm>().Count() == 0)//verifica se ja existe uma aba aberta
             {
-                editUserForm = new EditUserForm();//cria o form
+                editUserForm = new EditUserForm(dtg_users.CurrentRow.DataBoundItem as User);//cria o form
                 int x = this.Left + (this.Width / 2) - (editUserForm.Width / 2);
                 int y = this.Top + (this.Height / 2) - (editUserForm.Height / 2);
 
