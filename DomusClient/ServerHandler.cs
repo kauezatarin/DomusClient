@@ -135,7 +135,7 @@ namespace DomusClient
         }
 
         /// <summary>
-        /// Recebe um objeto serializado do servidor.
+        /// Recebe uma string do servidor.
         /// </summary>
         public static string ServerRead(NetworkStream stream, int timeout = -1)
         {
