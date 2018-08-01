@@ -90,7 +90,7 @@ namespace DomusClient
                     }
                     else
                     {
-                        MetroMessageBox.Show(this, "Resposta inesperada.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                        MetroMessageBox.Show(this, "Erro inesperado.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
                     }
                 }
                 //caso esteja no modo de cadastro
@@ -100,11 +100,19 @@ namespace DomusClient
                 }
 
                 resetSpinner();
+
+                Application.OpenForms.OfType<ManageUsersForm>().First().PopulateGrid();
+
+                Invoke(new Action(() =>
+                {
+                    Application.OpenForms.OfType<EditUserForm>().First().Close();
+                }));
             }
             catch (Exception e)
             {
-                //ADICIONAR OUTRAS TRATATIVAS
                 resetSpinner();
+
+                MetroMessageBox.Show(this, "Erro ao aplicar alterações. \r\n" + e.Message, "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
             }
         }
 
@@ -168,7 +176,6 @@ namespace DomusClient
                 pb_spinner.Value = value;
             }
         }
-
 
         private void bt_cancel_Click(object sender, EventArgs e)
         {
