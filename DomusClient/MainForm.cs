@@ -29,47 +29,9 @@ namespace DomusClient
         {
             try
             {
-                //inicializa a classe de conexão com o banco de dados
+                //inicializa a classe de conexão com o servidor
                 ServerHandler.Initialize();
-
                 ServerHandler.Connect();
-
-                /*string data;
-                int i;
-                Byte[] bytes = new Byte[1024];
-
-                while (server.Connected)
-                {
-                    data = null;
-
-                    // Get a stream object for reading and writing
-                    stream = server.GetStream();
-
-
-                    if (stream.DataAvailable) //se houver dados a serem lidos
-                    {
-                        try
-                        {
-                            // Loop to receive all the data sent by the client
-                            while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
-                            {
-                                // Translate data bytes to a ASCII string.
-                                data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-
-                                
-
-                                if (stream.DataAvailable == false)//impede o lock da função
-                                    break;
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            //implementar escessão
-                        }
-                    }
-
-                }*/
-
             }
             catch (SocketException exception)
             {
