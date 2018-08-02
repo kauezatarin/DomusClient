@@ -62,12 +62,34 @@ namespace DomusClient
         public static void Connect()
         {
             server = new TcpClient();
+            string data = null;
 
             try
             {
                 server.Connect(serverIp, serverPort);
+
+                ServerWrite(stream, "shakeback");
+
+                data = ServerRead(stream, 10000);
+
+                if (data == "SendInfos")
+                    ServerWrite(stream, "??\u001f?? ??\u0018??'??\u0001??\u0003??\u0003", 1000);
+
+                data = ServerRead(stream, 10000);
+
+                if (data == "WrongPort")
+                {
+                    server.Close();
+                    server.Dispose();
+
+                    throw new Exception("Porta de conexão incorreta");
+                }
             }
             catch (SocketException e)
+            {
+                throw e;
+            }
+            catch (Exception e)
             {
                 throw e;
             }
@@ -93,6 +115,30 @@ namespace DomusClient
                 stream.WriteTimeout = -1;
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Envia um objeto serializado para o servidor
+        /// </summary>
+        public static void ServerWriteSerialized(NetworkStream stream, object sendObj, int timeout = -1)
+        {
+            byte[] userDataBytes;
+            MemoryStream ms = new MemoryStream();
+            BinaryFormatter bf1 = new BinaryFormatter();
+
+            bf1.Serialize(ms, sendObj);
+            userDataBytes = ms.ToArray();
+            byte[] userDataLen = BitConverter.GetBytes((Int32)userDataBytes.Length);
+
+            stream.WriteTimeout = timeout;
+
+            //primeiro envia o tamanho dos dados a serem enviados para que o cliente se prepare
+            stream.Write(userDataLen, 0, 4);
+
+            //envia os dados para o cliente
+            stream.Write(userDataBytes, 0, userDataBytes.Length);
+
+            stream.WriteTimeout = -1;
         }
 
         /// <summary>

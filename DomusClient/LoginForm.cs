@@ -24,6 +24,9 @@ namespace DomusClient
         public LoginForm()
         {
             InitializeComponent();
+
+            this.BorderStyle = MetroFormBorderStyle.FixedSingle;
+            this.ShadowType = MetroFormShadowType.AeroShadow;
         }
 
         private async void loginRoutine()
@@ -130,7 +133,7 @@ namespace DomusClient
 
                             Invoke(new Action(() =>
                             {
-                                this.Hide();
+                                this.Close();
                             }));
                         }
                     }
