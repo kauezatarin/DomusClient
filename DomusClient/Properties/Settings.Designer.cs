@@ -25,7 +25,7 @@ namespace DomusClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.41")]
+        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
         public string serverIp {
             get {
                 return ((string)(this["serverIp"]));

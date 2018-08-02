@@ -60,8 +60,8 @@ namespace DomusClient
                     pb_spinner.Value = 0;
                     pb_spinner.Visible = false;
                     pb_spinner.Enabled = false;
-                    bt_save.Enabled = false;
-                    bt_changePasswd.Enabled = false;
+                    bt_save.Enabled = true;
+                    bt_changePasswd.Enabled = true;
                 }));
             }
             else
@@ -69,8 +69,8 @@ namespace DomusClient
                 pb_spinner.Value = 0;
                 pb_spinner.Visible = false;
                 pb_spinner.Enabled = false;
-                bt_save.Enabled = false;
-                bt_changePasswd.Enabled = false;
+                bt_save.Enabled = true;
+                bt_changePasswd.Enabled = true;
             }
         }
 
@@ -109,13 +109,15 @@ namespace DomusClient
 
         private bool ValidatePasswdForm()
         {
-            bool result = !(tb_passwd.Text.Length < 8 || tb_newPasswd.Text.Length < 8 || tb_newPasswd.Text != tb_confNewPasswd.Text);
+            bool result = !(tb_passwd.Text.Length < 5 || tb_newPasswd.Text.Length < 8 || tb_newPasswd.Text != tb_confNewPasswd.Text);
 
             return result;
         }
 
         private void ChangePasswdThread()
         {
+            startSpinner();
+
             if (!ValidatePasswdForm())
             {
                 MetroMessageBox.Show(this, "Preencha todos os campos corretamente.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning, 150);
@@ -126,7 +128,7 @@ namespace DomusClient
 
             setSpinnerValue(1);
 
-            ServerHandler.ServerWrite(ServerHandler.stream, "ChangePasswd;" + BCrypt.Net.BCrypt.HashPassword(tb_passwd.Text) + BCrypt.Net.BCrypt.HashPassword(tb_newPasswd.Text), 10000);
+            ServerHandler.ServerWrite(ServerHandler.stream, "ChangePasswd;" + tb_passwd.Text + ";" + BCrypt.Net.BCrypt.HashPassword(tb_newPasswd.Text), 10000);
 
             string response = ServerHandler.ServerRead(ServerHandler.stream, 10000);
 
@@ -146,6 +148,8 @@ namespace DomusClient
             {
                 MetroMessageBox.Show(this, "Erro inesperado.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
             }
+
+            resetSpinner();
         }
 
         private void bt_save_Click(object sender, EventArgs e)
