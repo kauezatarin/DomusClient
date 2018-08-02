@@ -42,6 +42,7 @@
             this.bt_changePasswd = new MetroFramework.Controls.MetroButton();
             this.bt_exit = new MetroFramework.Controls.MetroButton();
             this.bt_save = new MetroFramework.Controls.MetroButton();
+            this.pb_spinner = new MetroFramework.Controls.MetroProgressSpinner();
             this.SuspendLayout();
             // 
             // lb_serverIp
@@ -264,6 +265,7 @@
             this.bt_changePasswd.UseCustomBackColor = true;
             this.bt_changePasswd.UseSelectable = true;
             this.bt_changePasswd.UseStyleColors = true;
+            this.bt_changePasswd.Click += new System.EventHandler(this.bt_changePasswd_Click);
             // 
             // bt_exit
             // 
@@ -273,6 +275,7 @@
             this.bt_exit.TabIndex = 11;
             this.bt_exit.Text = "Sair";
             this.bt_exit.UseSelectable = true;
+            this.bt_exit.Click += new System.EventHandler(this.bt_exit_Click);
             // 
             // bt_save
             // 
@@ -288,11 +291,22 @@
             this.bt_save.UseStyleColors = true;
             this.bt_save.Click += new System.EventHandler(this.bt_save_Click);
             // 
+            // pb_spinner
+            // 
+            this.pb_spinner.Location = new System.Drawing.Point(179, 165);
+            this.pb_spinner.Maximum = 4;
+            this.pb_spinner.Name = "pb_spinner";
+            this.pb_spinner.Size = new System.Drawing.Size(32, 32);
+            this.pb_spinner.TabIndex = 13;
+            this.pb_spinner.UseSelectable = true;
+            this.pb_spinner.Visible = false;
+            // 
             // ConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(392, 330);
+            this.Controls.Add(this.pb_spinner);
             this.Controls.Add(this.bt_save);
             this.Controls.Add(this.bt_exit);
             this.Controls.Add(this.bt_changePasswd);
@@ -333,5 +347,6 @@
         private MetroFramework.Controls.MetroButton bt_changePasswd;
         private MetroFramework.Controls.MetroButton bt_exit;
         private MetroFramework.Controls.MetroButton bt_save;
+        private MetroFramework.Controls.MetroProgressSpinner pb_spinner;
     }
 }
