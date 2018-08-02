@@ -183,6 +183,7 @@
             this.bt_settings.UseCustomBackColor = true;
             this.bt_settings.UseSelectable = true;
             this.bt_settings.UseTileImage = true;
+            this.bt_settings.Click += new System.EventHandler(this.bt_settings_Click);
             // 
             // bt_exit
             // 

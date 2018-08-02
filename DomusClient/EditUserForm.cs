@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using MetroFramework.Forms;
 using DomusSharedClasses;
 using MetroFramework;
+using System.ComponentModel.DataAnnotations;
 
 namespace DomusClient
 {
@@ -31,6 +32,7 @@ namespace DomusClient
             this.user = user;
 
             PopulateForm();
+
         }
 
         public EditUserForm()
@@ -165,22 +167,24 @@ namespace DomusClient
             bool result = true;
             List<string> tempList = new List<string>();
 
-            if(validatePasswd)
-                tempList.Add(tb_passwd.Text.Replace(" ", ""));
-
             tempList.Add(tb_name.Text.Replace(" ", ""));
-            tempList.Add(tb_email.Text.Replace(" ", ""));
             tempList.Add(tb_lastName.Text.Replace(" ", ""));
             tempList.Add(tb_username.Text.Replace(" ", ""));
 
             foreach (string s in tempList)
             {
-                if (s.Length == 0)
+                if (s.Length < 3)
                 {
                     result = false;
                     break;
                 }
             }
+
+            if (validatePasswd && (tb_passwd.Text.Length < 8 || tb_passwd.Text.Contains(" ")))
+                result = false;
+
+            if (new EmailAddressAttribute().IsValid(tb_email.Text) == false)
+                result = false;
 
             return result;
         }

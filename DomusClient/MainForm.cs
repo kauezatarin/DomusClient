@@ -19,6 +19,7 @@ namespace DomusClient
     {
         private LoginForm loginForm;
         private ManageUsersForm manageUsersForm;
+        private ConfigForm configForm;
         public User user;
 
         public MainForm()
@@ -116,6 +117,24 @@ namespace DomusClient
             else
             {
                 manageUsersForm.Focus();//caso a janela ja esteja aberta, foca na mesma
+            }
+        }
+
+        private void bt_settings_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms.OfType<ConfigForm>().Count() == 0)//verifica se ja existe uma aba aberta
+            {
+                configForm = new ConfigForm();//cria o form
+                int x = this.Left + (this.Width / 2) - (configForm.Width / 2);
+                int y = this.Top + (this.Height / 2) - (configForm.Height / 2);
+
+                configForm.Location = new Point(x, y);//seta a posição do formulario filho
+
+                configForm.Show();//mostra o formulario
+            }
+            else
+            {
+                configForm.Focus();//caso a janela ja esteja aberta, foca na mesma
             }
         }
     }
