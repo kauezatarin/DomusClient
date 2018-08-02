@@ -76,7 +76,6 @@
             this.tb_username.MaxLength = 32767;
             this.tb_username.Name = "tb_username";
             this.tb_username.PasswordChar = '\0';
-            this.tb_username.PromptText = "ex: meunickname";
             this.tb_username.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_username.SelectedText = "";
             this.tb_username.SelectionLength = 0;
@@ -108,7 +107,6 @@
             this.tb_passwd.MaxLength = 32767;
             this.tb_passwd.Name = "tb_passwd";
             this.tb_passwd.PasswordChar = '●';
-            this.tb_passwd.PromptText = "Min. 8 dígitos";
             this.tb_passwd.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_passwd.SelectedText = "";
             this.tb_passwd.SelectionLength = 0;
@@ -118,7 +116,7 @@
             this.tb_passwd.TabIndex = 3;
             this.tb_passwd.UseSelectable = true;
             this.tb_passwd.UseSystemPasswordChar = true;
-            this.tb_passwd.WaterMark = "Min. 8 dígitos";
+            this.tb_passwd.WaterMark = "Min. 8 digitos";
             this.tb_passwd.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.tb_passwd.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
@@ -150,7 +148,6 @@
             this.tb_name.MaxLength = 32767;
             this.tb_name.Name = "tb_name";
             this.tb_name.PasswordChar = '\0';
-            this.tb_name.PromptText = "ex: João";
             this.tb_name.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_name.SelectedText = "";
             this.tb_name.SelectionLength = 0;
@@ -191,7 +188,6 @@
             this.tb_lastName.MaxLength = 32767;
             this.tb_lastName.Name = "tb_lastName";
             this.tb_lastName.PasswordChar = '\0';
-            this.tb_lastName.PromptText = "ex: Silva";
             this.tb_lastName.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_lastName.SelectedText = "";
             this.tb_lastName.SelectionLength = 0;
@@ -232,7 +228,6 @@
             this.tb_email.MaxLength = 32767;
             this.tb_email.Name = "tb_email";
             this.tb_email.PasswordChar = '\0';
-            this.tb_email.PromptText = "ex: email@email.com";
             this.tb_email.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_email.SelectedText = "";
             this.tb_email.SelectionLength = 0;

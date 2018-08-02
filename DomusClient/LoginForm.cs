@@ -29,12 +29,11 @@ namespace DomusClient
             this.ShadowType = MetroFormShadowType.AeroShadow;
         }
 
-        private async void loginRoutine()
+        private void loginRoutine()
         {
             NetworkStream stream;
             Byte[] bytes = new Byte[1024];
             string data;
-            int i;
             bool retry = false;
             bool success = false;
             bool receivingSerial = false;

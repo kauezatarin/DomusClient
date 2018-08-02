@@ -162,6 +162,46 @@ namespace DomusClient
             }
         }
 
+        private void ResetPasswordThread()
+        {
+            startSpinner();
+
+            try
+            {
+                setSpinnerValue(1);
+
+                ServerHandler.ServerWrite(ServerHandler.stream, "ResetPasswd;" + user.userId + ";" + BCrypt.Net.BCrypt.HashPassword("domus123"), 10000);
+
+                string response = ServerHandler.ServerRead(ServerHandler.stream, 10000);
+
+                if (response == "PasswdReseted")
+                {
+                    MetroMessageBox.Show(this, "Senha resetada com sucesso.\r\nNova senha: domus123", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Question, 150);
+
+                    Invoke(new Action(() =>
+                    {
+                        this.Close();
+                    }));
+                }
+                else if (response == "FailToResetPasswd")
+                {
+                    MetroMessageBox.Show(this, "Não foi possivel resetar a senha.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                }
+                else
+                {
+                    MetroMessageBox.Show(this, "Erro inesperado.\r\n" + response, "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                }
+            }
+            catch (Exception e)
+            {
+
+                MetroMessageBox.Show(this, "Erro inesperado.\r\n" + e.Message, "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+
+            }
+
+            resetSpinner();
+        }
+
         private bool ValidateForm(bool validatePasswd = false)
         {
             bool result = true;
@@ -257,13 +297,14 @@ namespace DomusClient
 
         private void bt_save_Click(object sender, EventArgs e)
         {
-            this.workerThread = new Thread(()=>SaveThread());
+            this.workerThread = new Thread(SaveThread);
             this.workerThread.Start();
         }
 
         private void bt_resetPasswd_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            this.workerThread = new Thread(ResetPasswordThread);
+            this.workerThread.Start();
         }
     }
 }
