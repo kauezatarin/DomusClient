@@ -36,6 +36,7 @@
             this.bt_newUser = new MetroFramework.Controls.MetroButton();
             this.pb_spinner = new MetroFramework.Controls.MetroProgressSpinner();
             this.bt_edit = new MetroFramework.Controls.MetroButton();
+            this.bt_delet = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_users)).BeginInit();
             this.SuspendLayout();
             // 
@@ -102,6 +103,7 @@
             this.bt_newUser.UseCustomBackColor = true;
             this.bt_newUser.UseSelectable = true;
             this.bt_newUser.UseStyleColors = true;
+            this.bt_newUser.Click += new System.EventHandler(this.bt_newUser_Click);
             // 
             // pb_spinner
             // 
@@ -131,12 +133,28 @@
             this.bt_edit.UseSelectable = true;
             this.bt_edit.Click += new System.EventHandler(this.bt_edit_Click);
             // 
+            // bt_delet
+            // 
+            this.bt_delet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.bt_delet.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(132)))), ((int)(((byte)(12)))));
+            this.bt_delet.Location = new System.Drawing.Point(600, 63);
+            this.bt_delet.Name = "bt_delet";
+            this.bt_delet.Size = new System.Drawing.Size(85, 35);
+            this.bt_delet.Style = MetroFramework.MetroColorStyle.White;
+            this.bt_delet.TabIndex = 4;
+            this.bt_delet.Text = "Deletar";
+            this.bt_delet.UseCustomBackColor = true;
+            this.bt_delet.UseSelectable = true;
+            this.bt_delet.UseStyleColors = true;
+            this.bt_delet.Click += new System.EventHandler(this.bt_delet_Click);
+            // 
             // ManageUsersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(898, 511);
+            this.Controls.Add(this.bt_delet);
             this.Controls.Add(this.bt_edit);
             this.Controls.Add(this.pb_spinner);
             this.Controls.Add(this.bt_newUser);
@@ -159,5 +177,6 @@
         private MetroFramework.Controls.MetroButton bt_newUser;
         private MetroFramework.Controls.MetroProgressSpinner pb_spinner;
         private MetroFramework.Controls.MetroButton bt_edit;
+        private MetroFramework.Controls.MetroButton bt_delet;
     }
 }

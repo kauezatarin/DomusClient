@@ -67,6 +67,16 @@ namespace DomusClient
                 //caso esteja no modo de edição
                 if (user != null)
                 {
+                    if(!ValidateForm())
+                    {
+                        MetroMessageBox.Show(this, "Preencha todos os campos.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning, 150);
+                        resetSpinner();
+
+                        return;
+                    }
+
+                    setSpinnerValue(2);
+
                     user = new User(tb_username.Text, tb_email.Text, tb_name.Text, tb_lastName.Text, tg_admin.Checked, tg_active.Checked, DateTime.Now.ToString(), DateTime.Now.ToString(), user.password, user.userId);
 
                     ServerHandler.ServerWrite(ServerHandler.stream, "UpdateUser", 10000);
@@ -96,7 +106,41 @@ namespace DomusClient
                 //caso esteja no modo de cadastro
                 else
                 {
-                    throw new NotImplementedException();
+                    if (!ValidateForm(true))
+                    {
+                        MetroMessageBox.Show(this, "Preencha todos os campos.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning, 150);
+                        resetSpinner();
+
+                        return;
+                    }
+
+                    setSpinnerValue(2);
+
+                    user = new User(tb_username.Text, tb_email.Text, tb_name.Text, tb_lastName.Text, tg_admin.Checked, tg_active.Checked, DateTime.Now.ToString(), DateTime.Now.ToString(), BCrypt.Net.BCrypt.HashPassword(tb_passwd.Text));
+
+                    ServerHandler.ServerWrite(ServerHandler.stream, "AddUser", 10000);
+
+                    if (ServerHandler.ServerRead(ServerHandler.stream, 10000) == "sendNewUser")
+                        ServerHandler.ServerWriteSerialized(ServerHandler.stream, user, 10000);
+                    else
+                    {
+                        throw new Exception("Resposta inesperada.");
+                    }
+
+                    string response = ServerHandler.ServerRead(ServerHandler.stream, 10000);
+
+                    if (response == "UserAdded")
+                    {
+                        MetroMessageBox.Show(this, "Usuário cadastrado com sucesso.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Question, 150);
+                    }
+                    else if (response == "FailToAdd")
+                    {
+                        MetroMessageBox.Show(this, "Não foi possivel cadastrar o usuário.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                    }
+                    else
+                    {
+                        MetroMessageBox.Show(this, "Erro inesperado.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                    }
                 }
 
                 resetSpinner();
@@ -114,6 +158,31 @@ namespace DomusClient
 
                 MetroMessageBox.Show(this, "Erro ao aplicar alterações. \r\n" + e.Message, "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
             }
+        }
+
+        private bool ValidateForm(bool validatePasswd = false)
+        {
+            bool result = true;
+            List<string> tempList = new List<string>();
+
+            if(validatePasswd)
+                tempList.Add(tb_passwd.Text.Replace(" ", ""));
+
+            tempList.Add(tb_name.Text.Replace(" ", ""));
+            tempList.Add(tb_email.Text.Replace(" ", ""));
+            tempList.Add(tb_lastName.Text.Replace(" ", ""));
+            tempList.Add(tb_username.Text.Replace(" ", ""));
+
+            foreach (string s in tempList)
+            {
+                if (s.Length == 0)
+                {
+                    result = false;
+                    break;
+                }
+            }
+
+            return result;
         }
 
         private void startSpinner()

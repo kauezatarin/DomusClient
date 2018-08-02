@@ -16,7 +16,7 @@ namespace DomusClient
 {
     public partial class ManageUsersForm : MetroForm
     {
-        private Thread gridThread;
+        private Thread workerThread;
         private EditUserForm editUserForm;
 
         public ManageUsersForm()
@@ -30,14 +30,12 @@ namespace DomusClient
         private void ManageUsersForm_Load(object sender, EventArgs e)
         {
             PopulateGrid();
-
-            //User user =dtg_users.CurrentRow.DataBoundItem as User;
         }
 
         public void PopulateGrid()
         {
-            gridThread = new Thread(() => PopulateGridThread());
-            gridThread.Start();
+            workerThread = new Thread(PopulateGridThread);
+            workerThread.Start();
 
             startSpinner();
         }
@@ -87,6 +85,51 @@ namespace DomusClient
             resetSpinner();
         }
 
+        private void DeleteUserThread()
+        {
+            try
+            {
+                startSpinner();
+                setSpinnerValue(1);
+
+                User temp = dtg_users.CurrentRow.DataBoundItem as User;
+                DialogResult result = MetroMessageBox.Show(this,"Gostaria de deletar o usuário " + temp.username + "? \r\n Não será possivel reverter a alteração.", "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, 150);
+
+                if (result == DialogResult.No)
+                {
+                    resetSpinner();
+                    return;
+                }
+
+                ServerHandler.ServerWrite(ServerHandler.stream, "DeleteUser;"+temp.userId, 3000);
+
+                string response = ServerHandler.ServerRead(ServerHandler.stream, 10000);
+
+                if (response == "UserDeleted")
+                    MetroMessageBox.Show(this, "Usuário deletado com sucesso.", "Sucesso", MessageBoxButtons.OK,
+                        MessageBoxIcon.Question, 150);
+                else if(response == "FailToDelete")
+                    MetroMessageBox.Show(this, "Erro ao deletar usuário.", "Erro", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error, 150);
+                else
+                {
+                    MetroMessageBox.Show(this, "Erro inesperado.", "Erro", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error, 150);
+                }
+
+                resetSpinner();
+
+                PopulateGrid();
+            }
+            catch (Exception e)
+            {
+                resetSpinner();
+
+                MetroMessageBox.Show(this, "Erro ao aplicar alterações. \r\n" + e.Message, "Erro", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error, 150);
+            }
+        }
+
         private void startSpinner()
         {
             if (pb_spinner.InvokeRequired)
@@ -98,6 +141,7 @@ namespace DomusClient
                     pb_spinner.Enabled = true;
                     bt_newUser.Enabled = false;
                     bt_edit.Enabled = false;
+                    bt_delet.Enabled = false;
                 }));
             }
             else
@@ -107,6 +151,7 @@ namespace DomusClient
                 pb_spinner.Enabled = true;
                 bt_newUser.Enabled = false;
                 bt_edit.Enabled = false;
+                bt_delet.Enabled = false;
             }
         }
 
@@ -121,6 +166,7 @@ namespace DomusClient
                     pb_spinner.Enabled = false;
                     bt_newUser.Enabled = true;
                     bt_edit.Enabled = true;
+                    bt_delet.Enabled = true;
                 }));
             }
             else
@@ -130,6 +176,7 @@ namespace DomusClient
                 pb_spinner.Enabled = false;
                 bt_newUser.Enabled = true;
                 bt_edit.Enabled = true;
+                bt_delet.Enabled = true;
             }
         }
 
@@ -162,8 +209,46 @@ namespace DomusClient
             }
             else
             {
+                MetroMessageBox.Show(this, "Só é possivel realizar uma operação por vez.",
+                    "Domus Client - Informação",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    150);
+
                 editUserForm.Focus();//caso a janela ja esteja aberta, foca na mesma
             }
+        }
+
+        private void bt_newUser_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms.OfType<EditUserForm>().Count() == 0)//verifica se ja existe uma aba aberta
+            {
+                editUserForm = new EditUserForm();//cria o form
+                int x = this.Left + (this.Width / 2) - (editUserForm.Width / 2);
+                int y = this.Top + (this.Height / 2) - (editUserForm.Height / 2);
+
+                editUserForm.Location = new Point(x, y);//seta a posição do formulario filho
+
+                editUserForm.Show();//mostra o formulario
+            }
+            else
+            {
+                MetroMessageBox.Show(this, "Só é possivel realizar uma operação por vez.",
+                    "Domus Client - Informação",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    150);
+
+                editUserForm.Focus();//caso a janela ja esteja aberta, foca na mesma
+            }
+        }
+
+        private void bt_delet_Click(object sender, EventArgs e)
+        {
+            workerThread = new Thread(DeleteUserThread);
+            workerThread.Start();
+
+            startSpinner();
         }
     }
 }
