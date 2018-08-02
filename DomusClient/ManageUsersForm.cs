@@ -93,7 +93,7 @@ namespace DomusClient
                 setSpinnerValue(1);
 
                 User temp = dtg_users.CurrentRow.DataBoundItem as User;
-                DialogResult result = MetroMessageBox.Show(this,"Gostaria de deletar o usuário " + temp.username + "? \r\n Não será possivel reverter a alteração.", "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, 150);
+                DialogResult result = MetroMessageBox.Show(this,"Gostaria de deletar o usuário " + temp.username + "?\r\nNão será possivel reverter a alteração.", "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, 150);
 
                 if (result == DialogResult.No)
                 {
