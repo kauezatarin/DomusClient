@@ -118,35 +118,49 @@ namespace DomusClient
         {
             startSpinner();
 
-            if (!ValidatePasswdForm())
+            try
             {
-                MetroMessageBox.Show(this, "Preencha todos os campos corretamente.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning, 150);
-                resetSpinner();
+                if (!ValidatePasswdForm())
+                {
+                    MetroMessageBox.Show(this, "Preencha todos os campos corretamente.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning, 150);
+                    resetSpinner();
 
-                return;
+                    return;
+                }
+
+                setSpinnerValue(1);
+
+                ServerHandler.ServerWrite(ServerHandler.stream, "ChangePasswd;" + tb_passwd.Text + ";" + BCrypt.Net.BCrypt.HashPassword(tb_newPasswd.Text), 10000);
+
+                string response = ServerHandler.ServerRead(ServerHandler.stream, 10000);
+
+                if (response == "PasswdChanged")
+                {
+                    MetroMessageBox.Show(this, "Senha alterada com sucesso.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Question, 150);
+
+                    Invoke(new Action(() =>
+                    {
+                        this.Close();
+                    }));
+                }
+                else if (response == "InvalidOldPasswd")
+                {
+                    MetroMessageBox.Show(this, "Não foi possivel alterar a senha.\r\nSenha atual incorreta.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                }
+                else if (response == "FailToChangePasswd")
+                {
+                    MetroMessageBox.Show(this, "Não foi possivel alterar a senha.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                }
+                else
+                {
+                    MetroMessageBox.Show(this, "Erro inesperado.\r\n" + response, "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                }
             }
-
-            setSpinnerValue(1);
-
-            ServerHandler.ServerWrite(ServerHandler.stream, "ChangePasswd;" + tb_passwd.Text + ";" + BCrypt.Net.BCrypt.HashPassword(tb_newPasswd.Text), 10000);
-
-            string response = ServerHandler.ServerRead(ServerHandler.stream, 10000);
-
-            if (response == "PasswdChanged")
+            catch (Exception e)
             {
-                MetroMessageBox.Show(this, "Usuário atualizado com sucesso.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Question, 150);
-            }
-            else if (response == "InvalidOldPasswd")
-            {
-                MetroMessageBox.Show(this, "Não foi possivel alterar a senha.\r\nSenha atual incorreta.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
-            }
-            else if (response == "FailToChangePasswd")
-            {
-                MetroMessageBox.Show(this, "Não foi possivel alterar a senha.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
-            }
-            else
-            {
-                MetroMessageBox.Show(this, "Erro inesperado.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+
+                MetroMessageBox.Show(this, "Erro inesperado.\r\n" + e.Message, "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+
             }
 
             resetSpinner();
@@ -154,23 +168,33 @@ namespace DomusClient
 
         private void bt_save_Click(object sender, EventArgs e)
         {
-            if (ValidateIPv4(tb_serverIp.Text) && (Convert.ToInt32(tb_serverPort.Text) <= 65535) && (Convert.ToInt32(tb_serverPort.Text) >= 0))
+            try
             {
-                Properties.Settings.Default.serverIp = tb_serverIp.Text;
-                Properties.Settings.Default.serverPort = Convert.ToInt32(tb_serverPort.Text);
+                if (ValidateIPv4(tb_serverIp.Text) && (Convert.ToInt32(tb_serverPort.Text) <= 65535) && (Convert.ToInt32(tb_serverPort.Text) >= 0))
+                {
+                    Properties.Settings.Default.serverIp = tb_serverIp.Text;
+                    Properties.Settings.Default.serverPort = Convert.ToInt32(tb_serverPort.Text);
 
-                MetroMessageBox.Show(this, "Configurações salvas.",
-                    "Sucesso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Question, 150);
+                    MetroMessageBox.Show(this, "Configurações salvas.",
+                        "Sucesso",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Question, 150);
 
-                this.Close();
+                    this.Close();
+                }
+                else
+                {
+                    MetroMessageBox.Show(this, "Endereço IP ou porta incorretos.\r\nVerifique os campos e tente novamente.",
+                        "Inválido",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning, 150);
+                }
             }
-            else
+            catch
             {
-                MetroMessageBox.Show(this,"Endereço IP ou porta incorretos.\r\nVerifique os campos e tente novamente.", 
-                    "Inválido", 
-                    MessageBoxButtons.OK, 
+                MetroMessageBox.Show(this, "Endereço IP ou porta incorretos.\r\nVerifique os campos e tente novamente.",
+                    "Inválido",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Warning, 150);
             }
         }

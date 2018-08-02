@@ -73,7 +73,6 @@
             this.tb_serverIp.MaxLength = 32767;
             this.tb_serverIp.Name = "tb_serverIp";
             this.tb_serverIp.PasswordChar = '\0';
-            this.tb_serverIp.PromptText = "127.0.0.1";
             this.tb_serverIp.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_serverIp.SelectedText = "";
             this.tb_serverIp.SelectionLength = 0;
@@ -105,7 +104,6 @@
             this.tb_serverPort.MaxLength = 32767;
             this.tb_serverPort.Name = "tb_serverPort";
             this.tb_serverPort.PasswordChar = '\0';
-            this.tb_serverPort.PromptText = "9090";
             this.tb_serverPort.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_serverPort.SelectedText = "";
             this.tb_serverPort.SelectionLength = 0;
@@ -146,7 +144,6 @@
             this.tb_passwd.MaxLength = 32767;
             this.tb_passwd.Name = "tb_passwd";
             this.tb_passwd.PasswordChar = '●';
-            this.tb_passwd.PromptText = "Senha atual";
             this.tb_passwd.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_passwd.SelectedText = "";
             this.tb_passwd.SelectionLength = 0;
@@ -188,7 +185,6 @@
             this.tb_newPasswd.MaxLength = 32767;
             this.tb_newPasswd.Name = "tb_newPasswd";
             this.tb_newPasswd.PasswordChar = '●';
-            this.tb_newPasswd.PromptText = "Nova Senha";
             this.tb_newPasswd.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_newPasswd.SelectedText = "";
             this.tb_newPasswd.SelectionLength = 0;
@@ -230,7 +226,6 @@
             this.tb_confNewPasswd.MaxLength = 32767;
             this.tb_confNewPasswd.Name = "tb_confNewPasswd";
             this.tb_confNewPasswd.PasswordChar = '●';
-            this.tb_confNewPasswd.PromptText = "Confirmar nova senha";
             this.tb_confNewPasswd.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_confNewPasswd.SelectedText = "";
             this.tb_confNewPasswd.SelectionLength = 0;
