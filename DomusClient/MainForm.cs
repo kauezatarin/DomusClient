@@ -36,7 +36,6 @@ namespace DomusClient
             {
                 //inicializa a classe de conexão com o servidor
                 ServerHandler.Initialize();
-                ServerHandler.Connect();
             }
             catch (SocketException exception)
             {
