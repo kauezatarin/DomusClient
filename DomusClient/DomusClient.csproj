@@ -156,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Dome.ico" />
+    <None Include="Resources\forecastSample.png" />
     <None Include="Resources\logout.png" />
     <None Include="Resources\settings.png" />
     <None Include="Resources\user.png" />

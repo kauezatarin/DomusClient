@@ -136,5 +136,14 @@ namespace DomusClient
                 configForm.Focus();//caso a janela ja esteja aberta, foca na mesma
             }
         }
+
+        private void llb_about_Click(object sender, EventArgs e)
+        {
+            MetroMessageBox.Show(this, "Desenvolvido por Kauê S. Zatarin\r\nTCC - Ciências da Computação\r\nEscola de Engenharia de Piracicaba - EEP", 
+                "Domus Client", 
+                MessageBoxButtons.OK, 
+                MessageBoxIcon.Information,
+                180);
+        }
     }
 }

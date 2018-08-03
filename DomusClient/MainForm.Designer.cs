@@ -38,6 +38,14 @@
             this.bt_users = new MetroFramework.Controls.MetroTile();
             this.bt_settings = new MetroFramework.Controls.MetroTile();
             this.bt_exit = new MetroFramework.Controls.MetroTile();
+            this.llb_about = new MetroFramework.Controls.MetroLink();
+            this.pb_forecast = new System.Windows.Forms.PictureBox();
+            this.lb_forecastLocation = new MetroFramework.Controls.MetroLabel();
+            this.lb_forecastMinValue = new MetroFramework.Controls.MetroLabel();
+            this.lb_forecastMin = new MetroFramework.Controls.MetroLabel();
+            this.lb_forecastMax = new MetroFramework.Controls.MetroLabel();
+            this.lb_forecastMaxValue = new MetroFramework.Controls.MetroLabel();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_forecast)).BeginInit();
             this.SuspendLayout();
             // 
             // bt_devices
@@ -204,6 +212,75 @@
             this.bt_exit.UseTileImage = true;
             this.bt_exit.Click += new System.EventHandler(this.bt_exit_Click);
             // 
+            // llb_about
+            // 
+            this.llb_about.FontWeight = MetroFramework.MetroLinkWeight.Light;
+            this.llb_about.Location = new System.Drawing.Point(421, 264);
+            this.llb_about.Name = "llb_about";
+            this.llb_about.Size = new System.Drawing.Size(126, 23);
+            this.llb_about.TabIndex = 9;
+            this.llb_about.TabStop = false;
+            this.llb_about.Text = "Sobre - Domus Client";
+            this.llb_about.UseSelectable = true;
+            this.llb_about.Click += new System.EventHandler(this.llb_about_Click);
+            // 
+            // pb_forecast
+            // 
+            this.pb_forecast.Image = global::DomusClient.Properties.Resources.forecastSample;
+            this.pb_forecast.Location = new System.Drawing.Point(384, 63);
+            this.pb_forecast.Name = "pb_forecast";
+            this.pb_forecast.Size = new System.Drawing.Size(48, 48);
+            this.pb_forecast.TabIndex = 10;
+            this.pb_forecast.TabStop = false;
+            // 
+            // lb_forecastLocation
+            // 
+            this.lb_forecastLocation.AutoSize = true;
+            this.lb_forecastLocation.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lb_forecastLocation.Location = new System.Drawing.Point(439, 64);
+            this.lb_forecastLocation.Name = "lb_forecastLocation";
+            this.lb_forecastLocation.Size = new System.Drawing.Size(91, 19);
+            this.lb_forecastLocation.TabIndex = 11;
+            this.lb_forecastLocation.Text = "Piracicaba, SP";
+            // 
+            // lb_forecastMinValue
+            // 
+            this.lb_forecastMinValue.AutoSize = true;
+            this.lb_forecastMinValue.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lb_forecastMinValue.Location = new System.Drawing.Point(506, 102);
+            this.lb_forecastMinValue.Name = "lb_forecastMinValue";
+            this.lb_forecastMinValue.Size = new System.Drawing.Size(34, 15);
+            this.lb_forecastMinValue.TabIndex = 12;
+            this.lb_forecastMinValue.Text = "-22ºc";
+            // 
+            // lb_forecastMin
+            // 
+            this.lb_forecastMin.AutoSize = true;
+            this.lb_forecastMin.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lb_forecastMin.Location = new System.Drawing.Point(479, 102);
+            this.lb_forecastMin.Name = "lb_forecastMin";
+            this.lb_forecastMin.Size = new System.Drawing.Size(31, 15);
+            this.lb_forecastMin.TabIndex = 13;
+            this.lb_forecastMin.Text = "Min.:";
+            // 
+            // lb_forecastMax
+            // 
+            this.lb_forecastMax.AutoSize = true;
+            this.lb_forecastMax.Location = new System.Drawing.Point(442, 83);
+            this.lb_forecastMax.Name = "lb_forecastMax";
+            this.lb_forecastMax.Size = new System.Drawing.Size(40, 19);
+            this.lb_forecastMax.TabIndex = 15;
+            this.lb_forecastMax.Text = "Max.:";
+            // 
+            // lb_forecastMaxValue
+            // 
+            this.lb_forecastMaxValue.AutoSize = true;
+            this.lb_forecastMaxValue.Location = new System.Drawing.Point(479, 83);
+            this.lb_forecastMaxValue.Name = "lb_forecastMaxValue";
+            this.lb_forecastMaxValue.Size = new System.Drawing.Size(41, 19);
+            this.lb_forecastMaxValue.TabIndex = 14;
+            this.lb_forecastMaxValue.Text = "-22ºc";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -212,6 +289,13 @@
             this.BackImagePadding = new System.Windows.Forms.Padding(120, 10, 0, 0);
             this.BackMaxSize = 55;
             this.ClientSize = new System.Drawing.Size(570, 308);
+            this.Controls.Add(this.lb_forecastMax);
+            this.Controls.Add(this.lb_forecastMaxValue);
+            this.Controls.Add(this.lb_forecastMin);
+            this.Controls.Add(this.lb_forecastMinValue);
+            this.Controls.Add(this.lb_forecastLocation);
+            this.Controls.Add(this.pb_forecast);
+            this.Controls.Add(this.llb_about);
             this.Controls.Add(this.bt_exit);
             this.Controls.Add(this.bt_settings);
             this.Controls.Add(this.bt_users);
@@ -227,7 +311,9 @@
             this.Text = "Domus";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
             this.Load += new System.EventHandler(this.Main_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pb_forecast)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -242,5 +328,12 @@
         private MetroFramework.Controls.MetroTile bt_users;
         private MetroFramework.Controls.MetroTile bt_settings;
         private MetroFramework.Controls.MetroTile bt_exit;
+        private MetroFramework.Controls.MetroLink llb_about;
+        private System.Windows.Forms.PictureBox pb_forecast;
+        private MetroFramework.Controls.MetroLabel lb_forecastLocation;
+        private MetroFramework.Controls.MetroLabel lb_forecastMinValue;
+        private MetroFramework.Controls.MetroLabel lb_forecastMin;
+        private MetroFramework.Controls.MetroLabel lb_forecastMax;
+        private MetroFramework.Controls.MetroLabel lb_forecastMaxValue;
     }
 }

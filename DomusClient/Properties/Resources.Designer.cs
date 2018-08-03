@@ -93,6 +93,16 @@ namespace DomusClient.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap forecastSample {
+            get {
+                object obj = ResourceManager.GetObject("forecastSample", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap leaf {
             get {
                 object obj = ResourceManager.GetObject("leaf", resourceCulture);
