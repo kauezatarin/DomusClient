@@ -45,6 +45,8 @@
             this.lb_forecastMin = new MetroFramework.Controls.MetroLabel();
             this.lb_forecastMax = new MetroFramework.Controls.MetroLabel();
             this.lb_forecastMaxValue = new MetroFramework.Controls.MetroLabel();
+            this.lb_humidity = new MetroFramework.Controls.MetroLabel();
+            this.lb_humidityValue = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pb_forecast)).BeginInit();
             this.SuspendLayout();
             // 
@@ -239,7 +241,7 @@
             this.lb_forecastLocation.FontSize = MetroFramework.MetroLabelSize.Small;
             this.lb_forecastLocation.Location = new System.Drawing.Point(439, 64);
             this.lb_forecastLocation.Name = "lb_forecastLocation";
-            this.lb_forecastLocation.Size = new System.Drawing.Size(91, 19);
+            this.lb_forecastLocation.Size = new System.Drawing.Size(76, 15);
             this.lb_forecastLocation.TabIndex = 11;
             this.lb_forecastLocation.Text = "Piracicaba, SP";
             // 
@@ -281,6 +283,26 @@
             this.lb_forecastMaxValue.TabIndex = 14;
             this.lb_forecastMaxValue.Text = "-22ºc";
             // 
+            // lb_humidity
+            // 
+            this.lb_humidity.AutoSize = true;
+            this.lb_humidity.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lb_humidity.Location = new System.Drawing.Point(384, 116);
+            this.lb_humidity.Name = "lb_humidity";
+            this.lb_humidity.Size = new System.Drawing.Size(46, 15);
+            this.lb_humidity.TabIndex = 16;
+            this.lb_humidity.Text = "Humid.:";
+            // 
+            // lb_humidityValue
+            // 
+            this.lb_humidityValue.AutoSize = true;
+            this.lb_humidityValue.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lb_humidityValue.Location = new System.Drawing.Point(432, 116);
+            this.lb_humidityValue.Name = "lb_humidityValue";
+            this.lb_humidityValue.Size = new System.Drawing.Size(32, 15);
+            this.lb_humidityValue.TabIndex = 17;
+            this.lb_humidityValue.Text = "100%";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -289,6 +311,8 @@
             this.BackImagePadding = new System.Windows.Forms.Padding(120, 10, 0, 0);
             this.BackMaxSize = 55;
             this.ClientSize = new System.Drawing.Size(570, 308);
+            this.Controls.Add(this.lb_humidityValue);
+            this.Controls.Add(this.lb_humidity);
             this.Controls.Add(this.lb_forecastMax);
             this.Controls.Add(this.lb_forecastMaxValue);
             this.Controls.Add(this.lb_forecastMin);
@@ -335,5 +359,7 @@
         private MetroFramework.Controls.MetroLabel lb_forecastMin;
         private MetroFramework.Controls.MetroLabel lb_forecastMax;
         private MetroFramework.Controls.MetroLabel lb_forecastMaxValue;
+        private MetroFramework.Controls.MetroLabel lb_humidity;
+        private MetroFramework.Controls.MetroLabel lb_humidityValue;
     }
 }
