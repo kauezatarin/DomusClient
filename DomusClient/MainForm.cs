@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlTypes;
 using System.Drawing;
 using System.Linq;
 using System.Net.Sockets;
@@ -20,7 +21,10 @@ namespace DomusClient
         private LoginForm loginForm;
         private ManageUsersForm manageUsersForm;
         private ConfigForm configForm;
+        private Thread worker;
         public User user;
+        private Forecast forecast;
+
 
         public MainForm()
         {
@@ -71,6 +75,11 @@ namespace DomusClient
             {
                 this.Close();
             }
+            else
+            {
+                worker = new Thread(GetWeather);
+                worker.Start();
+            }
 
         }
 
@@ -86,6 +95,135 @@ namespace DomusClient
 
             }
 
+        }
+
+        private void GetWeather()
+        {
+            startSpinner();
+
+            setSpinnerValue(1);
+
+            try
+            {
+                ServerHandler.ServerWrite(ServerHandler.stream, "getWeather");
+
+                forecast = (Forecast) ServerHandler.ServerReadSerilized(ServerHandler.stream, 60000);
+
+                Invoke(new Action(() =>
+                    {
+                        lb_forecastLocation.Text = forecast.Location_Name + "," + forecast.Location_Country;
+                        lb_forecastMaxValue.Text = forecast.Weather.MaxTemperature.ToString();
+                        lb_forecastMinValue.Text = forecast.Weather.MinTemperature.ToString();
+                        lb_humidityValue.Text = forecast.Weather.Humidity + " %";
+
+                        pb_forecast.Load("http://openweathermap.org/img/w/" + forecast.Weather.IconValue + ".png");
+
+                    }));
+
+                setSpinnerValue(4);
+            }
+            catch(Exception exception)
+            {
+                Invoke(new Action(() => { pb_warning.Visible = true; }));
+
+                MetroMessageBox.Show(this,
+                    "Não foi possivel resgatar a previsão do tempo.\r\n" + exception.Message,
+                    "Domus Client - Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning,
+                    150);
+            }
+
+            resetSpinner();
+        }
+
+        private void startSpinner()
+        {
+            if (pb_spinner.InvokeRequired)
+            {
+                Invoke(new Action(() =>
+                {
+                    pb_spinner.Value = 0;
+                    pb_spinner.Visible = true;
+                    pb_spinner.Enabled = true;
+
+                    bt_cistern.Enabled = false;
+                    bt_devices.Enabled = false;
+                    bt_energy.Enabled = false;
+                    bt_irrigation.Enabled = false;
+                    bt_plugs.Enabled = false;
+                    bt_settings.Enabled = false;
+                    bt_users.Enabled = false;
+                    bt_wather.Enabled = false;
+                }));
+            }
+            else
+            {
+                pb_spinner.Value = 0;
+                pb_spinner.Visible = true;
+                pb_spinner.Enabled = true;
+
+                bt_cistern.Enabled = false;
+                bt_devices.Enabled = false;
+                bt_energy.Enabled = false;
+                bt_irrigation.Enabled = false;
+                bt_plugs.Enabled = false;
+                bt_settings.Enabled = false;
+                bt_users.Enabled = false;
+                bt_wather.Enabled = false;
+            }
+        }
+
+        private void resetSpinner()
+        {
+            if (pb_spinner.InvokeRequired)
+            {
+                Invoke(new Action(() =>
+                {
+                    pb_spinner.Value = 0;
+                    pb_spinner.Visible = false;
+                    pb_spinner.Enabled = false;
+
+                    bt_cistern.Enabled = true;
+                    bt_devices.Enabled = true;
+                    bt_energy.Enabled = true;
+                    bt_irrigation.Enabled = true;
+                    bt_plugs.Enabled = true;
+                    bt_settings.Enabled = true;
+                    bt_users.Enabled = true;
+                    bt_wather.Enabled = true;
+                }));
+            }
+            else
+            {
+                pb_spinner.Value = 0;
+                pb_spinner.Visible = false;
+                pb_spinner.Enabled = false;
+
+                bt_cistern.Enabled = true;
+                bt_devices.Enabled = true;
+                bt_energy.Enabled = true;
+                bt_irrigation.Enabled = true;
+                bt_plugs.Enabled = true;
+                bt_settings.Enabled = true;
+                bt_users.Enabled = true;
+                bt_wather.Enabled = true;
+            }
+        }
+
+        private void setSpinnerValue(int value)
+        {
+            if (pb_spinner.InvokeRequired)
+            {
+                Invoke(new Action(() =>
+                {
+                    pb_spinner.Value = value;
+                }));
+            }
+            else
+            {
+                pb_spinner.Value = value;
+            }
         }
 
         private void bt_devices_Click(object sender, EventArgs e)

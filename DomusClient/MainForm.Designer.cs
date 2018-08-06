@@ -47,7 +47,10 @@
             this.lb_forecastMaxValue = new MetroFramework.Controls.MetroLabel();
             this.lb_humidity = new MetroFramework.Controls.MetroLabel();
             this.lb_humidityValue = new MetroFramework.Controls.MetroLabel();
+            this.pb_spinner = new MetroFramework.Controls.MetroProgressSpinner();
+            this.pb_warning = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pb_forecast)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_warning)).BeginInit();
             this.SuspendLayout();
             // 
             // bt_devices
@@ -303,6 +306,27 @@
             this.lb_humidityValue.TabIndex = 17;
             this.lb_humidityValue.Text = "100%";
             // 
+            // pb_spinner
+            // 
+            this.pb_spinner.Location = new System.Drawing.Point(458, 75);
+            this.pb_spinner.Maximum = 4;
+            this.pb_spinner.Name = "pb_spinner";
+            this.pb_spinner.Size = new System.Drawing.Size(24, 24);
+            this.pb_spinner.TabIndex = 18;
+            this.pb_spinner.UseSelectable = true;
+            this.pb_spinner.Visible = false;
+            // 
+            // pb_warning
+            // 
+            this.pb_warning.Image = global::DomusClient.Properties.Resources.warning;
+            this.pb_warning.Location = new System.Drawing.Point(458, 70);
+            this.pb_warning.Name = "pb_warning";
+            this.pb_warning.Size = new System.Drawing.Size(32, 32);
+            this.pb_warning.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pb_warning.TabIndex = 19;
+            this.pb_warning.TabStop = false;
+            this.pb_warning.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -311,6 +335,8 @@
             this.BackImagePadding = new System.Windows.Forms.Padding(120, 10, 0, 0);
             this.BackMaxSize = 55;
             this.ClientSize = new System.Drawing.Size(570, 308);
+            this.Controls.Add(this.pb_warning);
+            this.Controls.Add(this.pb_spinner);
             this.Controls.Add(this.lb_humidityValue);
             this.Controls.Add(this.lb_humidity);
             this.Controls.Add(this.lb_forecastMax);
@@ -336,6 +362,7 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
             this.Load += new System.EventHandler(this.Main_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pb_forecast)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_warning)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -361,5 +388,7 @@
         private MetroFramework.Controls.MetroLabel lb_forecastMaxValue;
         private MetroFramework.Controls.MetroLabel lb_humidity;
         private MetroFramework.Controls.MetroLabel lb_humidityValue;
+        private MetroFramework.Controls.MetroProgressSpinner pb_spinner;
+        private System.Windows.Forms.PictureBox pb_warning;
     }
 }
