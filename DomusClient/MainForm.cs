@@ -114,8 +114,8 @@ namespace DomusClient
                 Invoke(new Action(() =>
                     {
                         lb_forecastLocation.Text = weather.LocationCity + "," + weather.LocationCountry;
-                        lb_forecastMaxValue.Text = weather.MaxTemperature.ToString();
-                        lb_forecastMinValue.Text = weather.MinTemperature.ToString();
+                        lb_forecastMaxValue.Text = weather.MaxTemperature.ToString() + " °C";
+                        lb_forecastMinValue.Text = weather.MinTemperature.ToString() + " °C";
                         lb_humidityValue.Text = weather.Humidity + " %";
                         lb_ImageDescription.Text = weather.IconDescription;
 

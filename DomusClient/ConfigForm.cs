@@ -175,6 +175,8 @@ namespace DomusClient
                     Properties.Settings.Default.serverIp = tb_serverIp.Text;
                     Properties.Settings.Default.serverPort = Convert.ToInt32(tb_serverPort.Text);
 
+                    Properties.Settings.Default.Save();
+
                     MetroMessageBox.Show(this, "Configurações salvas.",
                         "Sucesso",
                         MessageBoxButtons.OK,
