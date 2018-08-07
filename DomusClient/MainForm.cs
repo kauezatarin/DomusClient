@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlTypes;
 using System.Drawing;
 using System.Linq;
 using System.Net.Sockets;
@@ -12,6 +13,7 @@ using System.Windows.Forms;
 using MetroFramework.Forms;
 using DomusSharedClasses;
 using MetroFramework;
+using MetroFramework.Components;
 
 namespace DomusClient
 {
@@ -20,7 +22,10 @@ namespace DomusClient
         private LoginForm loginForm;
         private ManageUsersForm manageUsersForm;
         private ConfigForm configForm;
+        private Thread worker;
         public User user;
+        private WeatherData weather;
+
 
         public MainForm()
         {
@@ -71,6 +76,12 @@ namespace DomusClient
             {
                 this.Close();
             }
+            else
+            {
+                worker = new Thread(GetWeatherThread);
+                worker.IsBackground = true;
+                worker.Start();
+            }
 
         }
 
@@ -86,6 +97,149 @@ namespace DomusClient
 
             }
 
+        }
+
+        private void GetWeatherThread()
+        {
+            startSpinner();
+
+            setSpinnerValue(1);
+
+            try
+            {
+                ServerHandler.ServerWrite(ServerHandler.stream, "getWeather");
+
+                weather = (WeatherData) ServerHandler.ServerReadSerilized(ServerHandler.stream, 60000);
+
+                Invoke(new Action(() =>
+                    {
+                        lb_forecastLocation.Text = weather.LocationCity + "," + weather.LocationCountry;
+                        lb_forecastMaxValue.Text = weather.MaxTemperature.ToString() + " °C";
+                        lb_forecastMinValue.Text = weather.MinTemperature.ToString() + " °C";
+                        lb_humidityValue.Text = weather.Humidity + " %";
+                        lb_ImageDescription.Text = weather.IconDescription;
+
+                        pb_forecast.Load("http://openweathermap.org/img/w/" + weather.IconValue + ".png");
+
+                    }));
+
+                setSpinnerValue(4);
+            }
+            catch(Exception exception)
+            {
+                Invoke(new Action(() =>
+                {
+                    pb_warning.Visible = true;
+
+                    MetroToolTip toolTip = new MetroToolTip();
+
+                    toolTip.AutoPopDelay = 5000;
+                    toolTip.InitialDelay = 1000;
+                    toolTip.ReshowDelay = 500;
+
+                    toolTip.ShowAlways = true;
+
+                    toolTip.SetToolTip(pb_warning, "Falha ao obter condições meteorológicas.\r\nClique para tentar novamente.");
+                }));
+
+                /*MetroMessageBox.Show(this,
+                    "Não foi possivel resgatar a previsão do tempo.\r\n" + exception.Message,
+                    "Domus Client - Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning,
+                    150);*/
+            }
+
+            resetSpinner();
+        }
+
+        private void startSpinner()
+        {
+            if (pb_spinner.InvokeRequired)
+            {
+                Invoke(new Action(() =>
+                {
+                    pb_spinner.Value = 0;
+                    pb_spinner.Visible = true;
+                    pb_spinner.Enabled = true;
+
+                    bt_cistern.Enabled = false;
+                    bt_devices.Enabled = false;
+                    bt_energy.Enabled = false;
+                    bt_irrigation.Enabled = false;
+                    bt_plugs.Enabled = false;
+                    bt_settings.Enabled = false;
+                    bt_users.Enabled = false;
+                    bt_wather.Enabled = false;
+                }));
+            }
+            else
+            {
+                pb_spinner.Value = 0;
+                pb_spinner.Visible = true;
+                pb_spinner.Enabled = true;
+
+                bt_cistern.Enabled = false;
+                bt_devices.Enabled = false;
+                bt_energy.Enabled = false;
+                bt_irrigation.Enabled = false;
+                bt_plugs.Enabled = false;
+                bt_settings.Enabled = false;
+                bt_users.Enabled = false;
+                bt_wather.Enabled = false;
+            }
+        }
+
+        private void resetSpinner()
+        {
+            if (pb_spinner.InvokeRequired)
+            {
+                Invoke(new Action(() =>
+                {
+                    pb_spinner.Value = 0;
+                    pb_spinner.Visible = false;
+                    pb_spinner.Enabled = false;
+
+                    bt_cistern.Enabled = true;
+                    bt_devices.Enabled = true;
+                    bt_energy.Enabled = true;
+                    bt_irrigation.Enabled = true;
+                    bt_plugs.Enabled = true;
+                    bt_settings.Enabled = true;
+                    bt_users.Enabled = true;
+                    bt_wather.Enabled = true;
+                }));
+            }
+            else
+            {
+                pb_spinner.Value = 0;
+                pb_spinner.Visible = false;
+                pb_spinner.Enabled = false;
+
+                bt_cistern.Enabled = true;
+                bt_devices.Enabled = true;
+                bt_energy.Enabled = true;
+                bt_irrigation.Enabled = true;
+                bt_plugs.Enabled = true;
+                bt_settings.Enabled = true;
+                bt_users.Enabled = true;
+                bt_wather.Enabled = true;
+            }
+        }
+
+        private void setSpinnerValue(int value)
+        {
+            if (pb_spinner.InvokeRequired)
+            {
+                Invoke(new Action(() =>
+                {
+                    pb_spinner.Value = value;
+                }));
+            }
+            else
+            {
+                pb_spinner.Value = value;
+            }
         }
 
         private void bt_devices_Click(object sender, EventArgs e)
@@ -135,6 +289,23 @@ namespace DomusClient
             {
                 configForm.Focus();//caso a janela ja esteja aberta, foca na mesma
             }
+        }
+
+        private void llb_about_Click(object sender, EventArgs e)
+        {
+            MetroMessageBox.Show(this, "Desenvolvido por Kauê S. Zatarin\r\nTCC - Ciências da Computação\r\nEscola de Engenharia de Piracicaba - EEP", 
+                "Domus Client", 
+                MessageBoxButtons.OK, 
+                MessageBoxIcon.Information,
+                180);
+        }
+
+        private void pb_warning_Click(object sender, EventArgs e)
+        {
+            pb_warning.Visible = false;
+            worker = new Thread(GetWeatherThread);
+            worker.IsBackground = true;
+            worker.Start();
         }
     }
 }

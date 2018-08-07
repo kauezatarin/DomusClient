@@ -38,6 +38,22 @@
             this.bt_users = new MetroFramework.Controls.MetroTile();
             this.bt_settings = new MetroFramework.Controls.MetroTile();
             this.bt_exit = new MetroFramework.Controls.MetroTile();
+            this.llb_about = new MetroFramework.Controls.MetroLink();
+            this.pb_forecast = new System.Windows.Forms.PictureBox();
+            this.lb_forecastLocation = new MetroFramework.Controls.MetroLabel();
+            this.lb_forecastMinValue = new MetroFramework.Controls.MetroLabel();
+            this.lb_forecastMin = new MetroFramework.Controls.MetroLabel();
+            this.lb_forecastMax = new MetroFramework.Controls.MetroLabel();
+            this.lb_forecastMaxValue = new MetroFramework.Controls.MetroLabel();
+            this.lb_humidity = new MetroFramework.Controls.MetroLabel();
+            this.lb_humidityValue = new MetroFramework.Controls.MetroLabel();
+            this.pb_spinner = new MetroFramework.Controls.MetroProgressSpinner();
+            this.pb_warning = new System.Windows.Forms.PictureBox();
+            this.lb_ImageDescription = new MetroFramework.Controls.MetroLabel();
+            this.pl_weather = new MetroFramework.Controls.MetroPanel();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_forecast)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_warning)).BeginInit();
+            this.pl_weather.SuspendLayout();
             this.SuspendLayout();
             // 
             // bt_devices
@@ -204,6 +220,154 @@
             this.bt_exit.UseTileImage = true;
             this.bt_exit.Click += new System.EventHandler(this.bt_exit_Click);
             // 
+            // llb_about
+            // 
+            this.llb_about.FontWeight = MetroFramework.MetroLinkWeight.Light;
+            this.llb_about.Location = new System.Drawing.Point(421, 264);
+            this.llb_about.Name = "llb_about";
+            this.llb_about.Size = new System.Drawing.Size(126, 23);
+            this.llb_about.TabIndex = 9;
+            this.llb_about.TabStop = false;
+            this.llb_about.Text = "Sobre - Domus Client";
+            this.llb_about.UseSelectable = true;
+            this.llb_about.Click += new System.EventHandler(this.llb_about_Click);
+            // 
+            // pb_forecast
+            // 
+            this.pb_forecast.Image = global::DomusClient.Properties.Resources.forecastSample;
+            this.pb_forecast.Location = new System.Drawing.Point(31, 3);
+            this.pb_forecast.Name = "pb_forecast";
+            this.pb_forecast.Size = new System.Drawing.Size(48, 48);
+            this.pb_forecast.TabIndex = 10;
+            this.pb_forecast.TabStop = false;
+            // 
+            // lb_forecastLocation
+            // 
+            this.lb_forecastLocation.AutoSize = true;
+            this.lb_forecastLocation.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lb_forecastLocation.Location = new System.Drawing.Point(86, 4);
+            this.lb_forecastLocation.Name = "lb_forecastLocation";
+            this.lb_forecastLocation.Size = new System.Drawing.Size(76, 15);
+            this.lb_forecastLocation.TabIndex = 11;
+            this.lb_forecastLocation.Text = "Piracicaba, SP";
+            // 
+            // lb_forecastMinValue
+            // 
+            this.lb_forecastMinValue.AutoSize = true;
+            this.lb_forecastMinValue.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lb_forecastMinValue.Location = new System.Drawing.Point(153, 42);
+            this.lb_forecastMinValue.Name = "lb_forecastMinValue";
+            this.lb_forecastMinValue.Size = new System.Drawing.Size(34, 15);
+            this.lb_forecastMinValue.TabIndex = 12;
+            this.lb_forecastMinValue.Text = "-22ºc";
+            // 
+            // lb_forecastMin
+            // 
+            this.lb_forecastMin.AutoSize = true;
+            this.lb_forecastMin.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lb_forecastMin.Location = new System.Drawing.Point(126, 42);
+            this.lb_forecastMin.Name = "lb_forecastMin";
+            this.lb_forecastMin.Size = new System.Drawing.Size(31, 15);
+            this.lb_forecastMin.TabIndex = 13;
+            this.lb_forecastMin.Text = "Min.:";
+            // 
+            // lb_forecastMax
+            // 
+            this.lb_forecastMax.AutoSize = true;
+            this.lb_forecastMax.Location = new System.Drawing.Point(89, 23);
+            this.lb_forecastMax.Name = "lb_forecastMax";
+            this.lb_forecastMax.Size = new System.Drawing.Size(40, 19);
+            this.lb_forecastMax.TabIndex = 15;
+            this.lb_forecastMax.Text = "Max.:";
+            // 
+            // lb_forecastMaxValue
+            // 
+            this.lb_forecastMaxValue.AutoSize = true;
+            this.lb_forecastMaxValue.Location = new System.Drawing.Point(126, 23);
+            this.lb_forecastMaxValue.Name = "lb_forecastMaxValue";
+            this.lb_forecastMaxValue.Size = new System.Drawing.Size(41, 19);
+            this.lb_forecastMaxValue.TabIndex = 14;
+            this.lb_forecastMaxValue.Text = "-22ºc";
+            // 
+            // lb_humidity
+            // 
+            this.lb_humidity.AutoSize = true;
+            this.lb_humidity.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lb_humidity.Location = new System.Drawing.Point(107, 60);
+            this.lb_humidity.Name = "lb_humidity";
+            this.lb_humidity.Size = new System.Drawing.Size(46, 15);
+            this.lb_humidity.TabIndex = 16;
+            this.lb_humidity.Text = "Humid.:";
+            // 
+            // lb_humidityValue
+            // 
+            this.lb_humidityValue.AutoSize = true;
+            this.lb_humidityValue.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lb_humidityValue.Location = new System.Drawing.Point(155, 60);
+            this.lb_humidityValue.Name = "lb_humidityValue";
+            this.lb_humidityValue.Size = new System.Drawing.Size(35, 15);
+            this.lb_humidityValue.TabIndex = 17;
+            this.lb_humidityValue.Text = "100 %";
+            // 
+            // pb_spinner
+            // 
+            this.pb_spinner.Location = new System.Drawing.Point(96, 22);
+            this.pb_spinner.Maximum = 4;
+            this.pb_spinner.Name = "pb_spinner";
+            this.pb_spinner.Size = new System.Drawing.Size(24, 24);
+            this.pb_spinner.TabIndex = 18;
+            this.pb_spinner.UseSelectable = true;
+            this.pb_spinner.Visible = false;
+            // 
+            // pb_warning
+            // 
+            this.pb_warning.BackColor = System.Drawing.Color.Transparent;
+            this.pb_warning.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pb_warning.Image = global::DomusClient.Properties.Resources.warning;
+            this.pb_warning.Location = new System.Drawing.Point(89, 14);
+            this.pb_warning.Name = "pb_warning";
+            this.pb_warning.Size = new System.Drawing.Size(32, 32);
+            this.pb_warning.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pb_warning.TabIndex = 19;
+            this.pb_warning.TabStop = false;
+            this.pb_warning.Visible = false;
+            this.pb_warning.Click += new System.EventHandler(this.pb_warning_Click);
+            // 
+            // lb_ImageDescription
+            // 
+            this.lb_ImageDescription.AutoSize = true;
+            this.lb_ImageDescription.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lb_ImageDescription.Location = new System.Drawing.Point(12, 54);
+            this.lb_ImageDescription.Name = "lb_ImageDescription";
+            this.lb_ImageDescription.Size = new System.Drawing.Size(85, 15);
+            this.lb_ImageDescription.TabIndex = 20;
+            this.lb_ImageDescription.Text = "Parcial Nublado";
+            this.lb_ImageDescription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pl_weather
+            // 
+            this.pl_weather.Controls.Add(this.lb_ImageDescription);
+            this.pl_weather.Controls.Add(this.pb_warning);
+            this.pl_weather.Controls.Add(this.pb_spinner);
+            this.pl_weather.Controls.Add(this.pb_forecast);
+            this.pl_weather.Controls.Add(this.lb_forecastLocation);
+            this.pl_weather.Controls.Add(this.lb_humidityValue);
+            this.pl_weather.Controls.Add(this.lb_forecastMinValue);
+            this.pl_weather.Controls.Add(this.lb_humidity);
+            this.pl_weather.Controls.Add(this.lb_forecastMin);
+            this.pl_weather.Controls.Add(this.lb_forecastMax);
+            this.pl_weather.Controls.Add(this.lb_forecastMaxValue);
+            this.pl_weather.HorizontalScrollbarBarColor = true;
+            this.pl_weather.HorizontalScrollbarHighlightOnWheel = false;
+            this.pl_weather.HorizontalScrollbarSize = 10;
+            this.pl_weather.Location = new System.Drawing.Point(358, 63);
+            this.pl_weather.Name = "pl_weather";
+            this.pl_weather.Size = new System.Drawing.Size(200, 83);
+            this.pl_weather.TabIndex = 21;
+            this.pl_weather.VerticalScrollbarBarColor = true;
+            this.pl_weather.VerticalScrollbarHighlightOnWheel = false;
+            this.pl_weather.VerticalScrollbarSize = 10;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -212,6 +376,8 @@
             this.BackImagePadding = new System.Windows.Forms.Padding(120, 10, 0, 0);
             this.BackMaxSize = 55;
             this.ClientSize = new System.Drawing.Size(570, 308);
+            this.Controls.Add(this.pl_weather);
+            this.Controls.Add(this.llb_about);
             this.Controls.Add(this.bt_exit);
             this.Controls.Add(this.bt_settings);
             this.Controls.Add(this.bt_users);
@@ -227,6 +393,10 @@
             this.Text = "Domus";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
             this.Load += new System.EventHandler(this.Main_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pb_forecast)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_warning)).EndInit();
+            this.pl_weather.ResumeLayout(false);
+            this.pl_weather.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -242,5 +412,18 @@
         private MetroFramework.Controls.MetroTile bt_users;
         private MetroFramework.Controls.MetroTile bt_settings;
         private MetroFramework.Controls.MetroTile bt_exit;
+        private MetroFramework.Controls.MetroLink llb_about;
+        private System.Windows.Forms.PictureBox pb_forecast;
+        private MetroFramework.Controls.MetroLabel lb_forecastLocation;
+        private MetroFramework.Controls.MetroLabel lb_forecastMinValue;
+        private MetroFramework.Controls.MetroLabel lb_forecastMin;
+        private MetroFramework.Controls.MetroLabel lb_forecastMax;
+        private MetroFramework.Controls.MetroLabel lb_forecastMaxValue;
+        private MetroFramework.Controls.MetroLabel lb_humidity;
+        private MetroFramework.Controls.MetroLabel lb_humidityValue;
+        private MetroFramework.Controls.MetroProgressSpinner pb_spinner;
+        private System.Windows.Forms.PictureBox pb_warning;
+        private MetroFramework.Controls.MetroLabel lb_ImageDescription;
+        private MetroFramework.Controls.MetroPanel pl_weather;
     }
 }
