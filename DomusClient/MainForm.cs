@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using MetroFramework.Forms;
 using DomusSharedClasses;
 using MetroFramework;
+using MetroFramework.Components;
 
 namespace DomusClient
 {
@@ -23,7 +24,7 @@ namespace DomusClient
         private ConfigForm configForm;
         private Thread worker;
         public User user;
-        private Forecast forecast;
+        private WeatherData weather;
 
 
         public MainForm()
@@ -77,7 +78,8 @@ namespace DomusClient
             }
             else
             {
-                worker = new Thread(GetWeather);
+                worker = new Thread(GetWeatherThread);
+                worker.IsBackground = true;
                 worker.Start();
             }
 
@@ -97,7 +99,7 @@ namespace DomusClient
 
         }
 
-        private void GetWeather()
+        private void GetWeatherThread()
         {
             startSpinner();
 
@@ -107,16 +109,17 @@ namespace DomusClient
             {
                 ServerHandler.ServerWrite(ServerHandler.stream, "getWeather");
 
-                forecast = (Forecast) ServerHandler.ServerReadSerilized(ServerHandler.stream, 60000);
+                weather = (WeatherData) ServerHandler.ServerReadSerilized(ServerHandler.stream, 60000);
 
                 Invoke(new Action(() =>
                     {
-                        lb_forecastLocation.Text = forecast.Location_Name + "," + forecast.Location_Country;
-                        lb_forecastMaxValue.Text = forecast.Weather.MaxTemperature.ToString();
-                        lb_forecastMinValue.Text = forecast.Weather.MinTemperature.ToString();
-                        lb_humidityValue.Text = forecast.Weather.Humidity + " %";
+                        lb_forecastLocation.Text = weather.LocationCity + "," + weather.LocationCountry;
+                        lb_forecastMaxValue.Text = weather.MaxTemperature.ToString();
+                        lb_forecastMinValue.Text = weather.MinTemperature.ToString();
+                        lb_humidityValue.Text = weather.Humidity + " %";
+                        lb_ImageDescription.Text = weather.IconDescription;
 
-                        pb_forecast.Load("http://openweathermap.org/img/w/" + forecast.Weather.IconValue + ".png");
+                        pb_forecast.Load("http://openweathermap.org/img/w/" + weather.IconValue + ".png");
 
                     }));
 
@@ -124,14 +127,27 @@ namespace DomusClient
             }
             catch(Exception exception)
             {
-                Invoke(new Action(() => { pb_warning.Visible = true; }));
+                Invoke(new Action(() =>
+                {
+                    pb_warning.Visible = true;
 
-                MetroMessageBox.Show(this,
+                    MetroToolTip toolTip = new MetroToolTip();
+
+                    toolTip.AutoPopDelay = 5000;
+                    toolTip.InitialDelay = 1000;
+                    toolTip.ReshowDelay = 500;
+
+                    toolTip.ShowAlways = true;
+
+                    toolTip.SetToolTip(pb_warning, "Falha ao obter condições meteorológicas.\r\nClique para tentar novamente.");
+                }));
+
+                /*MetroMessageBox.Show(this,
                     "Não foi possivel resgatar a previsão do tempo.\r\n" + exception.Message,
                     "Domus Client - Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning,
-                    150);
+                    150);*/
             }
 
             resetSpinner();
@@ -282,6 +298,14 @@ namespace DomusClient
                 MessageBoxButtons.OK, 
                 MessageBoxIcon.Information,
                 180);
+        }
+
+        private void pb_warning_Click(object sender, EventArgs e)
+        {
+            pb_warning.Visible = false;
+            worker = new Thread(GetWeatherThread);
+            worker.IsBackground = true;
+            worker.Start();
         }
     }
 }
