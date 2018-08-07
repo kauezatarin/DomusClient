@@ -51,6 +51,8 @@
             this.pb_warning = new System.Windows.Forms.PictureBox();
             this.lb_ImageDescription = new MetroFramework.Controls.MetroLabel();
             this.pl_weather = new MetroFramework.Controls.MetroPanel();
+            this.lb_temperatureValue = new MetroFramework.Controls.MetroLabel();
+            this.lb_temperature = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pb_forecast)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_warning)).BeginInit();
             this.pl_weather.SuspendLayout();
@@ -235,7 +237,7 @@
             // pb_forecast
             // 
             this.pb_forecast.Image = global::DomusClient.Properties.Resources.forecastSample;
-            this.pb_forecast.Location = new System.Drawing.Point(31, 3);
+            this.pb_forecast.Location = new System.Drawing.Point(29, 6);
             this.pb_forecast.Name = "pb_forecast";
             this.pb_forecast.Size = new System.Drawing.Size(48, 48);
             this.pb_forecast.TabIndex = 10;
@@ -255,7 +257,7 @@
             // 
             this.lb_forecastMinValue.AutoSize = true;
             this.lb_forecastMinValue.FontSize = MetroFramework.MetroLabelSize.Small;
-            this.lb_forecastMinValue.Location = new System.Drawing.Point(153, 42);
+            this.lb_forecastMinValue.Location = new System.Drawing.Point(153, 59);
             this.lb_forecastMinValue.Name = "lb_forecastMinValue";
             this.lb_forecastMinValue.Size = new System.Drawing.Size(34, 15);
             this.lb_forecastMinValue.TabIndex = 12;
@@ -265,7 +267,7 @@
             // 
             this.lb_forecastMin.AutoSize = true;
             this.lb_forecastMin.FontSize = MetroFramework.MetroLabelSize.Small;
-            this.lb_forecastMin.Location = new System.Drawing.Point(126, 42);
+            this.lb_forecastMin.Location = new System.Drawing.Point(126, 59);
             this.lb_forecastMin.Name = "lb_forecastMin";
             this.lb_forecastMin.Size = new System.Drawing.Size(31, 15);
             this.lb_forecastMin.TabIndex = 13;
@@ -274,7 +276,7 @@
             // lb_forecastMax
             // 
             this.lb_forecastMax.AutoSize = true;
-            this.lb_forecastMax.Location = new System.Drawing.Point(89, 23);
+            this.lb_forecastMax.Location = new System.Drawing.Point(89, 40);
             this.lb_forecastMax.Name = "lb_forecastMax";
             this.lb_forecastMax.Size = new System.Drawing.Size(40, 19);
             this.lb_forecastMax.TabIndex = 15;
@@ -283,7 +285,7 @@
             // lb_forecastMaxValue
             // 
             this.lb_forecastMaxValue.AutoSize = true;
-            this.lb_forecastMaxValue.Location = new System.Drawing.Point(126, 23);
+            this.lb_forecastMaxValue.Location = new System.Drawing.Point(126, 40);
             this.lb_forecastMaxValue.Name = "lb_forecastMaxValue";
             this.lb_forecastMaxValue.Size = new System.Drawing.Size(41, 19);
             this.lb_forecastMaxValue.TabIndex = 14;
@@ -293,7 +295,7 @@
             // 
             this.lb_humidity.AutoSize = true;
             this.lb_humidity.FontSize = MetroFramework.MetroLabelSize.Small;
-            this.lb_humidity.Location = new System.Drawing.Point(107, 60);
+            this.lb_humidity.Location = new System.Drawing.Point(107, 77);
             this.lb_humidity.Name = "lb_humidity";
             this.lb_humidity.Size = new System.Drawing.Size(46, 15);
             this.lb_humidity.TabIndex = 16;
@@ -303,7 +305,7 @@
             // 
             this.lb_humidityValue.AutoSize = true;
             this.lb_humidityValue.FontSize = MetroFramework.MetroLabelSize.Small;
-            this.lb_humidityValue.Location = new System.Drawing.Point(155, 60);
+            this.lb_humidityValue.Location = new System.Drawing.Point(155, 77);
             this.lb_humidityValue.Name = "lb_humidityValue";
             this.lb_humidityValue.Size = new System.Drawing.Size(35, 15);
             this.lb_humidityValue.TabIndex = 17;
@@ -311,7 +313,7 @@
             // 
             // pb_spinner
             // 
-            this.pb_spinner.Location = new System.Drawing.Point(96, 22);
+            this.pb_spinner.Location = new System.Drawing.Point(89, 32);
             this.pb_spinner.Maximum = 4;
             this.pb_spinner.Name = "pb_spinner";
             this.pb_spinner.Size = new System.Drawing.Size(24, 24);
@@ -324,7 +326,7 @@
             this.pb_warning.BackColor = System.Drawing.Color.Transparent;
             this.pb_warning.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.pb_warning.Image = global::DomusClient.Properties.Resources.warning;
-            this.pb_warning.Location = new System.Drawing.Point(89, 14);
+            this.pb_warning.Location = new System.Drawing.Point(83, 27);
             this.pb_warning.Name = "pb_warning";
             this.pb_warning.Size = new System.Drawing.Size(32, 32);
             this.pb_warning.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -335,20 +337,24 @@
             // 
             // lb_ImageDescription
             // 
-            this.lb_ImageDescription.AutoSize = true;
+            this.lb_ImageDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lb_ImageDescription.FontSize = MetroFramework.MetroLabelSize.Small;
-            this.lb_ImageDescription.Location = new System.Drawing.Point(12, 54);
+            this.lb_ImageDescription.Location = new System.Drawing.Point(11, 59);
             this.lb_ImageDescription.Name = "lb_ImageDescription";
-            this.lb_ImageDescription.Size = new System.Drawing.Size(85, 15);
+            this.lb_ImageDescription.Size = new System.Drawing.Size(85, 12);
             this.lb_ImageDescription.TabIndex = 20;
             this.lb_ImageDescription.Text = "Parcial Nublado";
             this.lb_ImageDescription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pl_weather
             // 
-            this.pl_weather.Controls.Add(this.lb_ImageDescription);
             this.pl_weather.Controls.Add(this.pb_warning);
             this.pl_weather.Controls.Add(this.pb_spinner);
+            this.pl_weather.Controls.Add(this.lb_temperature);
+            this.pl_weather.Controls.Add(this.lb_temperatureValue);
+            this.pl_weather.Controls.Add(this.lb_ImageDescription);
             this.pl_weather.Controls.Add(this.pb_forecast);
             this.pl_weather.Controls.Add(this.lb_forecastLocation);
             this.pl_weather.Controls.Add(this.lb_humidityValue);
@@ -362,11 +368,31 @@
             this.pl_weather.HorizontalScrollbarSize = 10;
             this.pl_weather.Location = new System.Drawing.Point(358, 63);
             this.pl_weather.Name = "pl_weather";
-            this.pl_weather.Size = new System.Drawing.Size(200, 83);
+            this.pl_weather.Size = new System.Drawing.Size(200, 98);
             this.pl_weather.TabIndex = 21;
             this.pl_weather.VerticalScrollbarBarColor = true;
             this.pl_weather.VerticalScrollbarHighlightOnWheel = false;
             this.pl_weather.VerticalScrollbarSize = 10;
+            // 
+            // lb_temperatureValue
+            // 
+            this.lb_temperatureValue.AutoSize = true;
+            this.lb_temperatureValue.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lb_temperatureValue.Location = new System.Drawing.Point(128, 23);
+            this.lb_temperatureValue.Name = "lb_temperatureValue";
+            this.lb_temperatureValue.Size = new System.Drawing.Size(34, 15);
+            this.lb_temperatureValue.TabIndex = 21;
+            this.lb_temperatureValue.Text = "-22ºc";
+            // 
+            // lb_temperature
+            // 
+            this.lb_temperature.AutoSize = true;
+            this.lb_temperature.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lb_temperature.Location = new System.Drawing.Point(89, 23);
+            this.lb_temperature.Name = "lb_temperature";
+            this.lb_temperature.Size = new System.Drawing.Size(40, 15);
+            this.lb_temperature.TabIndex = 22;
+            this.lb_temperature.Text = "Temp.:";
             // 
             // MainForm
             // 
@@ -425,5 +451,7 @@
         private System.Windows.Forms.PictureBox pb_warning;
         private MetroFramework.Controls.MetroLabel lb_ImageDescription;
         private MetroFramework.Controls.MetroPanel pl_weather;
+        private MetroFramework.Controls.MetroLabel lb_temperature;
+        private MetroFramework.Controls.MetroLabel lb_temperatureValue;
     }
 }
