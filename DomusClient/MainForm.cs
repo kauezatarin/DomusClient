@@ -201,13 +201,19 @@ namespace DomusClient
                     pb_spinner.Visible = false;
                     pb_spinner.Enabled = false;
 
-                    bt_cistern.Enabled = true;
-                    bt_devices.Enabled = true;
+
+                    if (user.isAdmin)
+                    {
+                        bt_users.Enabled = true;
+                        bt_cistern.Enabled = true;
+                        bt_devices.Enabled = true;
+                        bt_irrigation.Enabled = true;
+
+                    }
+
                     bt_energy.Enabled = true;
-                    bt_irrigation.Enabled = true;
                     bt_plugs.Enabled = true;
                     bt_settings.Enabled = true;
-                    bt_users.Enabled = true;
                     bt_wather.Enabled = true;
                 }));
             }
@@ -217,13 +223,17 @@ namespace DomusClient
                 pb_spinner.Visible = false;
                 pb_spinner.Enabled = false;
 
-                bt_cistern.Enabled = true;
-                bt_devices.Enabled = true;
+                if (user.isAdmin)
+                {
+                    bt_users.Enabled = true;
+                    bt_cistern.Enabled = true;
+                    bt_devices.Enabled = true;
+                    bt_irrigation.Enabled = true;
+                }
+
                 bt_energy.Enabled = true;
-                bt_irrigation.Enabled = true;
                 bt_plugs.Enabled = true;
                 bt_settings.Enabled = true;
-                bt_users.Enabled = true;
                 bt_wather.Enabled = true;
             }
         }

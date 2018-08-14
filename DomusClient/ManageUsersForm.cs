@@ -197,25 +197,36 @@ namespace DomusClient
 
         private void bt_edit_Click(object sender, EventArgs e)
         {
-            if (Application.OpenForms.OfType<EditUserForm>().Count() == 0)//verifica se ja existe uma aba aberta
+            try
             {
-                editUserForm = new EditUserForm(dtg_users.CurrentRow.DataBoundItem as User);//cria o form
-                int x = this.Left + (this.Width / 2) - (editUserForm.Width / 2);
-                int y = this.Top + (this.Height / 2) - (editUserForm.Height / 2);
+                if (Application.OpenForms.OfType<EditUserForm>().Count() == 0) //verifica se ja existe uma aba aberta
+                {
+                    editUserForm = new EditUserForm(dtg_users.CurrentRow.DataBoundItem as User); //cria o form
+                    int x = this.Left + (this.Width / 2) - (editUserForm.Width / 2);
+                    int y = this.Top + (this.Height / 2) - (editUserForm.Height / 2);
 
-                editUserForm.Location = new Point(x, y);//seta a posição do formulario filho
+                    editUserForm.Location = new Point(x, y); //seta a posição do formulario filho
 
-                editUserForm.Show();//mostra o formulario
+                    editUserForm.Show(); //mostra o formulario
+                }
+                else
+                {
+                    MetroMessageBox.Show(this, "Só é possivel realizar uma operação por vez.",
+                        "Domus Client - Informação",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information,
+                        150);
+
+                    editUserForm.Focus(); //caso a janela ja esteja aberta, foca na mesma
+                }
             }
-            else
+            catch (Exception exception)
             {
-                MetroMessageBox.Show(this, "Só é possivel realizar uma operação por vez.",
-                    "Domus Client - Informação",
+                MetroMessageBox.Show(this, "Erro ao editar.\r\n" + exception.Message,
+                    "Domus Client - Erro",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,
+                    MessageBoxIcon.Error,
                     150);
-
-                editUserForm.Focus();//caso a janela ja esteja aberta, foca na mesma
             }
         }
 
