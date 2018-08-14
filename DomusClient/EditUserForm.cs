@@ -100,6 +100,10 @@ namespace DomusClient
                     {
                         MetroMessageBox.Show(this, "Não foi possivel atualizar o usuário.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
                     }
+                    else if (response == "noPermission")
+                    {
+                        MetroMessageBox.Show(this, "Você não tem permissão.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                    }
                     else
                     {
                         MetroMessageBox.Show(this, "Erro inesperado.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
@@ -138,6 +142,14 @@ namespace DomusClient
                     else if (response == "FailToAdd")
                     {
                         MetroMessageBox.Show(this, "Não foi possivel cadastrar o usuário.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                    }
+                    else if (response == "noPermission")
+                    {
+                        MetroMessageBox.Show(this, "Você não tem permissão.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                    }
+                    else if (response == "UserAlreadyExists")
+                    {
+                        MetroMessageBox.Show(this, "Este nome de usuário já está sendo utilizado.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Warning, 150);
                     }
                     else
                     {
