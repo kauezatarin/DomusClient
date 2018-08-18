@@ -21,6 +21,7 @@ namespace DomusClient
     {
         private LoginForm loginForm;
         private ManageUsersForm manageUsersForm;
+        private ManageDevicesForm manageDevicesForm;
         private ConfigForm configForm;
         private Thread worker;
         public User user;
@@ -126,7 +127,7 @@ namespace DomusClient
 
                 setSpinnerValue(4);
             }
-            catch(Exception exception)
+            catch
             {
                 Invoke(new Action(() =>
                 {
@@ -255,10 +256,20 @@ namespace DomusClient
 
         private void bt_devices_Click(object sender, EventArgs e)
         {
-            MetroMessageBox.Show(this, "Função ainda não implementada.",
-                "Domus Client - Em breve",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            if (Application.OpenForms.OfType<ManageDevicesForm>().Count() == 0)//verifica se ja existe uma aba aberta
+            {
+                manageDevicesForm = new ManageDevicesForm();//cria o form
+                int x = this.Left + (this.Width / 2) - (manageDevicesForm.Width / 2);
+                int y = this.Top + (this.Height / 2) - (manageDevicesForm.Height / 2);
+
+                manageDevicesForm.Location = new Point(x, y);//seta a posição do formulario filho
+
+                manageDevicesForm.Show();//mostra o formulario
+            }
+            else
+            {
+                manageDevicesForm.Focus();//caso a janela ja esteja aberta, foca na mesma
+            }
         }
 
         private void bt_exit_Click(object sender, EventArgs e)
