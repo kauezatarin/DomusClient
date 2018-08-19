@@ -48,7 +48,7 @@ namespace DomusClient
 
             try
             {
-                ServerHandler.ServerWrite(ServerHandler.stream, "listUsers");
+                ServerHandler.ServerWrite(ServerHandler.stream, "ListUsers");
 
                 users = (List<User>)ServerHandler.ServerReadSerilized(ServerHandler.stream, 30000);
 

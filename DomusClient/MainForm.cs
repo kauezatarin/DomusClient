@@ -108,7 +108,7 @@ namespace DomusClient
 
             try
             {
-                ServerHandler.ServerWrite(ServerHandler.stream, "getWeather");
+                ServerHandler.ServerWrite(ServerHandler.stream, "GetWeather");
 
                 weather = (WeatherData) ServerHandler.ServerReadSerilized(ServerHandler.stream, 60000);
 

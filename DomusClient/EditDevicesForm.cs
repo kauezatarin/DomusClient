@@ -42,7 +42,18 @@ namespace DomusClient
 
         private void PopulateForm()
         {
+            tb_Uid.Text = device.deviceId;
+            tb_devicename.Text = device.deviceName == "NULL" ? "" : device.deviceName;
 
+            tb_data1Name.Text = device.data1_name == "NULL" ? "" : device.data1_name;
+            tb_data2Name.Text = device.data2_name == "NULL" ? "" : device.data2_name;
+            tb_data3Name.Text = device.data3_name == "NULL" ? "" : device.data3_name;
+            tb_data4Name.Text = device.data4_name == "NULL" ? "" : device.data4_name;
+
+            tg_data1Active.Checked = device.data1_active;
+            tg_data2Active.Checked = device.data2_active;
+            tg_data3Active.Checked = device.data3_active;
+            tg_data4Active.Checked = device.data4_active;
         }
 
         private void startSpinner()
@@ -113,21 +124,21 @@ namespace DomusClient
                 //caso esteja no modo de edição
                 if (device != null)
                 {
-                    if (!ValidateForm())
-                    {
-                        MetroMessageBox.Show(this, "Preencha todos os campos.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning, 150);
-                        resetSpinner();
-
-                        return;
-                    }
-
                     setSpinnerValue(2);
 
-                    device = new Device();
+                    device = new Device(tb_devicename.Text,1,device.createdAt,device.lastActivity,device.deviceId,
+                        tg_data1Active.Checked, 
+                        tg_data2Active.Checked, 
+                        tg_data3Active.Checked, 
+                        tg_data4Active.Checked,
+                        tb_data1Name.Text,
+                        tb_data2Name.Text,
+                        tb_data3Name.Text,
+                        tb_data4Name.Text);
 
                     ServerHandler.ServerWrite(ServerHandler.stream, "UpdateDevice", 10000);
 
-                    if (ServerHandler.ServerRead(ServerHandler.stream, 10000) == "sendDevice")
+                    if (ServerHandler.ServerRead(ServerHandler.stream, 10000) == "SendDevice")
                         ServerHandler.ServerWriteSerialized(ServerHandler.stream, device, 10000);
                     else
                     {
@@ -156,17 +167,17 @@ namespace DomusClient
                 //caso esteja no modo de cadastro
                 else
                 {
-                    if (!ValidateForm())
-                    {
-                        MetroMessageBox.Show(this, "Preencha todos os campos.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning, 150);
-                        resetSpinner();
-
-                        return;
-                    }
-
                     setSpinnerValue(2);
 
-                    device = new Device();
+                    device = new Device(tb_devicename.Text, 1, DateTime.Now.ToString(), DateTime.Now.ToString(), tb_Uid.Text,
+                        tg_data1Active.Checked,
+                        tg_data2Active.Checked,
+                        tg_data3Active.Checked,
+                        tg_data4Active.Checked,
+                        tb_data1Name.Text,
+                        tb_data2Name.Text,
+                        tb_data3Name.Text,
+                        tb_data4Name.Text);
 
                     ServerHandler.ServerWrite(ServerHandler.stream, "AddDevice", 10000);
 
@@ -174,6 +185,7 @@ namespace DomusClient
                         ServerHandler.ServerWriteSerialized(ServerHandler.stream, device, 10000);
                     else
                     {
+                        device = null;
                         throw new Exception("Resposta inesperada.");
                     }
 
@@ -203,11 +215,11 @@ namespace DomusClient
 
                 resetSpinner();
 
-                Application.OpenForms.OfType<ManageUsersForm>().First().PopulateGrid();
+                Application.OpenForms.OfType<ManageDevicesForm>().First().PopulateGrid();
 
                 Invoke(new Action(() =>
                 {
-                    Application.OpenForms.OfType<EditUserForm>().First().Close();
+                    Application.OpenForms.OfType<EditDevicesForm>().First().Close();
                 }));
             }
             catch (Exception e)
@@ -216,11 +228,6 @@ namespace DomusClient
 
                 MetroMessageBox.Show(this, "Erro ao aplicar alterações. \r\n" + e.Message, "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
             }
-        }
-
-        private bool ValidateForm()
-        {
-            
         }
 
         private void bt_cancel_Click(object sender, EventArgs e)

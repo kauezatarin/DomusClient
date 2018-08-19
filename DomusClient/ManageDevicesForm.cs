@@ -48,15 +48,13 @@ namespace DomusClient
 
             try
             {
-                ServerHandler.ServerWrite(ServerHandler.stream, "listDevices");
+                ServerHandler.ServerWrite(ServerHandler.stream, "ListDevices");
 
                 devices = (List<Device>)ServerHandler.ServerReadSerilized(ServerHandler.stream, 30000);
 
                 Invoke(new Action(() =>
                 {
                     dtg_devices.DataSource = devices;
-
-                    dtg_devices.Columns[9].Visible = false;//oculta a coluna de senha
 
                     //modifica o nome das colunas
                     dtg_devices.Columns[0].HeaderText = "UID";
