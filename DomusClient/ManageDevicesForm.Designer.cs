@@ -37,6 +37,7 @@
             this.bt_delet = new MetroFramework.Controls.MetroButton();
             this.bt_edit = new MetroFramework.Controls.MetroButton();
             this.bt_newDevice = new MetroFramework.Controls.MetroButton();
+            this.bt_configDevice = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_devices)).BeginInit();
             this.SuspendLayout();
             // 
@@ -110,7 +111,7 @@
             // 
             this.bt_delet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.bt_delet.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(132)))), ((int)(((byte)(12)))));
-            this.bt_delet.Location = new System.Drawing.Point(600, 63);
+            this.bt_delet.Location = new System.Drawing.Point(505, 63);
             this.bt_delet.Name = "bt_delet";
             this.bt_delet.Size = new System.Drawing.Size(85, 35);
             this.bt_delet.Style = MetroFramework.MetroColorStyle.White;
@@ -148,11 +149,27 @@
             this.bt_newDevice.UseStyleColors = true;
             this.bt_newDevice.Click += new System.EventHandler(this.bt_newDevice_Click);
             // 
+            // bt_configDevice
+            // 
+            this.bt_configDevice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.bt_configDevice.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(232)))), ((int)(((byte)(39)))));
+            this.bt_configDevice.Location = new System.Drawing.Point(600, 63);
+            this.bt_configDevice.Name = "bt_configDevice";
+            this.bt_configDevice.Size = new System.Drawing.Size(85, 35);
+            this.bt_configDevice.Style = MetroFramework.MetroColorStyle.White;
+            this.bt_configDevice.TabIndex = 8;
+            this.bt_configDevice.Text = "Configurar";
+            this.bt_configDevice.UseCustomBackColor = true;
+            this.bt_configDevice.UseSelectable = true;
+            this.bt_configDevice.UseStyleColors = true;
+            this.bt_configDevice.Click += new System.EventHandler(this.bt_configDevice_Click);
+            // 
             // ManageDevicesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(898, 511);
+            this.Controls.Add(this.bt_configDevice);
             this.Controls.Add(this.bt_delet);
             this.Controls.Add(this.bt_edit);
             this.Controls.Add(this.bt_newDevice);
@@ -177,5 +194,6 @@
         private MetroFramework.Controls.MetroButton bt_delet;
         private MetroFramework.Controls.MetroButton bt_edit;
         private MetroFramework.Controls.MetroButton bt_newDevice;
+        private MetroFramework.Controls.MetroButton bt_configDevice;
     }
 }

@@ -18,6 +18,7 @@ namespace DomusClient
     {
         private Thread workerThread;
         private EditDevicesForm editDevicesForm;
+        private ConfigureDeviceForm configureDeviceForm;
 
         public ManageDevicesForm()
         {
@@ -144,6 +145,7 @@ namespace DomusClient
                     bt_newDevice.Enabled = false;
                     bt_edit.Enabled = false;
                     bt_delet.Enabled = false;
+                    bt_configDevice.Enabled = false;
                 }));
             }
             else
@@ -154,6 +156,7 @@ namespace DomusClient
                 bt_newDevice.Enabled = false;
                 bt_edit.Enabled = false;
                 bt_delet.Enabled = false;
+                bt_configDevice.Enabled = false;
             }
         }
 
@@ -169,6 +172,7 @@ namespace DomusClient
                     bt_newDevice.Enabled = true;
                     bt_edit.Enabled = true;
                     bt_delet.Enabled = true;
+                    bt_configDevice.Enabled = true;
                 }));
             }
             else
@@ -179,6 +183,7 @@ namespace DomusClient
                 bt_newDevice.Enabled = true;
                 bt_edit.Enabled = true;
                 bt_delet.Enabled = true;
+                bt_configDevice.Enabled = true;
             }
         }
 
@@ -209,7 +214,7 @@ namespace DomusClient
         {
             try
             {
-                if (Application.OpenForms.OfType<EditDevicesForm>().Count() == 0) //verifica se ja existe uma aba aberta
+                if (Application.OpenForms.OfType<EditDevicesForm>().Any()) //verifica se ja existe uma aba aberta
                 {
                     editDevicesForm = new EditDevicesForm(dtg_devices.CurrentRow.DataBoundItem as Device); //cria o form
                     int x = this.Left + (this.Width / 2) - (editDevicesForm.Width / 2);
@@ -242,7 +247,7 @@ namespace DomusClient
 
         private void bt_newDevice_Click(object sender, EventArgs e)
         {
-            if (Application.OpenForms.OfType<EditDevicesForm>().Count() == 0)//verifica se ja existe uma aba aberta
+            if (Application.OpenForms.OfType<EditDevicesForm>().Any())//verifica se ja existe uma aba aberta
             {
                 editDevicesForm = new EditDevicesForm();//cria o form
                 int x = this.Left + (this.Width / 2) - (editDevicesForm.Width / 2);
@@ -261,6 +266,30 @@ namespace DomusClient
                     150);
 
                 editDevicesForm.Focus();//caso a janela ja esteja aberta, foca na mesma
+            }
+        }
+
+        private void bt_configDevice_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms.OfType<ConfigureDeviceForm>().Any())//verifica se ja existe uma aba aberta
+            {
+                configureDeviceForm = new ConfigureDeviceForm(dtg_devices.CurrentRow.DataBoundItem as Device);//cria o form
+                int x = this.Left + (this.Width / 2) - (configureDeviceForm.Width / 2);
+                int y = this.Top + (this.Height / 2) - (configureDeviceForm.Height / 2);
+
+                configureDeviceForm.Location = new Point(x, y);//seta a posição do formulario filho
+
+                configureDeviceForm.Show();//mostra o formulario
+            }
+            else
+            {
+                MetroMessageBox.Show(this, "Só é possivel realizar uma configuração por vez.",
+                    "Domus Client - Informação",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    150);
+
+                configureDeviceForm.Focus();//caso a janela ja esteja aberta, foca na mesma
             }
         }
     }
