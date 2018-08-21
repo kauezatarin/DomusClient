@@ -29,11 +29,21 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.conectWatch = new System.Windows.Forms.Timer(this.components);
+            this.SuspendLayout();
+            // 
+            // ConfigureDeviceForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Name = "ConfigureDeviceForm";
             this.Text = "ConfigureDevice";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+        private System.Windows.Forms.Timer conectWatch;
     }
 }
