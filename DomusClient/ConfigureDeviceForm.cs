@@ -37,6 +37,13 @@ namespace DomusClient
             tb_uid.ForeColor = Color.Black;
         }
 
+        private bool ValidateMac(string mac)
+        {
+            Regex r = new Regex("^([0-9a-fA-F]{2}(?:[-]?[0-9a-fA-F]{2}){5})$");
+
+            return r.IsMatch(mac);
+        }
+
         private byte[] getMacBytes(string MAC)
         {
             byte[] macBytes = new byte[6];
@@ -52,7 +59,7 @@ namespace DomusClient
             return macBytes;
         }
 
-        public string GenerateMACAddress()
+        private string GenerateMACAddress()
         {
             var sBuilder = new StringBuilder();
             var r = new Random();
@@ -123,9 +130,7 @@ namespace DomusClient
             }
             else if (temp.Length == 17)
             {
-                Regex r = new Regex("^([0-9a-fA-F]{2}(?:[-]?[0-9a-fA-F]{2}){5})$");
-
-                tb_mac.ForeColor = r.IsMatch(temp) ? Color.Black : Color.Red;
+                tb_mac.ForeColor = ValidateMac(tb_mac.Text) ? Color.Black : Color.Red;
             }
             else
             {
