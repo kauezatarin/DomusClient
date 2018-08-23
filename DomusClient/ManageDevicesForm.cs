@@ -214,7 +214,7 @@ namespace DomusClient
         {
             try
             {
-                if (Application.OpenForms.OfType<EditDevicesForm>().Any()) //verifica se ja existe uma aba aberta
+                if (!Application.OpenForms.OfType<EditDevicesForm>().Any()) //verifica se ja existe uma aba aberta
                 {
                     editDevicesForm = new EditDevicesForm(dtg_devices.CurrentRow.DataBoundItem as Device); //cria o form
                     int x = this.Left + (this.Width / 2) - (editDevicesForm.Width / 2);
@@ -247,7 +247,7 @@ namespace DomusClient
 
         private void bt_newDevice_Click(object sender, EventArgs e)
         {
-            if (Application.OpenForms.OfType<EditDevicesForm>().Any())//verifica se ja existe uma aba aberta
+            if (!Application.OpenForms.OfType<EditDevicesForm>().Any())//verifica se ja existe uma aba aberta
             {
                 editDevicesForm = new EditDevicesForm();//cria o form
                 int x = this.Left + (this.Width / 2) - (editDevicesForm.Width / 2);
@@ -271,7 +271,7 @@ namespace DomusClient
 
         private void bt_configDevice_Click(object sender, EventArgs e)
         {
-            if (Application.OpenForms.OfType<ConfigureDeviceForm>().Any())//verifica se ja existe uma aba aberta
+            if (!Application.OpenForms.OfType<ConfigureDeviceForm>().Any())//verifica se ja existe uma aba aberta
             {
                 configureDeviceForm = new ConfigureDeviceForm(dtg_devices.CurrentRow.DataBoundItem as Device);//cria o form
                 int x = this.Left + (this.Width / 2) - (configureDeviceForm.Width / 2);

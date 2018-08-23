@@ -43,6 +43,8 @@
             this.bt_exit = new MetroFramework.Controls.MetroButton();
             this.bt_save = new MetroFramework.Controls.MetroButton();
             this.pb_spinner = new MetroFramework.Controls.MetroProgressSpinner();
+            this.tb_devicesPort = new MetroFramework.Controls.MetroTextBox();
+            this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
             this.SuspendLayout();
             // 
             // lb_serverIp
@@ -140,7 +142,7 @@
             this.tb_passwd.CustomButton.UseSelectable = true;
             this.tb_passwd.CustomButton.Visible = false;
             this.tb_passwd.Lines = new string[0];
-            this.tb_passwd.Location = new System.Drawing.Point(107, 156);
+            this.tb_passwd.Location = new System.Drawing.Point(107, 158);
             this.tb_passwd.MaxLength = 32767;
             this.tb_passwd.Name = "tb_passwd";
             this.tb_passwd.PasswordChar = '●';
@@ -160,7 +162,7 @@
             // metroLabel1
             // 
             this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Location = new System.Drawing.Point(23, 156);
+            this.metroLabel1.Location = new System.Drawing.Point(23, 158);
             this.metroLabel1.Name = "metroLabel1";
             this.metroLabel1.Size = new System.Drawing.Size(79, 19);
             this.metroLabel1.TabIndex = 4;
@@ -181,7 +183,7 @@
             this.tb_newPasswd.CustomButton.UseSelectable = true;
             this.tb_newPasswd.CustomButton.Visible = false;
             this.tb_newPasswd.Lines = new string[0];
-            this.tb_newPasswd.Location = new System.Drawing.Point(107, 203);
+            this.tb_newPasswd.Location = new System.Drawing.Point(107, 205);
             this.tb_newPasswd.MaxLength = 32767;
             this.tb_newPasswd.Name = "tb_newPasswd";
             this.tb_newPasswd.PasswordChar = '●';
@@ -201,7 +203,7 @@
             // metroLabel2
             // 
             this.metroLabel2.AutoSize = true;
-            this.metroLabel2.Location = new System.Drawing.Point(23, 203);
+            this.metroLabel2.Location = new System.Drawing.Point(23, 205);
             this.metroLabel2.Name = "metroLabel2";
             this.metroLabel2.Size = new System.Drawing.Size(80, 19);
             this.metroLabel2.TabIndex = 6;
@@ -222,7 +224,7 @@
             this.tb_confNewPasswd.CustomButton.UseSelectable = true;
             this.tb_confNewPasswd.CustomButton.Visible = false;
             this.tb_confNewPasswd.Lines = new string[0];
-            this.tb_confNewPasswd.Location = new System.Drawing.Point(107, 249);
+            this.tb_confNewPasswd.Location = new System.Drawing.Point(107, 251);
             this.tb_confNewPasswd.MaxLength = 32767;
             this.tb_confNewPasswd.Name = "tb_confNewPasswd";
             this.tb_confNewPasswd.PasswordChar = '●';
@@ -242,7 +244,7 @@
             // metroLabel3
             // 
             this.metroLabel3.AutoSize = true;
-            this.metroLabel3.Location = new System.Drawing.Point(23, 249);
+            this.metroLabel3.Location = new System.Drawing.Point(23, 251);
             this.metroLabel3.Name = "metroLabel3";
             this.metroLabel3.Size = new System.Drawing.Size(79, 19);
             this.metroLabel3.TabIndex = 8;
@@ -251,7 +253,7 @@
             // bt_changePasswd
             // 
             this.bt_changePasswd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            this.bt_changePasswd.Location = new System.Drawing.Point(263, 297);
+            this.bt_changePasswd.Location = new System.Drawing.Point(263, 293);
             this.bt_changePasswd.Name = "bt_changePasswd";
             this.bt_changePasswd.Size = new System.Drawing.Size(90, 23);
             this.bt_changePasswd.Style = MetroFramework.MetroColorStyle.White;
@@ -264,7 +266,7 @@
             // 
             // bt_exit
             // 
-            this.bt_exit.Location = new System.Drawing.Point(178, 297);
+            this.bt_exit.Location = new System.Drawing.Point(178, 293);
             this.bt_exit.Name = "bt_exit";
             this.bt_exit.Size = new System.Drawing.Size(75, 23);
             this.bt_exit.TabIndex = 11;
@@ -296,11 +298,53 @@
             this.pb_spinner.UseSelectable = true;
             this.pb_spinner.Visible = false;
             // 
+            // tb_devicesPort
+            // 
+            // 
+            // 
+            // 
+            this.tb_devicesPort.CustomButton.Image = null;
+            this.tb_devicesPort.CustomButton.Location = new System.Drawing.Point(41, 1);
+            this.tb_devicesPort.CustomButton.Name = "";
+            this.tb_devicesPort.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.tb_devicesPort.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.tb_devicesPort.CustomButton.TabIndex = 1;
+            this.tb_devicesPort.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.tb_devicesPort.CustomButton.UseSelectable = true;
+            this.tb_devicesPort.CustomButton.Visible = false;
+            this.tb_devicesPort.Lines = new string[0];
+            this.tb_devicesPort.Location = new System.Drawing.Point(148, 121);
+            this.tb_devicesPort.MaxLength = 32767;
+            this.tb_devicesPort.Name = "tb_devicesPort";
+            this.tb_devicesPort.PasswordChar = '\0';
+            this.tb_devicesPort.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.tb_devicesPort.SelectedText = "";
+            this.tb_devicesPort.SelectionLength = 0;
+            this.tb_devicesPort.SelectionStart = 0;
+            this.tb_devicesPort.ShortcutsEnabled = true;
+            this.tb_devicesPort.Size = new System.Drawing.Size(63, 23);
+            this.tb_devicesPort.TabIndex = 15;
+            this.tb_devicesPort.UseSelectable = true;
+            this.tb_devicesPort.WaterMark = "9595";
+            this.tb_devicesPort.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.tb_devicesPort.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // metroLabel4
+            // 
+            this.metroLabel4.AutoSize = true;
+            this.metroLabel4.Location = new System.Drawing.Point(20, 121);
+            this.metroLabel4.Name = "metroLabel4";
+            this.metroLabel4.Size = new System.Drawing.Size(122, 19);
+            this.metroLabel4.TabIndex = 14;
+            this.metroLabel4.Text = "Porta (dispositivos):";
+            // 
             // ConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(392, 330);
+            this.ClientSize = new System.Drawing.Size(392, 336);
+            this.Controls.Add(this.tb_devicesPort);
+            this.Controls.Add(this.metroLabel4);
             this.Controls.Add(this.pb_spinner);
             this.Controls.Add(this.bt_save);
             this.Controls.Add(this.bt_exit);
@@ -343,5 +387,7 @@
         private MetroFramework.Controls.MetroButton bt_exit;
         private MetroFramework.Controls.MetroButton bt_save;
         private MetroFramework.Controls.MetroProgressSpinner pb_spinner;
+        private MetroFramework.Controls.MetroTextBox tb_devicesPort;
+        private MetroFramework.Controls.MetroLabel metroLabel4;
     }
 }

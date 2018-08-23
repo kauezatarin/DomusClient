@@ -199,7 +199,7 @@ namespace DomusClient
         {
             try
             {
-                if (Application.OpenForms.OfType<EditUserForm>().Count() == 0) //verifica se ja existe uma aba aberta
+                if (!Application.OpenForms.OfType<EditUserForm>().Any()) //verifica se ja existe uma aba aberta
                 {
                     editUserForm = new EditUserForm(dtg_users.CurrentRow.DataBoundItem as User); //cria o form
                     int x = this.Left + (this.Width / 2) - (editUserForm.Width / 2);
@@ -232,7 +232,7 @@ namespace DomusClient
 
         private void bt_newUser_Click(object sender, EventArgs e)
         {
-            if (Application.OpenForms.OfType<EditUserForm>().Count() == 0)//verifica se ja existe uma aba aberta
+            if (!Application.OpenForms.OfType<EditUserForm>().Any())//verifica se ja existe uma aba aberta
             {
                 editUserForm = new EditUserForm();//cria o form
                 int x = this.Left + (this.Width / 2) - (editUserForm.Width / 2);

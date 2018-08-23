@@ -256,7 +256,7 @@ namespace DomusClient
 
         private void bt_devices_Click(object sender, EventArgs e)
         {
-            if (Application.OpenForms.OfType<ManageDevicesForm>().Count() == 0)//verifica se ja existe uma aba aberta
+            if (!Application.OpenForms.OfType<ManageDevicesForm>().Any())//verifica se ja existe uma aba aberta
             {
                 manageDevicesForm = new ManageDevicesForm();//cria o form
                 int x = this.Left + (this.Width / 2) - (manageDevicesForm.Width / 2);
@@ -279,7 +279,7 @@ namespace DomusClient
 
         private void bt_users_Click(object sender, EventArgs e)
         {
-            if (Application.OpenForms.OfType<ManageUsersForm>().Count() == 0)//verifica se ja existe uma aba aberta
+            if (!Application.OpenForms.OfType<ManageUsersForm>().Any())//verifica se ja existe uma aba aberta
             {
                 manageUsersForm = new ManageUsersForm();//cria o form
                 int x = this.Left + (this.Width / 2) - (manageUsersForm.Width / 2);
@@ -297,7 +297,7 @@ namespace DomusClient
 
         private void bt_settings_Click(object sender, EventArgs e)
         {
-            if (Application.OpenForms.OfType<ConfigForm>().Count() == 0)//verifica se ja existe uma aba aberta
+            if (!Application.OpenForms.OfType<ConfigForm>().Any())//verifica se ja existe uma aba aberta
             {
                 configForm = new ConfigForm();//cria o form
                 int x = this.Left + (this.Width / 2) - (configForm.Width / 2);

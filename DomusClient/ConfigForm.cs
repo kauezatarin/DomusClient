@@ -26,6 +26,7 @@ namespace DomusClient
         {
             tb_serverIp.Text = Properties.Settings.Default.serverIp;
             tb_serverPort.Text = Properties.Settings.Default.serverPort.ToString();
+            tb_devicesPort.Text = Properties.Settings.Default.serverDevicePort.ToString();
         }
 
         private void startSpinner()
@@ -170,10 +171,11 @@ namespace DomusClient
         {
             try
             {
-                if (ValidateIPv4(tb_serverIp.Text) && (Convert.ToInt32(tb_serverPort.Text) <= 65535) && (Convert.ToInt32(tb_serverPort.Text) >= 0))
+                if (ValidateIPv4(tb_serverIp.Text) && (Convert.ToInt32(tb_serverPort.Text) <= 65535) && (Convert.ToInt32(tb_devicesPort.Text) <= 65535) && (Convert.ToInt32(tb_serverPort.Text) >= 0) && (Convert.ToInt32(tb_devicesPort.Text) >= 0))
                 {
                     Properties.Settings.Default.serverIp = tb_serverIp.Text;
                     Properties.Settings.Default.serverPort = Convert.ToInt32(tb_serverPort.Text);
+                    Properties.Settings.Default.serverDevicePort = Convert.ToInt32(tb_devicesPort.Text);
 
                     Properties.Settings.Default.Save();
 
