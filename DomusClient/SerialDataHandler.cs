@@ -15,6 +15,7 @@ namespace DomusClient
         private bool isHandshaking = false;
         private bool ardcuinoConnected = false;
         private Thread waitRx;
+        private string actualCOM = "";
 
         public bool createConnection()//cria a instancia da porta serial
         {
@@ -103,8 +104,7 @@ namespace DomusClient
             string[] coms = getComAvailable();
             int lenght = SerialPort.GetPortNames().Length;
 
-            foreach (string com in getComAvailable()
-            ) //caso a verificação anterior falhe, tenta localizar o arduino novamente
+            foreach (string com in getComAvailable()) //caso a verificação anterior falhe, tenta localizar o arduino novamente
             {
                 if (openConnection(com, baudRate) == true) //se a conexão for estabelecida
                 {
@@ -206,6 +206,11 @@ namespace DomusClient
         private string[] getComAvailable()//retorna uma lista com todas as postas COM
         {
             return SerialPort.GetPortNames();
+        }
+
+        public string actualCOMPtor()//retorna a COM onde o arduino está
+        {
+            return actualCOM;
         }
     }
 }

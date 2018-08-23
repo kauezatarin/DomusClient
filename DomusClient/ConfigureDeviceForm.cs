@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework.Forms;
@@ -17,7 +18,9 @@ namespace DomusClient
     public partial class ConfigureDeviceForm : MetroForm
     {
         private Device device;
-        private SerialDataHandler serialHandler;
+        private SerialDataHandler arduinoCom;
+        private Thread searchArduino;
+        bool lastState = false;//armazena o ultimo estado da conexão (watcher)
 
         public ConfigureDeviceForm(Device device)
         {
@@ -25,7 +28,7 @@ namespace DomusClient
 
             this.device = device;
 
-            serialHandler = new SerialDataHandler();
+            arduinoCom = new SerialDataHandler();
         }
 
         private void ConfigureDeviceForm_Load(object sender, EventArgs e)
@@ -35,6 +38,52 @@ namespace DomusClient
             tb_porta.Text = Properties.Settings.Default.serverDevicePort.ToString();
 
             tb_uid.ForeColor = Color.Black;
+
+            insertLog("Incializando comunicação serial...");
+            arduinoCom.createConnection();//cria a porta serial para comunicação com o arduino
+
+            insertLog("Procurando pelo controlador...");
+            searchArduino = new Thread(threadConection);
+            searchArduino.Start();//inicia a procura pelo arduino em uma thread separada
+
+            insertLog("Watcher Inciado.");
+            conectWatch.Enabled = true;//inicia o watcher da conexão@
+        }
+
+        private void ConfigureDeviceForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            arduinoCom.closeConnection();
+        }
+
+        public void insertLog(string evento)//insere um registro ao LOG
+        {
+            tb_log.AppendText(Environment.NewLine + DateTime.Now + "  " + evento);
+        }
+
+        private void threadConection()
+        {
+            arduinoCom.autoConnection(9600);//inicia a procura e conexão automatica com o arduino
+        }
+
+        private void connectionWatcher(object sender, EventArgs e)//monitora o status da conexão com o arduino
+        {
+            if (arduinoCom.isConnected() && !lastState)//quando o arduino se connectar, reporta
+            {
+                insertLog("LED Controller Conectado! (" + arduinoCom.actualCOMPtor() + ")");
+                lastState = arduinoCom.isConnected();//atualiza o ultimo estado do arduino
+                conectWatch.Interval = 1000;//intervalo do watcher em ms
+            }
+            else if (arduinoCom.isConnected() == false && lastState)//se o arduino se desconectar reporta
+            {
+                insertLog("LED Controller desconectado :(");
+                lastState = arduinoCom.isConnected();//atualiza o ultimo estado do arduino
+                conectWatch.Interval = 5000;//intervalo do watcher em ms
+            }
+            else if (arduinoCom.isConnected() == false && searchArduino.IsAlive == false)//realiza a pesquisa automatica caso o arduino não seja encontrado
+            {
+                searchArduino = new Thread(threadConection);
+                searchArduino.Start();
+            }
         }
 
         private bool ValidateMac(string mac)

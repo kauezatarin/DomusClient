@@ -49,6 +49,11 @@
             this.bt_exit = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
             // 
+            // conectWatch
+            // 
+            this.conectWatch.Interval = 5000;
+            this.conectWatch.Tick += new System.EventHandler(this.connectionWatcher);
+            // 
             // metroLabel1
             // 
             this.metroLabel1.AutoSize = true;
@@ -378,6 +383,7 @@
             this.Name = "ConfigureDeviceForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Configurar Dispositivo";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ConfigureDeviceForm_FormClosed);
             this.Load += new System.EventHandler(this.ConfigureDeviceForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
