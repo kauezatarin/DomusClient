@@ -152,7 +152,7 @@
             // bt_configDevice
             // 
             this.bt_configDevice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bt_configDevice.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(232)))), ((int)(((byte)(39)))));
+            this.bt_configDevice.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(177)))), ((int)(((byte)(89)))));
             this.bt_configDevice.Location = new System.Drawing.Point(600, 63);
             this.bt_configDevice.Name = "bt_configDevice";
             this.bt_configDevice.Size = new System.Drawing.Size(85, 35);
