@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace DomusClient
 {
-    public static class SerialDataHandler
+    public class SerialDataHandler
     {
-        private static SerialPort serialPort = null;//porta serial
-        private static List<string> RxString = new List<string>();//string recebida pela serial
-        private static bool isHandshaking = false;
-        private static bool ardcuinoConnected = false;
-        private static Thread waitRx;
+        private SerialPort serialPort = null;//porta serial
+        private List<string> RxString = new List<string>();//string recebida pela serial
+        private bool isHandshaking = false;
+        private bool ardcuinoConnected = false;
+        private Thread waitRx;
 
-        public static bool createConnection()//cria a instancia da porta serial
+        public bool createConnection()//cria a instancia da porta serial
         {
             try
             {
@@ -31,7 +31,7 @@ namespace DomusClient
             }
         }
 
-        public static bool openConnection(string portName, int baudRate)//inicia a conexão com o arduino
+        public bool openConnection(string portName, int baudRate)//inicia a conexão com o arduino
         {
             if (serialPort != null && serialPort.IsOpen == false)//se a conexão estive fechada
             {
@@ -58,7 +58,7 @@ namespace DomusClient
 
         }
 
-        public static void closeConnection()//encerra a conexão (a instancia continua existindo)
+        public void closeConnection()//encerra a conexão (a instancia continua existindo)
         {
             if (serialPort != null && serialPort.IsOpen == true)  // se porta aberta
             {
@@ -69,7 +69,7 @@ namespace DomusClient
                 ardcuinoConnected = false;
         }
 
-        public static string getConfig()//le as configurações do controlador
+        public string getConfig()//le as configurações do controlador
         {
             string conf = "";
             RxString.Clear();
@@ -98,7 +98,7 @@ namespace DomusClient
             return conf;
         }
 
-        public static bool autoConnection(int baudRate) //procura o arduino e conecta automaticamente com ele
+        public bool autoConnection(int baudRate) //procura o arduino e conecta automaticamente com ele
         {
             string[] coms = getComAvailable();
             int lenght = SerialPort.GetPortNames().Length;
@@ -131,19 +131,19 @@ namespace DomusClient
             return false;
         }
 
-        private static int separatorCount(string data)
+        private int separatorCount(string data)
         {
             string[] array = data.Split(';');
 
             return array.Length;
         }
 
-        private static void DataReceived(object sender, SerialDataReceivedEventArgs e)//serial port
+        private void DataReceived(object sender, SerialDataReceivedEventArgs e)//serial port
         {
             RxString.Add(serialPort.ReadExisting());              //le o dado disponível na serial
         }
 
-        public static void sendCommand(string str)//envia os comandos pela serial
+        public void sendCommand(string str)//envia os comandos pela serial
         {
             if (serialPort != null)//se a porta já estiver criada
             {
@@ -158,7 +158,7 @@ namespace DomusClient
             }
         }
 
-        public static bool isConnected()//informa se o arduino está conectado
+        public bool isConnected()//informa se o arduino está conectado
         {
             if (serialPort.IsOpen == false && ardcuinoConnected == true)//verifica a autenticidade da informação
             {
@@ -173,7 +173,7 @@ namespace DomusClient
 
         }
 
-        private static void isDisconnected()//se o dispositivo for desconectado
+        private void isDisconnected()//se o dispositivo for desconectado
         {
             try
             {
@@ -186,7 +186,7 @@ namespace DomusClient
             }
         }
 
-        private static void isRxEmpty()
+        private void isRxEmpty()
         {
             int i = 0;
 
@@ -203,7 +203,7 @@ namespace DomusClient
             }
         }
 
-        private static string[] getComAvailable()//retorna uma lista com todas as postas COM
+        private string[] getComAvailable()//retorna uma lista com todas as postas COM
         {
             return SerialPort.GetPortNames();
         }

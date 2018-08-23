@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework.Forms;
@@ -16,12 +17,15 @@ namespace DomusClient
     public partial class ConfigureDeviceForm : MetroForm
     {
         private Device device;
+        private SerialDataHandler serialHandler;
 
         public ConfigureDeviceForm(Device device)
         {
             InitializeComponent();
 
             this.device = device;
+
+            serialHandler = new SerialDataHandler();
         }
 
         private void ConfigureDeviceForm_Load(object sender, EventArgs e)
@@ -119,9 +123,9 @@ namespace DomusClient
             }
             else if (temp.Length == 17)
             {
-                //validar MAC AQUI
+                Regex r = new Regex("^([0-9a-fA-F]{2}(?:[-]?[0-9a-fA-F]{2}){5})$");
 
-                tb_mac.ForeColor = Color.Black;
+                tb_mac.ForeColor = r.IsMatch(temp) ? Color.Black : Color.Red;
             }
             else
             {
@@ -137,6 +141,8 @@ namespace DomusClient
         private void bt_newMac_Click(object sender, EventArgs e)
         {
             tb_mac.Text = GenerateMACAddress();
+
+            tb_mac.ForeColor = Color.Black;
         }
     }
 }
