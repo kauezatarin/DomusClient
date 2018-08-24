@@ -108,6 +108,11 @@ namespace DomusClient
             {
                 if (openConnection(com, baudRate) == true) //se a conexão for estabelecida
                 {
+                    serialPort.DtrEnable = true;
+                    serialPort.DtrEnable = false;
+
+                    Thread.Sleep(10000);
+
                     isHandshaking = true;
                     sendCommand("0"); //envia o handshake
 

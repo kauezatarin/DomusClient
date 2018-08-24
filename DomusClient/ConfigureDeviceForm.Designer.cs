@@ -47,6 +47,9 @@
             this.tb_log = new MetroFramework.Controls.MetroTextBox();
             this.bt_apply = new MetroFramework.Controls.MetroButton();
             this.bt_exit = new MetroFramework.Controls.MetroButton();
+            this.cb_coms = new MetroFramework.Controls.MetroComboBox();
+            this.metroButton1 = new MetroFramework.Controls.MetroButton();
+            this.timerCom = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // conectWatch
@@ -357,11 +360,41 @@
             this.bt_exit.UseSelectable = true;
             this.bt_exit.Click += new System.EventHandler(this.bt_exit_Click);
             // 
+            // cb_coms
+            // 
+            this.cb_coms.FormattingEnabled = true;
+            this.cb_coms.ItemHeight = 23;
+            this.cb_coms.Location = new System.Drawing.Point(302, 262);
+            this.cb_coms.Name = "cb_coms";
+            this.cb_coms.Size = new System.Drawing.Size(180, 29);
+            this.cb_coms.TabIndex = 14;
+            this.cb_coms.UseSelectable = true;
+            // 
+            // metroButton1
+            // 
+            this.metroButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.metroButton1.Location = new System.Drawing.Point(302, 233);
+            this.metroButton1.Name = "metroButton1";
+            this.metroButton1.Size = new System.Drawing.Size(75, 23);
+            this.metroButton1.Style = MetroFramework.MetroColorStyle.White;
+            this.metroButton1.TabIndex = 15;
+            this.metroButton1.Text = "Conectar";
+            this.metroButton1.UseCustomBackColor = true;
+            this.metroButton1.UseSelectable = true;
+            this.metroButton1.UseStyleColors = true;
+            // 
+            // timerCom
+            // 
+            this.timerCom.Interval = 1000;
+            this.timerCom.Tick += new System.EventHandler(this.timerCOM_Tick);
+            // 
             // ConfigureDeviceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(505, 392);
+            this.Controls.Add(this.metroButton1);
+            this.Controls.Add(this.cb_coms);
             this.Controls.Add(this.bt_exit);
             this.Controls.Add(this.bt_apply);
             this.Controls.Add(this.tb_log);
@@ -408,5 +441,8 @@
         private MetroFramework.Controls.MetroTextBox tb_log;
         private MetroFramework.Controls.MetroButton bt_apply;
         private MetroFramework.Controls.MetroButton bt_exit;
+        private MetroFramework.Controls.MetroComboBox cb_coms;
+        private MetroFramework.Controls.MetroButton metroButton1;
+        private System.Windows.Forms.Timer timerCom;
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -19,7 +20,6 @@ namespace DomusClient
     {
         private Device device;
         private SerialDataHandler arduinoCom;
-        private Thread searchArduino;
         private bool lastState = false;//armazena o ultimo estado da conexão (watcher)
         private Thread getInfoThread;
 
@@ -40,14 +40,10 @@ namespace DomusClient
 
             tb_uid.ForeColor = Color.Black;
 
+            timerCom.Enabled = true;
+
             insertLog("Incializando comunicação serial...");
             arduinoCom.createConnection();//cria a porta serial para comunicação com o arduino
-
-            insertLog("Procurando pelo controlador...");
-            searchArduino = new Thread(threadConection);
-            searchArduino.Start();//inicia a procura pelo arduino em uma thread separada
-            getInfoThread = new Thread(GetDeviceInfos);
-            getInfoThread.Start();
 
             insertLog("Watcher Inciado.");
             conectWatch.Enabled = true;//inicia o watcher da conexão
@@ -56,6 +52,58 @@ namespace DomusClient
         private void ConfigureDeviceForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             arduinoCom.closeConnection();
+        }
+
+        private void atualizaListaCOMs()//atualiza as portas COM disponiveis
+        {
+            int i;
+            bool quantDiferente; //flag para sinalizar que a quantidade de portas mudou
+
+            i = 0;
+            quantDiferente = false;
+
+            string[] teste = SerialPort.GetPortNames();
+
+            //se a quantidade de portas mudou
+            if (cb_coms.Items.Count == SerialPort.GetPortNames().Length)
+            {
+                foreach (string s in SerialPort.GetPortNames())
+                {
+                    if (cb_coms.Items[i++].Equals(s) == false)
+                    {
+                        quantDiferente = true;
+                    }
+                }
+            }
+            else
+            {
+                quantDiferente = true;
+            }
+
+            //Se não foi detectado diferença
+            if (quantDiferente == false)
+            {
+                return;                     //retorna
+            }
+
+            //limpa comboBox
+            cb_coms.Items.Clear();
+            int counter = 0;
+
+            //adiciona todas as COM diponíveis na lista
+            foreach (string s in SerialPort.GetPortNames())
+            {
+                cb_coms.Items.Add(s);
+                counter++;
+            }
+
+            //seleciona a primeira posição da lista
+            if (counter != 0)//se a lista não estiver vazia
+                cb_coms.SelectedIndex = 0;
+            else//se a lista estiver vazia
+                cb_coms.Items.Add("");
+            cb_coms.SelectedIndex = 0;
+
         }
 
         private void GetDeviceInfos()
@@ -100,11 +148,6 @@ namespace DomusClient
 
         }
 
-        private void threadConection()
-        {
-            arduinoCom.autoConnection(9600);//inicia a procura e conexão automatica com o arduino
-        }
-
         private void connectionWatcher(object sender, EventArgs e)//monitora o status da conexão com o arduino
         {
             if (arduinoCom.isConnected() && !lastState)//quando o arduino se connectar, reporta
@@ -118,11 +161,6 @@ namespace DomusClient
                 insertLog("LED Controller desconectado :(");
                 lastState = arduinoCom.isConnected();//atualiza o ultimo estado do arduino
                 conectWatch.Interval = 5000;//intervalo do watcher em ms
-            }
-            else if (arduinoCom.isConnected() == false && searchArduino.IsAlive == false)//realiza a pesquisa automatica caso o arduino não seja encontrado
-            {
-                searchArduino = new Thread(threadConection);
-                searchArduino.Start();
             }
         }
 
@@ -237,6 +275,11 @@ namespace DomusClient
             tb_mac.Text = GenerateMACAddress();
 
             tb_mac.ForeColor = Color.Black;
+        }
+
+        private void timerCOM_Tick(object sender, EventArgs e)//a cada x milisegundos executa a função
+        {
+            atualizaListaCOMs();
         }
     }
 }
