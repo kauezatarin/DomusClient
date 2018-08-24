@@ -20,7 +20,8 @@ namespace DomusClient
         private Device device;
         private SerialDataHandler arduinoCom;
         private Thread searchArduino;
-        bool lastState = false;//armazena o ultimo estado da conexão (watcher)
+        private bool lastState = false;//armazena o ultimo estado da conexão (watcher)
+        private Thread getInfoThread;
 
         public ConfigureDeviceForm(Device device)
         {
@@ -45,9 +46,11 @@ namespace DomusClient
             insertLog("Procurando pelo controlador...");
             searchArduino = new Thread(threadConection);
             searchArduino.Start();//inicia a procura pelo arduino em uma thread separada
+            getInfoThread = new Thread(GetDeviceInfos);
+            getInfoThread.Start();
 
             insertLog("Watcher Inciado.");
-            conectWatch.Enabled = true;//inicia o watcher da conexão@
+            conectWatch.Enabled = true;//inicia o watcher da conexão
         }
 
         private void ConfigureDeviceForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -55,9 +58,46 @@ namespace DomusClient
             arduinoCom.closeConnection();
         }
 
-        public void insertLog(string evento)//insere um registro ao LOG
+        private void GetDeviceInfos()
         {
-            tb_log.AppendText(Environment.NewLine + DateTime.Now + "  " + evento);
+            while (true)
+            {
+                if (arduinoCom.isConnected())
+                {
+                    insertLog("Lendo informações do dispositivo...");
+                    string[] temp = arduinoCom.getConfig().Split(';');
+
+                    Invoke(new Action(() =>
+                    {
+                        tb_deviceIp.Text = temp[0] + "." + temp[1] + "." + temp[2] + "." + temp[3];
+
+                        byte[] tempBytes = { Convert.ToByte(temp[6]), Convert.ToByte(temp[7]), Convert.ToByte(temp[8]), Convert.ToByte(temp[9]), Convert.ToByte(temp[10]), Convert.ToByte(temp[11]) };
+
+                        tb_mac.Text = BitConverter.ToString(tempBytes);
+                    }));
+
+                    insertLog("Configurações obtidas.");
+
+                    break;
+                }
+                else
+                {
+                    Thread.Sleep(3000);   
+                }
+            }
+        }
+
+        private void insertLog(string evento)//insere um registro ao LOG
+        {
+            if (tb_log.InvokeRequired)
+            {
+                Invoke(new Action(() => { tb_log.AppendText(Environment.NewLine + DateTime.Now + "  " + evento); }));
+            }
+            else
+            {
+                tb_log.AppendText(Environment.NewLine + DateTime.Now + "  " + evento);
+            }
+
         }
 
         private void threadConection()
