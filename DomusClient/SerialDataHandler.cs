@@ -81,9 +81,10 @@ namespace DomusClient
 
             waitRx.Start();
 
-            waitRx.Join();//aguarda o arduino responder
+            waitRx.Join(15000);//aguarda o arduino responder
 
             conf = RxString[0];
+            RxString.RemoveAt(0);
 
             if (separatorCount(conf) < 17)
             {
@@ -91,49 +92,42 @@ namespace DomusClient
 
                 waitRx.Start();
 
-                waitRx.Join();//aguarda o arduino responder
+                waitRx.Join(15000);//aguarda o arduino responder
 
-                conf += RxString[1];
+                foreach (string s in RxString)
+                {
+                    conf += s;
+                }
             }
 
             return conf;
         }
 
-        public bool autoConnection(int baudRate) //procura o arduino e conecta automaticamente com ele
+        public bool handshake()
         {
-            string[] coms = getComAvailable();
-            int lenght = SerialPort.GetPortNames().Length;
-
-            foreach (string com in getComAvailable()) //caso a verificação anterior falhe, tenta localizar o arduino novamente
+            try
             {
-                if (openConnection(com, baudRate) == true) //se a conexão for estabelecida
-                {
-                    serialPort.DtrEnable = true;
-                    serialPort.DtrEnable = false;
+                string response = "";
+                RxString.Clear();
 
-                    Thread.Sleep(10000);
+                sendCommand("0");
 
-                    isHandshaking = true;
-                    sendCommand("0"); //envia o handshake
+                waitRx = new Thread(isRxEmpty);
 
-                    Thread.Sleep(2000); //dá 2 segundos para o arduio responder
+                waitRx.Start();
 
-                    if (RxString.Contains("domus") == true) //verifica se o handshake funcionou
-                    {
-                        isHandshaking = false;
-                        ardcuinoConnected = true;
-                        return true;
-                    }
-                    else
-                    {
-                        closeConnection();
-                    }
+                waitRx.Join(15000);//aguarda o arduino responder
 
-                    isHandshaking = false;
-                }
+                response = RxString[0];
+
+                ardcuinoConnected = response == "domus";
+
+                return ardcuinoConnected;
             }
-
-            return false;
+            catch
+            {
+                return false;
+            }
         }
 
         private int separatorCount(string data)
@@ -193,18 +187,17 @@ namespace DomusClient
 
         private void isRxEmpty()
         {
-            int i = 0;
-
-            while (i < 10)
+            while (true)
             {
                 if (RxString.Count == 0)
                 {
-                    i++;
                     Thread.Sleep(1000);
                 }
                 else
+                {
+                    Thread.Sleep(1000);
                     break;
-
+                }
             }
         }
 

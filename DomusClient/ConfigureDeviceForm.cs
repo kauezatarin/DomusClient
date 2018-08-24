@@ -117,11 +117,13 @@ namespace DomusClient
 
                     Invoke(new Action(() =>
                     {
-                        tb_deviceIp.Text = temp[0] + "." + temp[1] + "." + temp[2] + "." + temp[3];
+                        tb_deviceIp.Text = temp[6] + "." + temp[7] + "." + temp[8] + "." + temp[9];
 
-                        byte[] tempBytes = { Convert.ToByte(temp[6]), Convert.ToByte(temp[7]), Convert.ToByte(temp[8]), Convert.ToByte(temp[9]), Convert.ToByte(temp[10]), Convert.ToByte(temp[11]) };
+                        byte[] tempBytes = { Convert.ToByte(temp[10]), Convert.ToByte(temp[11]), Convert.ToByte(temp[12]), Convert.ToByte(temp[13]), Convert.ToByte(temp[14]), Convert.ToByte(temp[15]) };
 
                         tb_mac.Text = BitConverter.ToString(tempBytes);
+
+                        tg_isDHCP.Checked = temp[5] == "0";
                     }));
 
                     insertLog("Configurações obtidas.");
@@ -152,13 +154,12 @@ namespace DomusClient
         {
             if (arduinoCom.isConnected() && !lastState)//quando o arduino se connectar, reporta
             {
-                insertLog("LED Controller Conectado! (" + arduinoCom.actualCOMPtor() + ")");
                 lastState = arduinoCom.isConnected();//atualiza o ultimo estado do arduino
                 conectWatch.Interval = 1000;//intervalo do watcher em ms
             }
             else if (arduinoCom.isConnected() == false && lastState)//se o arduino se desconectar reporta
             {
-                insertLog("LED Controller desconectado :(");
+                insertLog("Dispositivo desconectado :(");
                 lastState = arduinoCom.isConnected();//atualiza o ultimo estado do arduino
                 conectWatch.Interval = 5000;//intervalo do watcher em ms
             }
@@ -280,6 +281,41 @@ namespace DomusClient
         private void timerCOM_Tick(object sender, EventArgs e)//a cada x milisegundos executa a função
         {
             atualizaListaCOMs();
+        }
+
+        private void bt_connect_Click(object sender, EventArgs e)
+        {
+            bt_connect.Enabled = false;
+            cb_coms.Enabled = false;
+
+            if (!arduinoCom.openConnection(cb_coms.Items[cb_coms.SelectedIndex].ToString(), 9600))
+            {
+                bt_connect.Enabled = true;
+                cb_coms.Enabled = true;
+
+                insertLog("Erro ao se conectar ao dispositivo.");
+            }
+            else
+            {
+                insertLog("Cumprimentando dispositivo...");
+
+                if (arduinoCom.handshake())
+                {
+                    insertLog("Dispositivo Conectado!");
+
+                    getInfoThread = new Thread(GetDeviceInfos);
+                    getInfoThread.Start();
+                }
+                else
+                {
+                    insertLog("Erro ao cumprimentar dispositivo.");
+
+                    arduinoCom.closeConnection();
+
+                    bt_connect.Enabled = true;
+                    cb_coms.Enabled = true;
+                }
+            }
         }
     }
 }

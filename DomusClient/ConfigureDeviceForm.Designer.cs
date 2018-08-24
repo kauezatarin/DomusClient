@@ -48,7 +48,7 @@
             this.bt_apply = new MetroFramework.Controls.MetroButton();
             this.bt_exit = new MetroFramework.Controls.MetroButton();
             this.cb_coms = new MetroFramework.Controls.MetroComboBox();
-            this.metroButton1 = new MetroFramework.Controls.MetroButton();
+            this.bt_connect = new MetroFramework.Controls.MetroButton();
             this.timerCom = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
@@ -370,18 +370,19 @@
             this.cb_coms.TabIndex = 14;
             this.cb_coms.UseSelectable = true;
             // 
-            // metroButton1
+            // bt_connect
             // 
-            this.metroButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            this.metroButton1.Location = new System.Drawing.Point(302, 233);
-            this.metroButton1.Name = "metroButton1";
-            this.metroButton1.Size = new System.Drawing.Size(75, 23);
-            this.metroButton1.Style = MetroFramework.MetroColorStyle.White;
-            this.metroButton1.TabIndex = 15;
-            this.metroButton1.Text = "Conectar";
-            this.metroButton1.UseCustomBackColor = true;
-            this.metroButton1.UseSelectable = true;
-            this.metroButton1.UseStyleColors = true;
+            this.bt_connect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.bt_connect.Location = new System.Drawing.Point(302, 233);
+            this.bt_connect.Name = "bt_connect";
+            this.bt_connect.Size = new System.Drawing.Size(75, 23);
+            this.bt_connect.Style = MetroFramework.MetroColorStyle.White;
+            this.bt_connect.TabIndex = 15;
+            this.bt_connect.Text = "Conectar";
+            this.bt_connect.UseCustomBackColor = true;
+            this.bt_connect.UseSelectable = true;
+            this.bt_connect.UseStyleColors = true;
+            this.bt_connect.Click += new System.EventHandler(this.bt_connect_Click);
             // 
             // timerCom
             // 
@@ -393,7 +394,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(505, 392);
-            this.Controls.Add(this.metroButton1);
+            this.Controls.Add(this.bt_connect);
             this.Controls.Add(this.cb_coms);
             this.Controls.Add(this.bt_exit);
             this.Controls.Add(this.bt_apply);
@@ -442,7 +443,7 @@
         private MetroFramework.Controls.MetroButton bt_apply;
         private MetroFramework.Controls.MetroButton bt_exit;
         private MetroFramework.Controls.MetroComboBox cb_coms;
-        private MetroFramework.Controls.MetroButton metroButton1;
+        private MetroFramework.Controls.MetroButton bt_connect;
         private System.Windows.Forms.Timer timerCom;
     }
 }
