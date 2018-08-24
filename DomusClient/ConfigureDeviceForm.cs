@@ -123,7 +123,9 @@ namespace DomusClient
 
                         tb_mac.Text = BitConverter.ToString(tempBytes);
 
-                        tg_isDHCP.Checked = temp[5] == "0";
+                        tb_mac.ForeColor = Color.Black;
+
+                        tg_isDHCP.Checked = temp[5] == "1";
                     }));
 
                     insertLog("Configurações obtidas.");
