@@ -12,7 +12,6 @@ namespace DomusClient
     {
         private SerialPort serialPort = null;//porta serial
         private List<string> RxString = new List<string>();//string recebida pela serial
-        private bool isHandshaking = false;
         private bool ardcuinoConnected = false;
         private Thread waitRx;
         private string actualCOM = "";

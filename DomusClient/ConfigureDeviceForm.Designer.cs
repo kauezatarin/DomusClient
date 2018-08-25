@@ -340,6 +340,7 @@
             // bt_apply
             // 
             this.bt_apply.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.bt_apply.Enabled = false;
             this.bt_apply.Location = new System.Drawing.Point(407, 346);
             this.bt_apply.Name = "bt_apply";
             this.bt_apply.Size = new System.Drawing.Size(75, 23);

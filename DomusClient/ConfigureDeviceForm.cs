@@ -164,6 +164,14 @@ namespace DomusClient
                 insertLog("Dispositivo desconectado :(");
                 lastState = arduinoCom.isConnected();//atualiza o ultimo estado do arduino
                 conectWatch.Interval = 5000;//intervalo do watcher em ms
+
+                Invoke(new Action(() =>
+                {
+                    bt_apply.Enabled = false;
+                    bt_connect.Enabled = true;
+                    cb_coms.Enabled = true;
+                    timerCom.Enabled = true;
+                }));
             }
         }
 
@@ -307,6 +315,9 @@ namespace DomusClient
 
                     getInfoThread = new Thread(GetDeviceInfos);
                     getInfoThread.Start();
+
+                    bt_apply.Enabled = true;
+                    timerCom.Enabled = false;
                 }
                 else
                 {
