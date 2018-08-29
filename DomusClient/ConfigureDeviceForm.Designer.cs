@@ -55,7 +55,7 @@
             // conectWatch
             // 
             this.conectWatch.Interval = 5000;
-            this.conectWatch.Tick += new System.EventHandler(this.connectionWatcher);
+            this.conectWatch.Tick += new System.EventHandler(this.ConnectionWatcher);
             // 
             // metroLabel1
             // 
@@ -350,6 +350,7 @@
             this.bt_apply.UseCustomBackColor = true;
             this.bt_apply.UseSelectable = true;
             this.bt_apply.UseStyleColors = true;
+            this.bt_apply.Click += new System.EventHandler(this.bt_apply_Click);
             // 
             // bt_exit
             // 

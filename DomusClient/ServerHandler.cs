@@ -8,19 +8,19 @@ namespace DomusClient
 {
     public static class ServerHandler
     {
-        public static string serverIp { get; private set; }
+        public static string ServerIp { get; private set; }
 
-        public static int serverPort { get; private set; }
+        public static int ServerPort { get; private set; }
 
-        public static TcpClient server { get; private set; }
+        public static TcpClient Server { get; private set; }
 
-        public static NetworkStream stream
+        public static NetworkStream Stream
         {
             get
             {
                 try
                 {
-                    return server.GetStream();
+                    return Server.GetStream();
                 }
                 catch(Exception e)
                 {
@@ -43,8 +43,8 @@ namespace DomusClient
         /// </summary>
         private static void SetConnectionProperties()
         {
-            serverIp = Settings.Default.serverIp;
-            serverPort = Settings.Default.serverPort;
+            ServerIp = Settings.Default.serverIp;
+            ServerPort = Settings.Default.serverPort;
         }
 
         /// <summary>
@@ -52,8 +52,8 @@ namespace DomusClient
         /// </summary>
         public static void UpdateConnectionProperties(string ip, int port = 9090)
         {
-            serverIp = ip;
-            serverPort = port;
+            ServerIp = ip;
+            ServerPort = port;
         }
 
         /// <summary>
@@ -61,26 +61,26 @@ namespace DomusClient
         /// </summary>
         public static void Connect()
         {
-            server = new TcpClient();
+            Server = new TcpClient();
             string data = null;
 
             try
             {
-                server.Connect(serverIp, serverPort);
+                Server.Connect(ServerIp, ServerPort);
 
-                ServerWrite(stream, "shakeback");
+                ServerWrite(Stream, "shakeback");
 
-                data = ServerRead(stream, 10000);
+                data = ServerRead(Stream, 10000);
 
                 if (data == "SendInfos")
-                    ServerWrite(stream, "??\u001f?? ??\u0018??'??\u0001??\u0003??\u0003", 1000);
+                    ServerWrite(Stream, "??\u001f?? ??\u0018??'??\u0001??\u0003??\u0003", 1000);
 
-                data = ServerRead(stream, 10000);
+                data = ServerRead(Stream, 10000);
 
                 if (data == "WrongPort")
                 {
-                    server.Close();
-                    server.Dispose();
+                    Server.Close();
+                    Server.Dispose();
 
                     throw new Exception("Porta de conexão incorreta");
                 }
@@ -212,9 +212,9 @@ namespace DomusClient
         {
             try
             {
-                stream.Dispose();
-                server.Close();
-                server.Dispose();
+                Stream.Dispose();
+                Server.Close();
+                Server.Dispose();
             }
             catch (Exception e)
             {

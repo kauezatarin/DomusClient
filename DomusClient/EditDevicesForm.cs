@@ -16,8 +16,8 @@ namespace DomusClient
 {
     public partial class EditDevicesForm : MetroForm
     {
-        private Device device;
-        private Thread workerThread;
+        private Device _device;
+        private Thread _workerThread;
 
         public EditDevicesForm()
         {
@@ -35,28 +35,28 @@ namespace DomusClient
             this.BorderStyle = MetroFormBorderStyle.FixedSingle;
             this.ShadowType = MetroFormShadowType.AeroShadow;
 
-            this.device = device;
+            this._device = device;
 
             PopulateForm();
         }
 
         private void PopulateForm()
         {
-            tb_Uid.Text = device.deviceId;
-            tb_devicename.Text = device.deviceName == "NULL" ? "" : device.deviceName;
+            tb_Uid.Text = _device.DeviceId;
+            tb_devicename.Text = _device.DeviceName == "NULL" ? "" : _device.DeviceName;
 
-            tb_data1Name.Text = device.data1_name == "NULL" ? "" : device.data1_name;
-            tb_data2Name.Text = device.data2_name == "NULL" ? "" : device.data2_name;
-            tb_data3Name.Text = device.data3_name == "NULL" ? "" : device.data3_name;
-            tb_data4Name.Text = device.data4_name == "NULL" ? "" : device.data4_name;
+            tb_data1Name.Text = _device.Data1Name == "NULL" ? "" : _device.Data1Name;
+            tb_data2Name.Text = _device.Data2Name == "NULL" ? "" : _device.Data2Name;
+            tb_data3Name.Text = _device.Data3Name == "NULL" ? "" : _device.Data3Name;
+            tb_data4Name.Text = _device.Data4Name == "NULL" ? "" : _device.Data4Name;
 
-            tg_data1Active.Checked = device.data1_active;
-            tg_data2Active.Checked = device.data2_active;
-            tg_data3Active.Checked = device.data3_active;
-            tg_data4Active.Checked = device.data4_active;
+            tg_data1Active.Checked = _device.Data1Active;
+            tg_data2Active.Checked = _device.Data2Active;
+            tg_data3Active.Checked = _device.Data3Active;
+            tg_data4Active.Checked = _device.Data4Active;
         }
 
-        private void startSpinner()
+        private void StartSpinner()
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -77,7 +77,7 @@ namespace DomusClient
             }
         }
 
-        private void resetSpinner()
+        private void ResetSpinner()
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -98,7 +98,7 @@ namespace DomusClient
             }
         }
 
-        private void setSpinnerValue(int value)
+        private void SetSpinnerValue(int value)
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -117,16 +117,16 @@ namespace DomusClient
         {
             try
             {
-                startSpinner();
+                StartSpinner();
 
-                setSpinnerValue(1);
+                SetSpinnerValue(1);
 
                 //caso esteja no modo de edição
-                if (device != null)
+                if (_device != null)
                 {
-                    setSpinnerValue(2);
+                    SetSpinnerValue(2);
 
-                    device = new Device(tb_devicename.Text,1,device.createdAt,device.lastActivity,device.deviceId,
+                    _device = new Device(tb_devicename.Text,1,_device.CreatedAt,_device.LastActivity,_device.DeviceId,
                         tg_data1Active.Checked, 
                         tg_data2Active.Checked, 
                         tg_data3Active.Checked, 
@@ -136,16 +136,16 @@ namespace DomusClient
                         tb_data3Name.Text,
                         tb_data4Name.Text);
 
-                    ServerHandler.ServerWrite(ServerHandler.stream, "UpdateDevice", 10000);
+                    ServerHandler.ServerWrite(ServerHandler.Stream, "UpdateDevice", 10000);
 
-                    if (ServerHandler.ServerRead(ServerHandler.stream, 10000) == "SendDevice")
-                        ServerHandler.ServerWriteSerialized(ServerHandler.stream, device, 10000);
+                    if (ServerHandler.ServerRead(ServerHandler.Stream, 10000) == "SendDevice")
+                        ServerHandler.ServerWriteSerialized(ServerHandler.Stream, _device, 10000);
                     else
                     {
                         throw new Exception("Resposta inesperada.");
                     }
 
-                    string response = ServerHandler.ServerRead(ServerHandler.stream, 10000);
+                    string response = ServerHandler.ServerRead(ServerHandler.Stream, 10000);
 
                     if (response == "DeviceUpdated")
                     {
@@ -167,9 +167,9 @@ namespace DomusClient
                 //caso esteja no modo de cadastro
                 else
                 {
-                    setSpinnerValue(2);
+                    SetSpinnerValue(2);
 
-                    device = new Device(tb_devicename.Text, 1, DateTime.Now.ToString(), DateTime.Now.ToString(), tb_Uid.Text,
+                    _device = new Device(tb_devicename.Text, 1, DateTime.Now.ToString(), DateTime.Now.ToString(), tb_Uid.Text,
                         tg_data1Active.Checked,
                         tg_data2Active.Checked,
                         tg_data3Active.Checked,
@@ -179,17 +179,17 @@ namespace DomusClient
                         tb_data3Name.Text,
                         tb_data4Name.Text);
 
-                    ServerHandler.ServerWrite(ServerHandler.stream, "AddDevice", 10000);
+                    ServerHandler.ServerWrite(ServerHandler.Stream, "AddDevice", 10000);
 
-                    if (ServerHandler.ServerRead(ServerHandler.stream, 10000) == "sendNewDevice")
-                        ServerHandler.ServerWriteSerialized(ServerHandler.stream, device, 10000);
+                    if (ServerHandler.ServerRead(ServerHandler.Stream, 10000) == "sendNewDevice")
+                        ServerHandler.ServerWriteSerialized(ServerHandler.Stream, _device, 10000);
                     else
                     {
-                        device = null;
+                        _device = null;
                         throw new Exception("Resposta inesperada.");
                     }
 
-                    string response = ServerHandler.ServerRead(ServerHandler.stream, 10000);
+                    string response = ServerHandler.ServerRead(ServerHandler.Stream, 10000);
 
                     if (response == "DeviceAdded")
                     {
@@ -213,7 +213,7 @@ namespace DomusClient
                     }
                 }
 
-                resetSpinner();
+                ResetSpinner();
 
                 Application.OpenForms.OfType<ManageDevicesForm>().First().PopulateGrid();
 
@@ -224,7 +224,7 @@ namespace DomusClient
             }
             catch (Exception e)
             {
-                resetSpinner();
+                ResetSpinner();
 
                 MetroMessageBox.Show(this, "Erro ao aplicar alterações. \r\n" + e.Message, "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
             }
@@ -237,8 +237,8 @@ namespace DomusClient
 
         private void bt_save_Click(object sender, EventArgs e)
         {
-            this.workerThread = new Thread(SaveThread);
-            this.workerThread.Start();
+            this._workerThread = new Thread(SaveThread);
+            this._workerThread.Start();
         }
     }
 }

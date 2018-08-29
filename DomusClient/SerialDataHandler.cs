@@ -10,18 +10,21 @@ namespace DomusClient
 {
     public class SerialDataHandler
     {
-        private SerialPort serialPort = null;//porta serial
-        private List<string> RxString = new List<string>();//string recebida pela serial
-        private bool ardcuinoConnected = false;
-        private Thread waitRx;
-        private string actualCOM = "";
+        private SerialPort _serialPort = null;//porta serial
+        private List<string> _rxString = new List<string>();//string recebida pela serial
+        private bool _ardcuinoConnected = false;
+        private Thread _waitRx;
+        private string _actualCom = "";
 
-        public bool createConnection()//cria a instancia da porta serial
+        public bool CreateConnection()//cria a instancia da porta serial
         {
             try
             {
-                serialPort = new SerialPort();
-                serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceived);
+                _serialPort = new SerialPort();
+                _serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceived);
+                _serialPort.NewLine = "\r\n";
+                _serialPort.DiscardInBuffer();
+                _serialPort.DiscardOutBuffer();
 
                 return true;
             }
@@ -31,16 +34,16 @@ namespace DomusClient
             }
         }
 
-        public bool openConnection(string portName, int baudRate)//inicia a conexão com o arduino
+        public bool OpenConnection(string portName, int baudRate)//inicia a conexão com o arduino
         {
-            if (serialPort != null && serialPort.IsOpen == false)//se a conexão estive fechada
+            if (_serialPort != null && _serialPort.IsOpen == false)//se a conexão estive fechada
             {
                 try
                 {
-                    serialPort.PortName = portName;
-                    serialPort.BaudRate = baudRate;
+                    _serialPort.PortName = portName;
+                    _serialPort.BaudRate = baudRate;
 
-                    serialPort.Open();
+                    _serialPort.Open();
 
                     Thread.Sleep(1000);//da um tempo para o arduino reiniciar caso ocorra
 
@@ -58,42 +61,42 @@ namespace DomusClient
 
         }
 
-        public void closeConnection()//encerra a conexão (a instancia continua existindo)
+        public void CloseConnection()//encerra a conexão (a instancia continua existindo)
         {
-            if (serialPort != null && serialPort.IsOpen == true)  // se porta aberta
+            if (_serialPort != null && _serialPort.IsOpen == true)  // se porta aberta
             {
-                ardcuinoConnected = false;
-                serialPort.Close();         //fecha a porta
+                _ardcuinoConnected = false;
+                _serialPort.Close();         //fecha a porta
             }
-            else if (serialPort != null && serialPort.IsOpen == false)//se a porta estiver fachada, apenas assinala
-                ardcuinoConnected = false;
+            else if (_serialPort != null && _serialPort.IsOpen == false)//se a porta estiver fachada, apenas assinala
+                _ardcuinoConnected = false;
         }
 
-        public string getConfig()//le as configurações do controlador
+        public string GetConfig()//le as configurações do controlador
         {
             string conf = "";
-            RxString.Clear();
+            _rxString.Clear();
 
-            sendCommand("1");//solicita as informações para o arduino
+            SendCommand("1");//solicita as informações para o arduino
 
-            waitRx = new Thread(isRxEmpty);
+            _waitRx = new Thread(IsRxEmpty);
 
-            waitRx.Start();
+            _waitRx.Start();
 
-            waitRx.Join(15000);//aguarda o arduino responder
+            _waitRx.Join(15000);//aguarda o arduino responder
 
-            conf = RxString[0];
-            RxString.RemoveAt(0);
+            conf = _rxString[0];
+            _rxString.RemoveAt(0);
 
-            if (separatorCount(conf) < 17)
+            if (SeparatorCount(conf) < 17)
             {
-                waitRx = new Thread(isRxEmpty);
+                _waitRx = new Thread(IsRxEmpty);
 
-                waitRx.Start();
+                _waitRx.Start();
 
-                waitRx.Join(15000);//aguarda o arduino responder
+                _waitRx.Join(15000);//aguarda o arduino responder
 
-                foreach (string s in RxString)
+                foreach (string s in _rxString)
                 {
                     conf += s;
                 }
@@ -102,26 +105,26 @@ namespace DomusClient
             return conf;
         }
 
-        public bool handshake()
+        public bool Handshake()
         {
             try
             {
                 string response = "";
-                RxString.Clear();
+                _rxString.Clear();
 
-                sendCommand("0");
+                SendCommand("0");
 
-                waitRx = new Thread(isRxEmpty);
+                _waitRx = new Thread(IsRxEmpty);
 
-                waitRx.Start();
+                _waitRx.Start();
 
-                waitRx.Join(15000);//aguarda o arduino responder
+                _waitRx.Join(15000);//aguarda o arduino responder
 
-                response = RxString[0];
+                response = _rxString[0];
 
-                ardcuinoConnected = response == "domus";
+                _ardcuinoConnected = response == "domus";
 
-                return ardcuinoConnected;
+                return _ardcuinoConnected;
             }
             catch
             {
@@ -129,7 +132,32 @@ namespace DomusClient
             }
         }
 
-        private int separatorCount(string data)
+        public bool GetSuccess()
+        {
+            try
+            {
+                string response = "";
+                _rxString.Clear();
+
+                _waitRx = new Thread(IsRxEmpty);
+
+                _waitRx.Start();
+
+                _waitRx.Join(15000);//aguarda o arduino responder
+
+                response = _rxString[0];
+
+                _ardcuinoConnected = response == "ok";
+
+                return _ardcuinoConnected;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private int SeparatorCount(string data)
         {
             string[] array = data.Split(';');
 
@@ -138,45 +166,45 @@ namespace DomusClient
 
         private void DataReceived(object sender, SerialDataReceivedEventArgs e)//serial port
         {
-            RxString.Add(serialPort.ReadExisting());              //le o dado disponível na serial
+            _rxString.Add(_serialPort.ReadLine());//le o dado disponível na serial
         }
 
-        public void sendCommand(string str)//envia os comandos pela serial
+        public void SendCommand(string str)//envia os comandos pela serial
         {
-            if (serialPort != null)//se a porta já estiver criada
+            if (_serialPort != null)//se a porta já estiver criada
             {
-                if (serialPort.IsOpen == true)//porta está aberta
+                if (_serialPort.IsOpen == true)//porta está aberta
                 {
-                    serialPort.Write(str);  //envia o texto presente na variavel str
+                    _serialPort.Write(str);  //envia o texto presente na variavel str
                 }
                 else
                 {
-                    isDisconnected(); //detecta que o dispositivo foi desconectado
+                    IsDisconnected(); //detecta que o dispositivo foi desconectado
                 }
             }
         }
 
-        public bool isConnected()//informa se o arduino está conectado
+        public bool IsConnected()//informa se o arduino está conectado
         {
-            if (serialPort.IsOpen == false && ardcuinoConnected == true)//verifica a autenticidade da informação
+            if (_serialPort.IsOpen == false && _ardcuinoConnected == true)//verifica a autenticidade da informação
             {
-                ardcuinoConnected = false;
+                _ardcuinoConnected = false;
 
-                return ardcuinoConnected;
+                return _ardcuinoConnected;
             }
             else//se as informações baterem
             {
-                return ardcuinoConnected;
+                return _ardcuinoConnected;
             }
 
         }
 
-        private void isDisconnected()//se o dispositivo for desconectado
+        private void IsDisconnected()//se o dispositivo for desconectado
         {
             try
             {
-                serialPort.Close();
-                ardcuinoConnected = false;
+                _serialPort.Close();
+                _ardcuinoConnected = false;
             }
             catch
             {
@@ -184,11 +212,11 @@ namespace DomusClient
             }
         }
 
-        private void isRxEmpty()
+        private void IsRxEmpty()
         {
             while (true)
             {
-                if (RxString.Count == 0)
+                if (_rxString.Count == 0)
                 {
                     Thread.Sleep(1000);
                 }
@@ -200,14 +228,14 @@ namespace DomusClient
             }
         }
 
-        private string[] getComAvailable()//retorna uma lista com todas as postas COM
+        private string[] GetComAvailable()//retorna uma lista com todas as postas COM
         {
             return SerialPort.GetPortNames();
         }
 
-        public string actualCOMPtor()//retorna a COM onde o arduino está
+        public string ActualComPtor()//retorna a COM onde o arduino está
         {
-            return actualCOM;
+            return _actualCom;
         }
     }
 }

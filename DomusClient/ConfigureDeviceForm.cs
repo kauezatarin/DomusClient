@@ -13,28 +13,29 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 using DomusSharedClasses;
+using MetroFramework;
 
 namespace DomusClient
 {
     public partial class ConfigureDeviceForm : MetroForm
     {
-        private Device device;
-        private SerialDataHandler arduinoCom;
-        private bool lastState = false;//armazena o ultimo estado da conexão (watcher)
-        private Thread getInfoThread;
+        private Device _device;
+        private SerialDataHandler _arduinoCom;
+        private bool _lastState = false;//armazena o ultimo estado da conexão (watcher)
+        private Thread _getInfoThread;
 
         public ConfigureDeviceForm(Device device)
         {
             InitializeComponent();
 
-            this.device = device;
+            this._device = device;
 
-            arduinoCom = new SerialDataHandler();
+            _arduinoCom = new SerialDataHandler();
         }
 
         private void ConfigureDeviceForm_Load(object sender, EventArgs e)
         {
-            tb_uid.Text = device.deviceId;
+            tb_uid.Text = _device.DeviceId;
             tb_serverIp.Text = Properties.Settings.Default.serverIp;
             tb_porta.Text = Properties.Settings.Default.serverDevicePort.ToString();
 
@@ -42,19 +43,19 @@ namespace DomusClient
 
             timerCom.Enabled = true;
 
-            insertLog("Incializando comunicação serial...");
-            arduinoCom.createConnection();//cria a porta serial para comunicação com o arduino
+            InsertLog("Incializando comunicação serial...");
+            _arduinoCom.CreateConnection();//cria a porta serial para comunicação com o arduino
 
-            insertLog("Watcher Inciado.");
+            InsertLog("Watcher Inciado.");
             conectWatch.Enabled = true;//inicia o watcher da conexão
         }
 
         private void ConfigureDeviceForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            arduinoCom.closeConnection();
+            _arduinoCom.CloseConnection();
         }
 
-        private void atualizaListaCOMs()//atualiza as portas COM disponiveis
+        private void AtualizaListaCoMs()//atualiza as portas COM disponiveis
         {
             int i;
             bool quantDiferente; //flag para sinalizar que a quantidade de portas mudou
@@ -110,10 +111,19 @@ namespace DomusClient
         {
             while (true)
             {
-                if (arduinoCom.isConnected())
+                if (_arduinoCom.IsConnected())
                 {
-                    insertLog("Lendo informações do dispositivo...");
-                    string[] temp = arduinoCom.getConfig().Split(';');
+                    InsertLog("Lendo informações do dispositivo...");
+                    string[] temp = _arduinoCom.GetConfig().Split(';');
+
+                    if (temp.Count() == 1)
+                    {
+                        InsertLog("Erro ao obter as configurações.");
+
+                        _arduinoCom.CloseConnection();
+
+                        return;
+                    }
 
                     Invoke(new Action(() =>
                     {
@@ -128,7 +138,7 @@ namespace DomusClient
                         tg_isDHCP.Checked = temp[5] == "1";
                     }));
 
-                    insertLog("Configurações obtidas.");
+                    InsertLog("Configurações obtidas.");
 
                     break;
                 }
@@ -139,7 +149,7 @@ namespace DomusClient
             }
         }
 
-        private void insertLog(string evento)//insere um registro ao LOG
+        private void InsertLog(string evento)//insere um registro ao LOG
         {
             if (tb_log.InvokeRequired)
             {
@@ -152,17 +162,17 @@ namespace DomusClient
 
         }
 
-        private void connectionWatcher(object sender, EventArgs e)//monitora o status da conexão com o arduino
+        private void ConnectionWatcher(object sender, EventArgs e)//monitora o status da conexão com o arduino
         {
-            if (arduinoCom.isConnected() && !lastState)//quando o arduino se connectar, reporta
+            if (_arduinoCom.IsConnected() && !_lastState)//quando o arduino se connectar, reporta
             {
-                lastState = arduinoCom.isConnected();//atualiza o ultimo estado do arduino
+                _lastState = _arduinoCom.IsConnected();//atualiza o ultimo estado do arduino
                 conectWatch.Interval = 1000;//intervalo do watcher em ms
             }
-            else if (arduinoCom.isConnected() == false && lastState)//se o arduino se desconectar reporta
+            else if (_arduinoCom.IsConnected() == false && _lastState)//se o arduino se desconectar reporta
             {
-                insertLog("Dispositivo desconectado :(");
-                lastState = arduinoCom.isConnected();//atualiza o ultimo estado do arduino
+                InsertLog("Dispositivo desconectado :(");
+                _lastState = _arduinoCom.IsConnected();//atualiza o ultimo estado do arduino
                 conectWatch.Interval = 5000;//intervalo do watcher em ms
 
                 Invoke(new Action(() =>
@@ -182,10 +192,10 @@ namespace DomusClient
             return r.IsMatch(mac);
         }
 
-        private byte[] getMacBytes(string MAC)
+        private byte[] GetMacBytes(string mac)
         {
             byte[] macBytes = new byte[6];
-            string[] macString = MAC.Split('-');
+            string[] macString = mac.Split('-');
 
             for(int i=0; i<6; i++)
             {
@@ -197,7 +207,7 @@ namespace DomusClient
             return macBytes;
         }
 
-        private string GenerateMACAddress()
+        private string GenerateMacAddress()
         {
             var sBuilder = new StringBuilder();
             var r = new Random();
@@ -209,8 +219,8 @@ namespace DomusClient
                 b = Convert.ToByte(number);
                 if (i == 0)
                 {
-                    b = setBit(b, 6); //--> set locally administered
-                    b = unsetBit(b, 7); // --> set unicast 
+                    b = SetBit(b, 6); //--> set locally administered
+                    b = UnsetBit(b, 7); // --> set unicast 
                 }
                 sBuilder.Append(number.ToString("X2"));
 
@@ -220,29 +230,29 @@ namespace DomusClient
             return sBuilder.ToString().ToUpper();
         }
 
-        private byte setBit(byte b, int BitNumber)
+        private byte SetBit(byte b, int bitNumber)
         {
-            if (BitNumber < 8 && BitNumber > -1)
+            if (bitNumber < 8 && bitNumber > -1)
             {
-                return (byte)(b | (byte)(0x01 << BitNumber));
+                return (byte)(b | (byte)(0x01 << bitNumber));
             }
             else
             {
                 throw new InvalidOperationException(
-                    "The value for BitNumber " + BitNumber + " is not in the permited interval (BitNumber = (min)0 - (max)7)");
+                    "The value for BitNumber " + bitNumber + " is not in the permited interval (BitNumber = (min)0 - (max)7)");
             }
         }
 
-        private byte unsetBit(byte b, int BitNumber)
+        private byte UnsetBit(byte b, int bitNumber)
         {
-            if (BitNumber < 8 && BitNumber > -1)
+            if (bitNumber < 8 && bitNumber > -1)
             {
-                return (byte)(b | (byte)(0x00 << BitNumber));
+                return (byte)(b | (byte)(0x00 << bitNumber));
             }
             else
             {
                 throw new InvalidOperationException(
-                    "The value for BitNumber " + BitNumber + " is not in the permited interval (BitNumber = (min)0 - (max)7)");
+                    "The value for BitNumber " + bitNumber + " is not in the permited interval (BitNumber = (min)0 - (max)7)");
             }
         }
 
@@ -283,14 +293,14 @@ namespace DomusClient
 
         private void bt_newMac_Click(object sender, EventArgs e)
         {
-            tb_mac.Text = GenerateMACAddress();
+            tb_mac.Text = GenerateMacAddress();
 
             tb_mac.ForeColor = Color.Black;
         }
 
         private void timerCOM_Tick(object sender, EventArgs e)//a cada x milisegundos executa a função
         {
-            atualizaListaCOMs();
+            AtualizaListaCoMs();
         }
 
         private void bt_connect_Click(object sender, EventArgs e)
@@ -298,37 +308,69 @@ namespace DomusClient
             bt_connect.Enabled = false;
             cb_coms.Enabled = false;
 
-            if (!arduinoCom.openConnection(cb_coms.Items[cb_coms.SelectedIndex].ToString(), 9600))
+            if (cb_coms.Items.Count == 0)
+            {
+                MetroMessageBox.Show(this,"Selecione um dispositivo primeiro.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning, 150);
+
+                bt_connect.Enabled = true;
+                cb_coms.Enabled = true;
+                return;
+            }
+
+            if (!_arduinoCom.OpenConnection(cb_coms.Items[cb_coms.SelectedIndex].ToString(), 9600))
             {
                 bt_connect.Enabled = true;
                 cb_coms.Enabled = true;
 
-                insertLog("Erro ao se conectar ao dispositivo.");
+                InsertLog("Erro ao se conectar ao dispositivo.");
             }
             else
             {
-                insertLog("Cumprimentando dispositivo...");
+                InsertLog("Cumprimentando dispositivo...");
 
-                if (arduinoCom.handshake())
+                if (_arduinoCom.Handshake())
                 {
-                    insertLog("Dispositivo Conectado!");
+                    InsertLog("Dispositivo Conectado!");
 
-                    getInfoThread = new Thread(GetDeviceInfos);
-                    getInfoThread.Start();
+                    _getInfoThread = new Thread(GetDeviceInfos);
+                    _getInfoThread.Start();
 
                     bt_apply.Enabled = true;
                     timerCom.Enabled = false;
                 }
                 else
                 {
-                    insertLog("Erro ao cumprimentar dispositivo.");
+                    InsertLog("Erro ao cumprimentar dispositivo.");
 
-                    arduinoCom.closeConnection();
+                    _arduinoCom.CloseConnection();
 
                     bt_connect.Enabled = true;
                     cb_coms.Enabled = true;
                 }
             }
+        }
+
+        private void bt_apply_Click(object sender, EventArgs e)
+        {
+            string outData = "";
+            byte[] mac = GetMacBytes(tb_mac.Text);
+
+            outData += 2.ToString();
+            outData += ";" + tb_serverIp.Text.Replace(".",";");
+            outData += ";" + tb_porta.Text;
+            outData += ";" + Convert.ToInt32(tg_isDHCP.Checked);
+            outData += ";" + tb_deviceIp.Text.Replace(".",";");
+            outData += ";" + mac[0] + ";" + mac[1] + ";" + mac[2] + ";" + mac[3] + ";" + mac[4] + ";" + mac[5];
+            outData += ";" + tb_uid.Text;
+
+            _arduinoCom.SendCommand(outData);
+
+            if(_arduinoCom.GetSuccess())
+                MetroMessageBox.Show(this, "Configurações aplicadas.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information, 150);
+            else
+                MetroMessageBox.Show(this, "Não foi possivel obter uma resposta do dispositivo.\r\nAs configurações podem não ter sido aplicadas.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning, 150);
+
+
         }
     }
 }

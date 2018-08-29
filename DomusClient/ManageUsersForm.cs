@@ -16,8 +16,8 @@ namespace DomusClient
 {
     public partial class ManageUsersForm : MetroForm
     {
-        private Thread workerThread;
-        private EditUserForm editUserForm;
+        private Thread _workerThread;
+        private EditUserForm _editUserForm;
 
         public ManageUsersForm()
         {
@@ -34,23 +34,23 @@ namespace DomusClient
 
         public void PopulateGrid()
         {
-            workerThread = new Thread(PopulateGridThread);
-            workerThread.Start();
+            _workerThread = new Thread(PopulateGridThread);
+            _workerThread.Start();
 
-            startSpinner();
+            StartSpinner();
         }
 
         private void PopulateGridThread()
         {
             List<User> users;
 
-            setSpinnerValue(1);
+            SetSpinnerValue(1);
 
             try
             {
-                ServerHandler.ServerWrite(ServerHandler.stream, "ListUsers");
+                ServerHandler.ServerWrite(ServerHandler.Stream, "ListUsers");
 
-                users = (List<User>)ServerHandler.ServerReadSerilized(ServerHandler.stream, 30000);
+                users = (List<User>)ServerHandler.ServerReadSerilized(ServerHandler.Stream, 30000);
 
                 Invoke(new Action(() =>
                 {
@@ -82,28 +82,28 @@ namespace DomusClient
                     150);
             }
 
-            resetSpinner();
+            ResetSpinner();
         }
 
         private void DeleteUserThread()
         {
             try
             {
-                startSpinner();
-                setSpinnerValue(1);
+                StartSpinner();
+                SetSpinnerValue(1);
 
                 User temp = dtg_users.CurrentRow.DataBoundItem as User;
-                DialogResult result = MetroMessageBox.Show(this,"Gostaria de deletar o usuário " + temp.username + "?\r\nNão será possivel reverter a alteração.", "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, 150);
+                DialogResult result = MetroMessageBox.Show(this,"Gostaria de deletar o usuário " + temp.Username + "?\r\nNão será possivel reverter a alteração.", "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, 150);
 
                 if (result == DialogResult.No)
                 {
-                    resetSpinner();
+                    ResetSpinner();
                     return;
                 }
 
-                ServerHandler.ServerWrite(ServerHandler.stream, "DeleteUser;"+temp.userId, 3000);
+                ServerHandler.ServerWrite(ServerHandler.Stream, "DeleteUser;"+temp.UserId, 3000);
 
-                string response = ServerHandler.ServerRead(ServerHandler.stream, 10000);
+                string response = ServerHandler.ServerRead(ServerHandler.Stream, 10000);
 
                 if (response == "UserDeleted")
                     MetroMessageBox.Show(this, "Usuário deletado com sucesso.", "Sucesso", MessageBoxButtons.OK,
@@ -117,20 +117,20 @@ namespace DomusClient
                         MessageBoxIcon.Error, 150);
                 }
 
-                resetSpinner();
+                ResetSpinner();
 
                 PopulateGrid();
             }
             catch (Exception e)
             {
-                resetSpinner();
+                ResetSpinner();
 
                 MetroMessageBox.Show(this, "Erro ao aplicar alterações. \r\n" + e.Message, "Erro", MessageBoxButtons.OK,
                     MessageBoxIcon.Error, 150);
             }
         }
 
-        private void startSpinner()
+        private void StartSpinner()
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -155,7 +155,7 @@ namespace DomusClient
             }
         }
 
-        private void resetSpinner()
+        private void ResetSpinner()
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -180,7 +180,7 @@ namespace DomusClient
             }
         }
 
-        private void setSpinnerValue(int value)
+        private void SetSpinnerValue(int value)
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -201,13 +201,13 @@ namespace DomusClient
             {
                 if (!Application.OpenForms.OfType<EditUserForm>().Any()) //verifica se ja existe uma aba aberta
                 {
-                    editUserForm = new EditUserForm(dtg_users.CurrentRow.DataBoundItem as User); //cria o form
-                    int x = this.Left + (this.Width / 2) - (editUserForm.Width / 2);
-                    int y = this.Top + (this.Height / 2) - (editUserForm.Height / 2);
+                    _editUserForm = new EditUserForm(dtg_users.CurrentRow.DataBoundItem as User); //cria o form
+                    int x = this.Left + (this.Width / 2) - (_editUserForm.Width / 2);
+                    int y = this.Top + (this.Height / 2) - (_editUserForm.Height / 2);
 
-                    editUserForm.Location = new Point(x, y); //seta a posição do formulario filho
+                    _editUserForm.Location = new Point(x, y); //seta a posição do formulario filho
 
-                    editUserForm.Show(); //mostra o formulario
+                    _editUserForm.Show(); //mostra o formulario
                 }
                 else
                 {
@@ -217,7 +217,7 @@ namespace DomusClient
                         MessageBoxIcon.Information,
                         150);
 
-                    editUserForm.Focus(); //caso a janela ja esteja aberta, foca na mesma
+                    _editUserForm.Focus(); //caso a janela ja esteja aberta, foca na mesma
                 }
             }
             catch (Exception exception)
@@ -234,13 +234,13 @@ namespace DomusClient
         {
             if (!Application.OpenForms.OfType<EditUserForm>().Any())//verifica se ja existe uma aba aberta
             {
-                editUserForm = new EditUserForm();//cria o form
-                int x = this.Left + (this.Width / 2) - (editUserForm.Width / 2);
-                int y = this.Top + (this.Height / 2) - (editUserForm.Height / 2);
+                _editUserForm = new EditUserForm();//cria o form
+                int x = this.Left + (this.Width / 2) - (_editUserForm.Width / 2);
+                int y = this.Top + (this.Height / 2) - (_editUserForm.Height / 2);
 
-                editUserForm.Location = new Point(x, y);//seta a posição do formulario filho
+                _editUserForm.Location = new Point(x, y);//seta a posição do formulario filho
 
-                editUserForm.Show();//mostra o formulario
+                _editUserForm.Show();//mostra o formulario
             }
             else
             {
@@ -250,16 +250,16 @@ namespace DomusClient
                     MessageBoxIcon.Information,
                     150);
 
-                editUserForm.Focus();//caso a janela ja esteja aberta, foca na mesma
+                _editUserForm.Focus();//caso a janela ja esteja aberta, foca na mesma
             }
         }
 
         private void bt_delet_Click(object sender, EventArgs e)
         {
-            workerThread = new Thread(DeleteUserThread);
-            workerThread.Start();
+            _workerThread = new Thread(DeleteUserThread);
+            _workerThread.Start();
 
-            startSpinner();
+            StartSpinner();
         }
     }
 }

@@ -16,9 +16,9 @@ namespace DomusClient
 {
     public partial class ManageDevicesForm : MetroForm
     {
-        private Thread workerThread;
-        private EditDevicesForm editDevicesForm;
-        private ConfigureDeviceForm configureDeviceForm;
+        private Thread _workerThread;
+        private EditDevicesForm _editDevicesForm;
+        private ConfigureDeviceForm _configureDeviceForm;
 
         public ManageDevicesForm()
         {
@@ -35,23 +35,23 @@ namespace DomusClient
 
         public void PopulateGrid()
         {
-            workerThread = new Thread(PopulateGridThread);
-            workerThread.Start();
+            _workerThread = new Thread(PopulateGridThread);
+            _workerThread.Start();
 
-            startSpinner();
+            StartSpinner();
         }
 
         private void PopulateGridThread()
         {
             List<Device> devices;
 
-            setSpinnerValue(1);
+            SetSpinnerValue(1);
 
             try
             {
-                ServerHandler.ServerWrite(ServerHandler.stream, "ListDevices");
+                ServerHandler.ServerWrite(ServerHandler.Stream, "ListDevices");
 
-                devices = (List<Device>)ServerHandler.ServerReadSerilized(ServerHandler.stream, 30000);
+                devices = (List<Device>)ServerHandler.ServerReadSerilized(ServerHandler.Stream, 30000);
 
                 Invoke(new Action(() =>
                 {
@@ -85,28 +85,28 @@ namespace DomusClient
                     150);
             }
 
-            resetSpinner();
+            ResetSpinner();
         }
 
         private void DeleteDeviceThread()
         {
             try
             {
-                startSpinner();
-                setSpinnerValue(1);
+                StartSpinner();
+                SetSpinnerValue(1);
 
                 Device temp = dtg_devices.CurrentRow.DataBoundItem as Device;
-                DialogResult result = MetroMessageBox.Show(this, "Gostaria de deletar o dispositivo " + temp.deviceId + "?\r\nNão será possivel reverter a alteração.", "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, 150);
+                DialogResult result = MetroMessageBox.Show(this, "Gostaria de deletar o dispositivo " + temp.DeviceId + "?\r\nNão será possivel reverter a alteração.", "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, 150);
 
                 if (result == DialogResult.No)
                 {
-                    resetSpinner();
+                    ResetSpinner();
                     return;
                 }
 
-                ServerHandler.ServerWrite(ServerHandler.stream, "DeleteDevice;" + temp.deviceId, 3000);
+                ServerHandler.ServerWrite(ServerHandler.Stream, "DeleteDevice;" + temp.DeviceId, 3000);
 
-                string response = ServerHandler.ServerRead(ServerHandler.stream, 10000);
+                string response = ServerHandler.ServerRead(ServerHandler.Stream, 10000);
 
                 if (response == "DeviceDeleted")
                     MetroMessageBox.Show(this, "Dispositivo deletado com sucesso.", "Sucesso", MessageBoxButtons.OK,
@@ -120,20 +120,20 @@ namespace DomusClient
                         MessageBoxIcon.Error, 150);
                 }
 
-                resetSpinner();
+                ResetSpinner();
 
                 PopulateGrid();
             }
             catch (Exception e)
             {
-                resetSpinner();
+                ResetSpinner();
 
                 MetroMessageBox.Show(this, "Erro ao aplicar alterações. \r\n" + e.Message, "Erro", MessageBoxButtons.OK,
                     MessageBoxIcon.Error, 150);
             }
         }
 
-        private void startSpinner()
+        private void StartSpinner()
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -160,7 +160,7 @@ namespace DomusClient
             }
         }
 
-        private void resetSpinner()
+        private void ResetSpinner()
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -187,7 +187,7 @@ namespace DomusClient
             }
         }
 
-        private void setSpinnerValue(int value)
+        private void SetSpinnerValue(int value)
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -204,10 +204,10 @@ namespace DomusClient
 
         private void bt_delet_Click(object sender, EventArgs e)
         {
-            workerThread = new Thread(DeleteDeviceThread);
-            workerThread.Start();
+            _workerThread = new Thread(DeleteDeviceThread);
+            _workerThread.Start();
 
-            startSpinner();
+            StartSpinner();
         }
 
         private void bt_edit_Click(object sender, EventArgs e)
@@ -216,13 +216,13 @@ namespace DomusClient
             {
                 if (!Application.OpenForms.OfType<EditDevicesForm>().Any()) //verifica se ja existe uma aba aberta
                 {
-                    editDevicesForm = new EditDevicesForm(dtg_devices.CurrentRow.DataBoundItem as Device); //cria o form
-                    int x = this.Left + (this.Width / 2) - (editDevicesForm.Width / 2);
-                    int y = this.Top + (this.Height / 2) - (editDevicesForm.Height / 2);
+                    _editDevicesForm = new EditDevicesForm(dtg_devices.CurrentRow.DataBoundItem as Device); //cria o form
+                    int x = this.Left + (this.Width / 2) - (_editDevicesForm.Width / 2);
+                    int y = this.Top + (this.Height / 2) - (_editDevicesForm.Height / 2);
 
-                    editDevicesForm.Location = new Point(x, y); //seta a posição do formulario filho
+                    _editDevicesForm.Location = new Point(x, y); //seta a posição do formulario filho
 
-                    editDevicesForm.Show(); //mostra o formulario
+                    _editDevicesForm.Show(); //mostra o formulario
                 }
                 else
                 {
@@ -232,7 +232,7 @@ namespace DomusClient
                         MessageBoxIcon.Information,
                         150);
 
-                    editDevicesForm.Focus(); //caso a janela ja esteja aberta, foca na mesma
+                    _editDevicesForm.Focus(); //caso a janela ja esteja aberta, foca na mesma
                 }
             }
             catch (Exception exception)
@@ -249,13 +249,13 @@ namespace DomusClient
         {
             if (!Application.OpenForms.OfType<EditDevicesForm>().Any())//verifica se ja existe uma aba aberta
             {
-                editDevicesForm = new EditDevicesForm();//cria o form
-                int x = this.Left + (this.Width / 2) - (editDevicesForm.Width / 2);
-                int y = this.Top + (this.Height / 2) - (editDevicesForm.Height / 2);
+                _editDevicesForm = new EditDevicesForm();//cria o form
+                int x = this.Left + (this.Width / 2) - (_editDevicesForm.Width / 2);
+                int y = this.Top + (this.Height / 2) - (_editDevicesForm.Height / 2);
 
-                editDevicesForm.Location = new Point(x, y);//seta a posição do formulario filho
+                _editDevicesForm.Location = new Point(x, y);//seta a posição do formulario filho
 
-                editDevicesForm.Show();//mostra o formulario
+                _editDevicesForm.Show();//mostra o formulario
             }
             else
             {
@@ -265,7 +265,7 @@ namespace DomusClient
                     MessageBoxIcon.Information,
                     150);
 
-                editDevicesForm.Focus();//caso a janela ja esteja aberta, foca na mesma
+                _editDevicesForm.Focus();//caso a janela ja esteja aberta, foca na mesma
             }
         }
 
@@ -273,13 +273,13 @@ namespace DomusClient
         {
             if (!Application.OpenForms.OfType<ConfigureDeviceForm>().Any())//verifica se ja existe uma aba aberta
             {
-                configureDeviceForm = new ConfigureDeviceForm(dtg_devices.CurrentRow.DataBoundItem as Device);//cria o form
-                int x = this.Left + (this.Width / 2) - (configureDeviceForm.Width / 2);
-                int y = this.Top + (this.Height / 2) - (configureDeviceForm.Height / 2);
+                _configureDeviceForm = new ConfigureDeviceForm(dtg_devices.CurrentRow.DataBoundItem as Device);//cria o form
+                int x = this.Left + (this.Width / 2) - (_configureDeviceForm.Width / 2);
+                int y = this.Top + (this.Height / 2) - (_configureDeviceForm.Height / 2);
 
-                configureDeviceForm.Location = new Point(x, y);//seta a posição do formulario filho
+                _configureDeviceForm.Location = new Point(x, y);//seta a posição do formulario filho
 
-                configureDeviceForm.Show();//mostra o formulario
+                _configureDeviceForm.Show();//mostra o formulario
             }
             else
             {
@@ -289,7 +289,7 @@ namespace DomusClient
                     MessageBoxIcon.Information,
                     150);
 
-                configureDeviceForm.Focus();//caso a janela ja esteja aberta, foca na mesma
+                _configureDeviceForm.Focus();//caso a janela ja esteja aberta, foca na mesma
             }
         }
     }
