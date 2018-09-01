@@ -365,8 +365,11 @@ namespace DomusClient
 
             _arduinoCom.SendCommand(outData);
 
-            if(_arduinoCom.GetSuccess())
+            if (_arduinoCom.GetSuccess())
+            {
                 MetroMessageBox.Show(this, "Configurações aplicadas.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information, 150);
+                this.Close();
+            }
             else
                 MetroMessageBox.Show(this, "Não foi possivel obter uma resposta do dispositivo.\r\nAs configurações podem não ter sido aplicadas.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning, 150);
 
