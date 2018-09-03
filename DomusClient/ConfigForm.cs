@@ -15,7 +15,7 @@ namespace DomusClient
 {
     public partial class ConfigForm : MetroForm
     {
-        private Thread workerThread;
+        private Thread _workerThread;
 
         public ConfigForm()
         {
@@ -26,9 +26,10 @@ namespace DomusClient
         {
             tb_serverIp.Text = Properties.Settings.Default.serverIp;
             tb_serverPort.Text = Properties.Settings.Default.serverPort.ToString();
+            tb_devicesPort.Text = Properties.Settings.Default.serverDevicePort.ToString();
         }
 
-        private void startSpinner()
+        private void StartSpinner()
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -51,7 +52,7 @@ namespace DomusClient
             }
         }
 
-        private void resetSpinner()
+        private void ResetSpinner()
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -74,7 +75,7 @@ namespace DomusClient
             }
         }
 
-        private void setSpinnerValue(int value)
+        private void SetSpinnerValue(int value)
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -116,23 +117,23 @@ namespace DomusClient
 
         private void ChangePasswdThread()
         {
-            startSpinner();
+            StartSpinner();
 
             try
             {
                 if (!ValidatePasswdForm())
                 {
                     MetroMessageBox.Show(this, "Preencha todos os campos corretamente.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning, 150);
-                    resetSpinner();
+                    ResetSpinner();
 
                     return;
                 }
 
-                setSpinnerValue(1);
+                SetSpinnerValue(1);
 
-                ServerHandler.ServerWrite(ServerHandler.stream, "ChangePasswd;" + tb_passwd.Text + ";" + BCrypt.Net.BCrypt.HashPassword(tb_newPasswd.Text), 10000);
+                ServerHandler.ServerWrite(ServerHandler.Stream, "ChangePasswd;" + tb_passwd.Text + ";" + BCrypt.Net.BCrypt.HashPassword(tb_newPasswd.Text), 10000);
 
-                string response = ServerHandler.ServerRead(ServerHandler.stream, 10000);
+                string response = ServerHandler.ServerRead(ServerHandler.Stream, 10000);
 
                 if (response == "PasswdChanged")
                 {
@@ -163,17 +164,18 @@ namespace DomusClient
 
             }
 
-            resetSpinner();
+            ResetSpinner();
         }
 
         private void bt_save_Click(object sender, EventArgs e)
         {
             try
             {
-                if (ValidateIPv4(tb_serverIp.Text) && (Convert.ToInt32(tb_serverPort.Text) <= 65535) && (Convert.ToInt32(tb_serverPort.Text) >= 0))
+                if (ValidateIPv4(tb_serverIp.Text) && (Convert.ToInt32(tb_serverPort.Text) <= 65535) && (Convert.ToInt32(tb_devicesPort.Text) <= 65535) && (Convert.ToInt32(tb_serverPort.Text) >= 0) && (Convert.ToInt32(tb_devicesPort.Text) >= 0))
                 {
                     Properties.Settings.Default.serverIp = tb_serverIp.Text;
                     Properties.Settings.Default.serverPort = Convert.ToInt32(tb_serverPort.Text);
+                    Properties.Settings.Default.serverDevicePort = Convert.ToInt32(tb_devicesPort.Text);
 
                     Properties.Settings.Default.Save();
 
@@ -208,9 +210,9 @@ namespace DomusClient
 
         private void bt_changePasswd_Click(object sender, EventArgs e)
         {
-            workerThread = new Thread(ChangePasswdThread);
+            _workerThread = new Thread(ChangePasswdThread);
 
-            workerThread.Start();
+            _workerThread.Start();
         }
     }
 }

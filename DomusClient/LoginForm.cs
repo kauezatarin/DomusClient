@@ -19,7 +19,7 @@ namespace DomusClient
 {
     public partial class LoginForm : MetroForm
     {
-        private Thread loginManager;
+        private Thread _loginManager;
 
         public LoginForm()
         {
@@ -29,7 +29,7 @@ namespace DomusClient
             this.ShadowType = MetroFormShadowType.AeroShadow;
         }
 
-        private void loginRoutine()
+        private void LoginRoutine()
         {
             NetworkStream stream;
             Byte[] bytes = new Byte[1024];
@@ -47,7 +47,7 @@ namespace DomusClient
 
             try
             {
-                stream = ServerHandler.stream;
+                stream = ServerHandler.Stream;
             }
             catch
             {
@@ -55,7 +55,7 @@ namespace DomusClient
                 {
                     ServerHandler.Connect();
 
-                    stream = ServerHandler.stream;
+                    stream = ServerHandler.Stream;
 
                 }
                 catch
@@ -66,7 +66,7 @@ namespace DomusClient
                         MessageBoxIcon.Error,
                         100);
 
-                    resetSpinner();
+                    ResetSpinner();
 
                     return;
                 }
@@ -80,28 +80,28 @@ namespace DomusClient
                     MessageBoxIcon.Error,
                     100);
 
-                resetSpinner();
+                ResetSpinner();
 
                 return;
             }
 
-            while (ServerHandler.server.Connected && retry == false)
+            while (ServerHandler.Server.Connected && retry == false)
             {
-                stream = ServerHandler.stream;
+                stream = ServerHandler.Stream;
 
                 if (stream.DataAvailable) //se houver dados a serem lidos
                 {
                     try
                     {
                         // Translate data bytes to a ASCII string.
-                        data = ServerHandler.ServerRead(ServerHandler.stream, 10000);
+                        data = ServerHandler.ServerRead(ServerHandler.Stream, 10000);
 
                         if (data == "sucessfullLogin")
                         {
                             //solicita as informações do usuário
                             ServerHandler.ServerWrite(stream, "<SendUser>", 10000);
 
-                            setSpinnerValue(1);
+                            SetSpinnerValue(1);
 
                             receivingSerial = true;
                         }
@@ -114,21 +114,21 @@ namespace DomusClient
                                 100);
                             retry = true;
 
-                            resetSpinner();
+                            ResetSpinner();
 
                             break;
                         }
 
                         if (receivingSerial)
                         {
-                            setSpinnerValue(2);
+                            SetSpinnerValue(2);
 
-                            Application.OpenForms.OfType<MainForm>().First().user = (User) ServerHandler.ServerReadSerilized(stream, 30000);
+                            Application.OpenForms.OfType<MainForm>().First().User = (User) ServerHandler.ServerReadSerilized(stream, 30000);
 
                             receivingSerial = false;
                             success = true;
 
-                            setSpinnerValue(3);
+                            SetSpinnerValue(3);
 
                             Invoke(new Action(() =>
                             {
@@ -144,7 +144,7 @@ namespace DomusClient
                             MessageBoxIcon.Error,
                             100);
 
-                        resetSpinner();
+                        ResetSpinner();
 
                         return;
                     }
@@ -156,7 +156,7 @@ namespace DomusClient
             retry = false;//reseta a varaivel para poder retentar
         }
 
-        private void resetSpinner()
+        private void ResetSpinner()
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -175,7 +175,7 @@ namespace DomusClient
             }
         }
 
-        private void setSpinnerValue(int value)
+        private void SetSpinnerValue(int value)
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -192,14 +192,14 @@ namespace DomusClient
 
         private void bt_cancel_Click(object sender, EventArgs e)
         {
-            ServerHandler.ServerWrite(ServerHandler.stream, "<exit>");
+            ServerHandler.ServerWrite(ServerHandler.Stream, "<exit>");
             this.Hide();
         }
 
         private void bt_login_Click(object sender, EventArgs e)
         {
-            loginManager = new Thread(() => loginRoutine());
-            loginManager.Start();
+            _loginManager = new Thread(() => LoginRoutine());
+            _loginManager.Start();
         }
     }
 }

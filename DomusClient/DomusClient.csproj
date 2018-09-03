@@ -82,6 +82,18 @@
     <Compile Include="ConfigForm.Designer.cs">
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConfigureDeviceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigureDeviceForm.Designer.cs">
+      <DependentUpon>ConfigureDeviceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditDevicesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditDevicesForm.Designer.cs">
+      <DependentUpon>EditDevicesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="EditUserForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +112,12 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ManageDevicesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManageDevicesForm.Designer.cs">
+      <DependentUpon>ManageDevicesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ManageUsersForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -108,9 +126,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerialDataHandler.cs" />
     <Compile Include="ServerHandler.cs" />
     <EmbeddedResource Include="ConfigForm.resx">
       <DependentUpon>ConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigureDeviceForm.resx">
+      <DependentUpon>ConfigureDeviceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditDevicesForm.resx">
+      <DependentUpon>EditDevicesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditUserForm.resx">
       <DependentUpon>EditUserForm.cs</DependentUpon>
@@ -120,6 +145,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManageDevicesForm.resx">
+      <DependentUpon>ManageDevicesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ManageUsersForm.resx">
       <DependentUpon>ManageUsersForm.cs</DependentUpon>

@@ -19,12 +19,13 @@ namespace DomusClient
 {
     public partial class MainForm : MetroForm
     {
-        private LoginForm loginForm;
-        private ManageUsersForm manageUsersForm;
-        private ConfigForm configForm;
-        private Thread worker;
-        public User user;
-        private WeatherData weather;
+        private LoginForm _loginForm;
+        private ManageUsersForm _manageUsersForm;
+        private ManageDevicesForm _manageDevicesForm;
+        private ConfigForm _configForm;
+        private Thread _worker;
+        public User User;
+        private WeatherData _weather;
 
 
         public MainForm()
@@ -66,21 +67,21 @@ namespace DomusClient
                 this.Close();
             }
 
-            loginForm = new LoginForm();
+            _loginForm = new LoginForm();
 
-            loginForm.ShowDialog();
+            _loginForm.ShowDialog();
 
-            loginForm.Dispose();
+            _loginForm.Dispose();
 
-            if (user == null) //se o login falhar encerra o programa
+            if (User == null) //se o login falhar encerra o programa
             {
                 this.Close();
             }
             else
             {
-                worker = new Thread(GetWeatherThread);
-                worker.IsBackground = true;
-                worker.Start();
+                _worker = new Thread(GetWeatherThread);
+                _worker.IsBackground = true;
+                _worker.Start();
             }
 
         }
@@ -89,7 +90,7 @@ namespace DomusClient
         {
             try
             {
-                ServerHandler.ServerWrite(ServerHandler.stream, "<exit>");
+                ServerHandler.ServerWrite(ServerHandler.Stream, "<exit>");
                 ServerHandler.Dispose();
             }
             catch
@@ -101,32 +102,32 @@ namespace DomusClient
 
         private void GetWeatherThread()
         {
-            startSpinner();
+            StartSpinner();
 
-            setSpinnerValue(1);
+            SetSpinnerValue(1);
 
             try
             {
-                ServerHandler.ServerWrite(ServerHandler.stream, "getWeather");
+                ServerHandler.ServerWrite(ServerHandler.Stream, "GetWeather");
 
-                weather = (WeatherData) ServerHandler.ServerReadSerilized(ServerHandler.stream, 60000);
+                _weather = (WeatherData) ServerHandler.ServerReadSerilized(ServerHandler.Stream, 60000);
 
                 Invoke(new Action(() =>
                     {
-                        lb_forecastLocation.Text = weather.LocationCity + "," + weather.LocationCountry;
-                        lb_forecastMaxValue.Text = weather.MaxTemperature + " °C";
-                        lb_forecastMinValue.Text = weather.MinTemperature + " °C";
-                        lb_humidityValue.Text = weather.Humidity + " %";
-                        lb_ImageDescription.Text = weather.IconDescription;
-                        lb_temperatureValue.Text = weather.Temperature + " °C";
+                        lb_forecastLocation.Text = _weather.LocationCity + "," + _weather.LocationCountry;
+                        lb_forecastMaxValue.Text = _weather.MaxTemperature + " °C";
+                        lb_forecastMinValue.Text = _weather.MinTemperature + " °C";
+                        lb_humidityValue.Text = _weather.Humidity + " %";
+                        lb_ImageDescription.Text = _weather.IconDescription;
+                        lb_temperatureValue.Text = _weather.Temperature + " °C";
 
-                        pb_forecast.Load("http://openweathermap.org/img/w/" + weather.IconValue + ".png");
+                        pb_forecast.Load("http://openweathermap.org/img/w/" + _weather.IconValue + ".png");
 
                     }));
 
-                setSpinnerValue(4);
+                SetSpinnerValue(4);
             }
-            catch(Exception exception)
+            catch
             {
                 Invoke(new Action(() =>
                 {
@@ -151,10 +152,10 @@ namespace DomusClient
                     150);*/
             }
 
-            resetSpinner();
+            ResetSpinner();
         }
 
-        private void startSpinner()
+        private void StartSpinner()
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -191,7 +192,7 @@ namespace DomusClient
             }
         }
 
-        private void resetSpinner()
+        private void ResetSpinner()
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -202,7 +203,7 @@ namespace DomusClient
                     pb_spinner.Enabled = false;
 
 
-                    if (user.isAdmin)
+                    if (User.IsAdmin)
                     {
                         bt_users.Enabled = true;
                         bt_cistern.Enabled = true;
@@ -223,7 +224,7 @@ namespace DomusClient
                 pb_spinner.Visible = false;
                 pb_spinner.Enabled = false;
 
-                if (user.isAdmin)
+                if (User.IsAdmin)
                 {
                     bt_users.Enabled = true;
                     bt_cistern.Enabled = true;
@@ -238,7 +239,7 @@ namespace DomusClient
             }
         }
 
-        private void setSpinnerValue(int value)
+        private void SetSpinnerValue(int value)
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -255,10 +256,20 @@ namespace DomusClient
 
         private void bt_devices_Click(object sender, EventArgs e)
         {
-            MetroMessageBox.Show(this, "Função ainda não implementada.",
-                "Domus Client - Em breve",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            if (!Application.OpenForms.OfType<ManageDevicesForm>().Any())//verifica se ja existe uma aba aberta
+            {
+                _manageDevicesForm = new ManageDevicesForm();//cria o form
+                int x = this.Left + (this.Width / 2) - (_manageDevicesForm.Width / 2);
+                int y = this.Top + (this.Height / 2) - (_manageDevicesForm.Height / 2);
+
+                _manageDevicesForm.Location = new Point(x, y);//seta a posição do formulario filho
+
+                _manageDevicesForm.Show();//mostra o formulario
+            }
+            else
+            {
+                _manageDevicesForm.Focus();//caso a janela ja esteja aberta, foca na mesma
+            }
         }
 
         private void bt_exit_Click(object sender, EventArgs e)
@@ -268,37 +279,37 @@ namespace DomusClient
 
         private void bt_users_Click(object sender, EventArgs e)
         {
-            if (Application.OpenForms.OfType<ManageUsersForm>().Count() == 0)//verifica se ja existe uma aba aberta
+            if (!Application.OpenForms.OfType<ManageUsersForm>().Any())//verifica se ja existe uma aba aberta
             {
-                manageUsersForm = new ManageUsersForm();//cria o form
-                int x = this.Left + (this.Width / 2) - (manageUsersForm.Width / 2);
-                int y = this.Top + (this.Height / 2) - (manageUsersForm.Height / 2);
+                _manageUsersForm = new ManageUsersForm();//cria o form
+                int x = this.Left + (this.Width / 2) - (_manageUsersForm.Width / 2);
+                int y = this.Top + (this.Height / 2) - (_manageUsersForm.Height / 2);
 
-                manageUsersForm.Location = new Point(x, y);//seta a posição do formulario filho
+                _manageUsersForm.Location = new Point(x, y);//seta a posição do formulario filho
 
-                manageUsersForm.Show();//mostra o formulario
+                _manageUsersForm.Show();//mostra o formulario
             }
             else
             {
-                manageUsersForm.Focus();//caso a janela ja esteja aberta, foca na mesma
+                _manageUsersForm.Focus();//caso a janela ja esteja aberta, foca na mesma
             }
         }
 
         private void bt_settings_Click(object sender, EventArgs e)
         {
-            if (Application.OpenForms.OfType<ConfigForm>().Count() == 0)//verifica se ja existe uma aba aberta
+            if (!Application.OpenForms.OfType<ConfigForm>().Any())//verifica se ja existe uma aba aberta
             {
-                configForm = new ConfigForm();//cria o form
-                int x = this.Left + (this.Width / 2) - (configForm.Width / 2);
-                int y = this.Top + (this.Height / 2) - (configForm.Height / 2);
+                _configForm = new ConfigForm();//cria o form
+                int x = this.Left + (this.Width / 2) - (_configForm.Width / 2);
+                int y = this.Top + (this.Height / 2) - (_configForm.Height / 2);
 
-                configForm.Location = new Point(x, y);//seta a posição do formulario filho
+                _configForm.Location = new Point(x, y);//seta a posição do formulario filho
 
-                configForm.Show();//mostra o formulario
+                _configForm.Show();//mostra o formulario
             }
             else
             {
-                configForm.Focus();//caso a janela ja esteja aberta, foca na mesma
+                _configForm.Focus();//caso a janela ja esteja aberta, foca na mesma
             }
         }
 
@@ -314,9 +325,9 @@ namespace DomusClient
         private void pb_warning_Click(object sender, EventArgs e)
         {
             pb_warning.Visible = false;
-            worker = new Thread(GetWeatherThread);
-            worker.IsBackground = true;
-            worker.Start();
+            _worker = new Thread(GetWeatherThread);
+            _worker.IsBackground = true;
+            _worker.Start();
         }
     }
 }

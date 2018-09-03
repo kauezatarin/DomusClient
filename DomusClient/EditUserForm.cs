@@ -17,8 +17,8 @@ namespace DomusClient
 {
     public partial class EditUserForm : MetroForm
     {
-        private User user;
-        private Thread workerThread;
+        private User _user;
+        private Thread _workerThread;
 
         public EditUserForm(User user)
         {
@@ -29,7 +29,7 @@ namespace DomusClient
 
             tb_passwd.Enabled = false;
 
-            this.user = user;
+            this._user = user;
 
             PopulateForm();
 
@@ -49,48 +49,48 @@ namespace DomusClient
 
         private void PopulateForm()
         {
-            tb_name.Text = user.name;
-            tb_lastName.Text = user.lastName;
-            tb_username.Text = user.username;
-            tb_email.Text = user.email;
+            tb_name.Text = _user.Name;
+            tb_lastName.Text = _user.LastName;
+            tb_username.Text = _user.Username;
+            tb_email.Text = _user.Email;
 
-            tg_active.Checked = user.isActive;
-            tg_admin.Checked = user.isAdmin;
+            tg_active.Checked = _user.IsActive;
+            tg_admin.Checked = _user.IsAdmin;
         }
 
         private void SaveThread()
         {
             try
             {
-                startSpinner();
+                StartSpinner();
 
-                setSpinnerValue(1);
+                SetSpinnerValue(1);
 
                 //caso esteja no modo de edição
-                if (user != null)
+                if (_user != null)
                 {
                     if(!ValidateForm())
                     {
                         MetroMessageBox.Show(this, "Preencha todos os campos.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning, 150);
-                        resetSpinner();
+                        ResetSpinner();
 
                         return;
                     }
 
-                    setSpinnerValue(2);
+                    SetSpinnerValue(2);
 
-                    user = new User(tb_username.Text, tb_email.Text, tb_name.Text, tb_lastName.Text, tg_admin.Checked, tg_active.Checked, DateTime.Now.ToString(), DateTime.Now.ToString(), user.password, user.userId);
+                    _user = new User(tb_username.Text, tb_email.Text, tb_name.Text, tb_lastName.Text, tg_admin.Checked, tg_active.Checked, DateTime.Now.ToString(), DateTime.Now.ToString(), _user.Password, _user.UserId);
 
-                    ServerHandler.ServerWrite(ServerHandler.stream, "UpdateUser", 10000);
+                    ServerHandler.ServerWrite(ServerHandler.Stream, "UpdateUser", 10000);
 
-                    if(ServerHandler.ServerRead(ServerHandler.stream, 10000) == "sendUser")
-                        ServerHandler.ServerWriteSerialized(ServerHandler.stream, user, 10000);
+                    if(ServerHandler.ServerRead(ServerHandler.Stream, 10000) == "sendUser")
+                        ServerHandler.ServerWriteSerialized(ServerHandler.Stream, _user, 10000);
                     else
                     {
                         throw new Exception("Resposta inesperada.");
                     }
 
-                    string response = ServerHandler.ServerRead(ServerHandler.stream, 10000);
+                    string response = ServerHandler.ServerRead(ServerHandler.Stream, 10000);
 
                     if (response == "UserUpdated")
                     {
@@ -115,25 +115,25 @@ namespace DomusClient
                     if (!ValidateForm(true))
                     {
                         MetroMessageBox.Show(this, "Preencha todos os campos.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning, 150);
-                        resetSpinner();
+                        ResetSpinner();
 
                         return;
                     }
 
-                    setSpinnerValue(2);
+                    SetSpinnerValue(2);
 
-                    user = new User(tb_username.Text, tb_email.Text, tb_name.Text, tb_lastName.Text, tg_admin.Checked, tg_active.Checked, DateTime.Now.ToString(), DateTime.Now.ToString(), BCrypt.Net.BCrypt.HashPassword(tb_passwd.Text));
+                    _user = new User(tb_username.Text, tb_email.Text, tb_name.Text, tb_lastName.Text, tg_admin.Checked, tg_active.Checked, DateTime.Now.ToString(), DateTime.Now.ToString(), BCrypt.Net.BCrypt.HashPassword(tb_passwd.Text));
 
-                    ServerHandler.ServerWrite(ServerHandler.stream, "AddUser", 10000);
+                    ServerHandler.ServerWrite(ServerHandler.Stream, "AddUser", 10000);
 
-                    if (ServerHandler.ServerRead(ServerHandler.stream, 10000) == "sendNewUser")
-                        ServerHandler.ServerWriteSerialized(ServerHandler.stream, user, 10000);
+                    if (ServerHandler.ServerRead(ServerHandler.Stream, 10000) == "sendNewUser")
+                        ServerHandler.ServerWriteSerialized(ServerHandler.Stream, _user, 10000);
                     else
                     {
                         throw new Exception("Resposta inesperada.");
                     }
 
-                    string response = ServerHandler.ServerRead(ServerHandler.stream, 10000);
+                    string response = ServerHandler.ServerRead(ServerHandler.Stream, 10000);
 
                     if (response == "UserAdded")
                     {
@@ -157,7 +157,7 @@ namespace DomusClient
                     }
                 }
 
-                resetSpinner();
+                ResetSpinner();
 
                 Application.OpenForms.OfType<ManageUsersForm>().First().PopulateGrid();
 
@@ -168,7 +168,7 @@ namespace DomusClient
             }
             catch (Exception e)
             {
-                resetSpinner();
+                ResetSpinner();
 
                 MetroMessageBox.Show(this, "Erro ao aplicar alterações. \r\n" + e.Message, "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
             }
@@ -176,15 +176,15 @@ namespace DomusClient
 
         private void ResetPasswordThread()
         {
-            startSpinner();
+            StartSpinner();
 
             try
             {
-                setSpinnerValue(1);
+                SetSpinnerValue(1);
 
-                ServerHandler.ServerWrite(ServerHandler.stream, "ResetPasswd;" + user.userId + ";" + BCrypt.Net.BCrypt.HashPassword("domus123"), 10000);
+                ServerHandler.ServerWrite(ServerHandler.Stream, "ResetPasswd;" + _user.UserId + ";" + BCrypt.Net.BCrypt.HashPassword("domus123"), 10000);
 
-                string response = ServerHandler.ServerRead(ServerHandler.stream, 10000);
+                string response = ServerHandler.ServerRead(ServerHandler.Stream, 10000);
 
                 if (response == "PasswdReseted")
                 {
@@ -211,7 +211,7 @@ namespace DomusClient
 
             }
 
-            resetSpinner();
+            ResetSpinner();
         }
 
         private bool ValidateForm(bool validatePasswd = false)
@@ -241,7 +241,7 @@ namespace DomusClient
             return result;
         }
 
-        private void startSpinner()
+        private void StartSpinner()
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -264,7 +264,7 @@ namespace DomusClient
             }
         }
 
-        private void resetSpinner()
+        private void ResetSpinner()
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -287,7 +287,7 @@ namespace DomusClient
             }
         }
 
-        private void setSpinnerValue(int value)
+        private void SetSpinnerValue(int value)
         {
             if (pb_spinner.InvokeRequired)
             {
@@ -309,14 +309,14 @@ namespace DomusClient
 
         private void bt_save_Click(object sender, EventArgs e)
         {
-            this.workerThread = new Thread(SaveThread);
-            this.workerThread.Start();
+            this._workerThread = new Thread(SaveThread);
+            this._workerThread.Start();
         }
 
         private void bt_resetPasswd_Click(object sender, EventArgs e)
         {
-            this.workerThread = new Thread(ResetPasswordThread);
-            this.workerThread.Start();
+            this._workerThread = new Thread(ResetPasswordThread);
+            this._workerThread.Start();
         }
     }
 }
