@@ -38,6 +38,8 @@
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.bt_save = new MetroFramework.Controls.MetroButton();
             this.bt_cancel = new MetroFramework.Controls.MetroButton();
+            this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
+            this.pb_spinner = new MetroFramework.Controls.MetroProgressSpinner();
             ((System.ComponentModel.ISupportInitialize)(this.np_rainTime)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,7 +54,7 @@
             0});
             this.np_rainTime.Name = "np_rainTime";
             this.np_rainTime.Size = new System.Drawing.Size(57, 26);
-            this.np_rainTime.TabIndex = 0;
+            this.np_rainTime.TabIndex = 2;
             this.np_rainTime.Value = new decimal(new int[] {
             10,
             0,
@@ -109,7 +111,7 @@
             this.listb_action.Location = new System.Drawing.Point(23, 213);
             this.listb_action.Name = "listb_action";
             this.listb_action.Size = new System.Drawing.Size(184, 69);
-            this.listb_action.TabIndex = 5;
+            this.listb_action.TabIndex = 4;
             // 
             // metroLabel2
             // 
@@ -124,30 +126,53 @@
             // bt_save
             // 
             this.bt_save.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            this.bt_save.Location = new System.Drawing.Point(342, 336);
+            this.bt_save.Location = new System.Drawing.Point(342, 312);
             this.bt_save.Name = "bt_save";
             this.bt_save.Size = new System.Drawing.Size(75, 23);
             this.bt_save.Style = MetroFramework.MetroColorStyle.White;
-            this.bt_save.TabIndex = 8;
+            this.bt_save.TabIndex = 1;
             this.bt_save.Text = "Salvar";
             this.bt_save.UseCustomBackColor = true;
             this.bt_save.UseSelectable = true;
             this.bt_save.UseStyleColors = true;
+            this.bt_save.Click += new System.EventHandler(this.bt_save_Click);
             // 
             // bt_cancel
             // 
-            this.bt_cancel.Location = new System.Drawing.Point(246, 336);
+            this.bt_cancel.Location = new System.Drawing.Point(246, 312);
             this.bt_cancel.Name = "bt_cancel";
             this.bt_cancel.Size = new System.Drawing.Size(75, 23);
-            this.bt_cancel.TabIndex = 9;
+            this.bt_cancel.TabIndex = 5;
             this.bt_cancel.Text = "Cancelar";
             this.bt_cancel.UseSelectable = true;
+            this.bt_cancel.Click += new System.EventHandler(this.bt_cancel_Click);
+            // 
+            // metroLabel3
+            // 
+            this.metroLabel3.AutoSize = true;
+            this.metroLabel3.Location = new System.Drawing.Point(344, 66);
+            this.metroLabel3.Name = "metroLabel3";
+            this.metroLabel3.Size = new System.Drawing.Size(55, 19);
+            this.metroLabel3.TabIndex = 10;
+            this.metroLabel3.Text = "Minutos";
+            // 
+            // pb_spinner
+            // 
+            this.pb_spinner.Location = new System.Drawing.Point(204, 149);
+            this.pb_spinner.Maximum = 4;
+            this.pb_spinner.Name = "pb_spinner";
+            this.pb_spinner.Size = new System.Drawing.Size(32, 32);
+            this.pb_spinner.TabIndex = 14;
+            this.pb_spinner.UseSelectable = true;
+            this.pb_spinner.Visible = false;
             // 
             // CisternConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(440, 382);
+            this.ClientSize = new System.Drawing.Size(440, 358);
+            this.Controls.Add(this.pb_spinner);
+            this.Controls.Add(this.metroLabel3);
             this.Controls.Add(this.bt_cancel);
             this.Controls.Add(this.bt_save);
             this.Controls.Add(this.metroLabel2);
@@ -181,5 +206,7 @@
         private MetroFramework.Controls.MetroLabel metroLabel2;
         private MetroFramework.Controls.MetroButton bt_save;
         private MetroFramework.Controls.MetroButton bt_cancel;
+        private MetroFramework.Controls.MetroLabel metroLabel3;
+        private MetroFramework.Controls.MetroProgressSpinner pb_spinner;
     }
 }
