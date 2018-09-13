@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigureDeviceForm));
-            this.conectWatch = new System.Windows.Forms.Timer(this.components);
+            this.connectWatch = new System.Windows.Forms.Timer(this.components);
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.tb_uid = new MetroFramework.Controls.MetroTextBox();
             this.tb_serverIp = new MetroFramework.Controls.MetroTextBox();
@@ -52,10 +52,10 @@
             this.timerCom = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
-            // conectWatch
+            // connectWatch
             // 
-            this.conectWatch.Interval = 5000;
-            this.conectWatch.Tick += new System.EventHandler(this.ConnectionWatcher);
+            this.connectWatch.Interval = 5000;
+            this.connectWatch.Tick += new System.EventHandler(this.ConnectionWatcher);
             // 
             // metroLabel1
             // 
@@ -118,6 +118,7 @@
             this.tb_serverIp.MaxLength = 32767;
             this.tb_serverIp.Name = "tb_serverIp";
             this.tb_serverIp.PasswordChar = '\0';
+            this.tb_serverIp.PromptText = "ex: 127.0.0.1";
             this.tb_serverIp.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_serverIp.SelectedText = "";
             this.tb_serverIp.SelectionLength = 0;
@@ -167,6 +168,7 @@
             this.tb_porta.MaxLength = 32767;
             this.tb_porta.Name = "tb_porta";
             this.tb_porta.PasswordChar = '\0';
+            this.tb_porta.PromptText = "ex: 9090";
             this.tb_porta.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_porta.SelectedText = "";
             this.tb_porta.SelectionLength = 0;
@@ -208,6 +210,7 @@
             this.tb_deviceIp.MaxLength = 32767;
             this.tb_deviceIp.Name = "tb_deviceIp";
             this.tb_deviceIp.PasswordChar = '\0';
+            this.tb_deviceIp.PromptText = "ex: 127.0.0.1";
             this.tb_deviceIp.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_deviceIp.SelectedText = "";
             this.tb_deviceIp.SelectionLength = 0;
@@ -262,6 +265,7 @@
             this.tb_mac.MaxLength = 17;
             this.tb_mac.Name = "tb_mac";
             this.tb_mac.PasswordChar = '\0';
+            this.tb_mac.PromptText = "ex: 00-E0-4C-48-24-9F";
             this.tb_mac.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_mac.SelectedText = "";
             this.tb_mac.SelectionLength = 0;
@@ -423,7 +427,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.Timer conectWatch;
+        private System.Windows.Forms.Timer connectWatch;
         private MetroFramework.Controls.MetroLabel metroLabel1;
         private MetroFramework.Controls.MetroTextBox tb_uid;
         private MetroFramework.Controls.MetroTextBox tb_serverIp;
