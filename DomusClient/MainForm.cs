@@ -144,13 +144,6 @@ namespace DomusClient
 
                     toolTip.SetToolTip(pb_warning, "Falha ao obter condições meteorológicas.\r\nClique para tentar novamente.");
                 }));
-
-                /*MetroMessageBox.Show(this,
-                    "Não foi possivel resgatar a previsão do tempo.\r\n" + exception.Message,
-                    "Domus Client - Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning,
-                    150);*/
             }
 
             ResetSpinner();
