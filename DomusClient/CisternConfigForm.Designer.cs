@@ -60,6 +60,7 @@
             0,
             0,
             0});
+            this.np_rainTime.Leave += new System.EventHandler(this.np_rainTime_Leave);
             // 
             // lb_rainTime
             // 

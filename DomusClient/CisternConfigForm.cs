@@ -71,6 +71,46 @@ namespace DomusClient
             }
         }
 
+        private void SaveWorker()
+        {
+            SetSpinnerValue(1);
+
+            try
+            {
+                ServerHandler.ServerWrite(ServerHandler.Stream, "SaveCisternConfig", 3000);
+
+                if (ServerHandler.ServerRead(ServerHandler.Stream, 10000) == "SendConfig")
+                    ServerHandler.ServerWriteSerialized(ServerHandler.Stream, config, 10000);
+                else
+                {
+                    throw new Exception("Resposta inesperada.");
+                }
+
+                string response = ServerHandler.ServerRead(ServerHandler.Stream, 10000);
+
+                if (response == "ConfigSaved")
+                {
+                    MetroMessageBox.Show(this, "Configuração aplicada com sucesso.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Question, 150);
+                }
+                else if (response == "FailToSave")
+                {
+                    MetroMessageBox.Show(this, "Não foi possivel aplicar as configurações.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                }
+                else if (response == "noPermission")
+                {
+                    MetroMessageBox.Show(this, "Você não tem permissão.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                }
+                else
+                {
+                    MetroMessageBox.Show(this, "Erro inesperado.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                }
+            }
+            catch (Exception e)
+            {
+                
+            }
+        }
+
         private void StartSpinner()
         {
             if (pb_spinner.InvokeRequired)
@@ -156,7 +196,17 @@ namespace DomusClient
 
         private void bt_save_Click(object sender, EventArgs e)
         {
+            _workerThread = new Thread(SaveWorker);
 
+            _workerThread.Start();
+
+            StartSpinner();
+        }
+
+        private void np_rainTime_Leave(object sender, EventArgs e)
+        {
+            if (np_rainTime.Text == "")
+                np_rainTime.Text = config.TimeOfRain.ToString();
         }
     }
 }
