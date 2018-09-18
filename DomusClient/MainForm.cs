@@ -23,6 +23,7 @@ namespace DomusClient
         private ManageUsersForm _manageUsersForm;
         private ManageDevicesForm _manageDevicesForm;
         private ConfigForm _configForm;
+        private CisternConfigForm _cisternConfigForm;
         private Thread _worker;
         public User User;
         private WeatherData _weather;
@@ -143,13 +144,6 @@ namespace DomusClient
 
                     toolTip.SetToolTip(pb_warning, "Falha ao obter condições meteorológicas.\r\nClique para tentar novamente.");
                 }));
-
-                /*MetroMessageBox.Show(this,
-                    "Não foi possivel resgatar a previsão do tempo.\r\n" + exception.Message,
-                    "Domus Client - Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning,
-                    150);*/
             }
 
             ResetSpinner();
@@ -313,6 +307,24 @@ namespace DomusClient
             }
         }
 
+        private void bt_cistern_Click(object sender, EventArgs e)
+        {
+            if (!Application.OpenForms.OfType<ConfigForm>().Any())//verifica se ja existe uma aba aberta
+            {
+                _cisternConfigForm = new CisternConfigForm();//cria o form
+                int x = this.Left + (this.Width / 2) - (_cisternConfigForm.Width / 2);
+                int y = this.Top + (this.Height / 2) - (_cisternConfigForm.Height / 2);
+
+                _cisternConfigForm.Location = new Point(x, y);//seta a posição do formulario filho
+
+                _cisternConfigForm.Show();//mostra o formulario
+            }
+            else
+            {
+                _cisternConfigForm.Focus();//caso a janela ja esteja aberta, foca na mesma
+            }
+        }
+
         private void llb_about_Click(object sender, EventArgs e)
         {
             MetroMessageBox.Show(this, "Desenvolvido por Kauê S. Zatarin\r\nTCC - Ciências da Computação\r\nEscola de Engenharia de Piracicaba - EEP", 
@@ -329,5 +341,6 @@ namespace DomusClient
             _worker.IsBackground = true;
             _worker.Start();
         }
+
     }
 }

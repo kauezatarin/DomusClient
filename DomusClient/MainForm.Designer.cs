@@ -51,8 +51,8 @@
             this.pb_warning = new System.Windows.Forms.PictureBox();
             this.lb_ImageDescription = new MetroFramework.Controls.MetroLabel();
             this.pl_weather = new MetroFramework.Controls.MetroPanel();
-            this.lb_temperatureValue = new MetroFramework.Controls.MetroLabel();
             this.lb_temperature = new MetroFramework.Controls.MetroLabel();
+            this.lb_temperatureValue = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pb_forecast)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_warning)).BeginInit();
             this.pl_weather.SuspendLayout();
@@ -145,6 +145,7 @@
             this.bt_cistern.UseCustomBackColor = true;
             this.bt_cistern.UseSelectable = true;
             this.bt_cistern.UseTileImage = true;
+            this.bt_cistern.Click += new System.EventHandler(this.bt_cistern_Click);
             // 
             // bt_plugs
             // 
@@ -374,16 +375,6 @@
             this.pl_weather.VerticalScrollbarHighlightOnWheel = false;
             this.pl_weather.VerticalScrollbarSize = 10;
             // 
-            // lb_temperatureValue
-            // 
-            this.lb_temperatureValue.AutoSize = true;
-            this.lb_temperatureValue.FontSize = MetroFramework.MetroLabelSize.Small;
-            this.lb_temperatureValue.Location = new System.Drawing.Point(128, 23);
-            this.lb_temperatureValue.Name = "lb_temperatureValue";
-            this.lb_temperatureValue.Size = new System.Drawing.Size(34, 15);
-            this.lb_temperatureValue.TabIndex = 21;
-            this.lb_temperatureValue.Text = "-22ºc";
-            // 
             // lb_temperature
             // 
             this.lb_temperature.AutoSize = true;
@@ -393,6 +384,16 @@
             this.lb_temperature.Size = new System.Drawing.Size(40, 15);
             this.lb_temperature.TabIndex = 22;
             this.lb_temperature.Text = "Temp.:";
+            // 
+            // lb_temperatureValue
+            // 
+            this.lb_temperatureValue.AutoSize = true;
+            this.lb_temperatureValue.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lb_temperatureValue.Location = new System.Drawing.Point(128, 23);
+            this.lb_temperatureValue.Name = "lb_temperatureValue";
+            this.lb_temperatureValue.Size = new System.Drawing.Size(34, 15);
+            this.lb_temperatureValue.TabIndex = 21;
+            this.lb_temperatureValue.Text = "-22ºc";
             // 
             // MainForm
             // 

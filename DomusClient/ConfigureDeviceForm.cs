@@ -47,7 +47,7 @@ namespace DomusClient
             _arduinoCom.CreateConnection();//cria a porta serial para comunicação com o arduino
 
             InsertLog("Watcher Inciado.");
-            conectWatch.Enabled = true;//inicia o watcher da conexão
+            connectWatch.Enabled = true;//inicia o watcher da conexão
         }
 
         private void ConfigureDeviceForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -167,13 +167,13 @@ namespace DomusClient
             if (_arduinoCom.IsConnected() && !_lastState)//quando o arduino se connectar, reporta
             {
                 _lastState = _arduinoCom.IsConnected();//atualiza o ultimo estado do arduino
-                conectWatch.Interval = 1000;//intervalo do watcher em ms
+                connectWatch.Interval = 1000;//intervalo do watcher em ms
             }
             else if (_arduinoCom.IsConnected() == false && _lastState)//se o arduino se desconectar reporta
             {
                 InsertLog("Dispositivo desconectado :(");
                 _lastState = _arduinoCom.IsConnected();//atualiza o ultimo estado do arduino
-                conectWatch.Interval = 5000;//intervalo do watcher em ms
+                connectWatch.Interval = 5000;//intervalo do watcher em ms
 
                 Invoke(new Action(() =>
                 {
