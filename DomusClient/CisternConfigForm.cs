@@ -60,9 +60,9 @@ namespace DomusClient
 
                 ResetSpinner();
             }
-            catch
+            catch(Exception e)
             {
-                MetroMessageBox.Show(this, "Erro ao obter configurações do servidor.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                MetroMessageBox.Show(this, "Erro ao obter configurações do servidor.\r\n" + e.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
 
                 Invoke(new Action(() =>
                 {
@@ -77,14 +77,26 @@ namespace DomusClient
 
             try
             {
+                Invoke(new Action(() =>
+                {
+                    config.TimeOfRain = Convert.ToInt32(np_rainTime.Value);
+                    config.MinLevelAction = listb_action.SelectedIndex;
+                    config.MinWaterLevel = trb_minLevel.Value;
+                }));
+
                 ServerHandler.ServerWrite(ServerHandler.Stream, "SaveCisternConfig", 3000);
 
                 if (ServerHandler.ServerRead(ServerHandler.Stream, 10000) == "SendConfig")
+                {
                     ServerHandler.ServerWriteSerialized(ServerHandler.Stream, config, 10000);
+                    SetSpinnerValue(2);
+                }
                 else
                 {
                     throw new Exception("Resposta inesperada.");
                 }
+
+                SetSpinnerValue(3);
 
                 string response = ServerHandler.ServerRead(ServerHandler.Stream, 10000);
 
@@ -107,8 +119,10 @@ namespace DomusClient
             }
             catch (Exception e)
             {
-                
+                MetroMessageBox.Show(this, "Erro inesperado.\r\n" + e.Message, "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
             }
+
+            ResetSpinner();
         }
 
         private void StartSpinner()

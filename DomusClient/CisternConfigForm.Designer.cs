@@ -144,7 +144,7 @@
             this.bt_cancel.Name = "bt_cancel";
             this.bt_cancel.Size = new System.Drawing.Size(75, 23);
             this.bt_cancel.TabIndex = 5;
-            this.bt_cancel.Text = "Cancelar";
+            this.bt_cancel.Text = "Sair";
             this.bt_cancel.UseSelectable = true;
             this.bt_cancel.Click += new System.EventHandler(this.bt_cancel_Click);
             // 
