@@ -106,6 +106,12 @@
     <Compile Include="EditUserForm.Designer.cs">
       <DependentUpon>EditUserForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="LinkDeviceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LinkDeviceForm.Designer.cs">
+      <DependentUpon>LinkDeviceForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +129,12 @@
     </Compile>
     <Compile Include="ManageDevicesForm.Designer.cs">
       <DependentUpon>ManageDevicesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManageLinksForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManageLinksForm.Designer.cs">
+      <DependentUpon>ManageLinksForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ManageUsersForm.cs">
       <SubType>Form</SubType>
@@ -149,6 +161,9 @@
     <EmbeddedResource Include="EditUserForm.resx">
       <DependentUpon>EditUserForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LinkDeviceForm.resx">
+      <DependentUpon>LinkDeviceForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -157,6 +172,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ManageDevicesForm.resx">
       <DependentUpon>ManageDevicesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManageLinksForm.resx">
+      <DependentUpon>ManageLinksForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ManageUsersForm.resx">
       <DependentUpon>ManageUsersForm.cs</DependentUpon>
