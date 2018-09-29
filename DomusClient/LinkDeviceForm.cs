@@ -86,7 +86,15 @@ namespace DomusClient
 
                 Invoke(new  Action(() =>
                 {
-                    listb_ports.SetSelected(_service.DevicePortNumber, true);
+                    try
+                    {
+                        listb_ports.SetSelected(_service.DevicePortNumber, true);
+                    }
+                    catch
+                    {
+                        listb_ports.SetSelected(0, false);
+                    }
+                    
                 }));
                 
             }
@@ -195,6 +203,86 @@ namespace DomusClient
 
             if (device.Data4Active)
                 listb_ports.Items.Add(device.Data4Name);
+        }
+
+        private void bt_save_Click(object sender, EventArgs e)
+        {
+            StartSpinner();
+
+            _workerThread = new Thread(SaveThread);
+            _workerThread.Start();
+        }
+
+        private void SaveThread()
+        {
+            try
+            {
+                StartSpinner();
+
+                SetSpinnerValue(1);
+
+                _service.DeviceId = _devices.Find(Device => Device.DeviceName == listb_devices.SelectedItem as string).DeviceId;
+
+                #region Discover Device Port
+
+                if (_devices.Find(Device => Device.DeviceId == _service.DeviceId).Data1Name == listb_ports.SelectedItem as string)
+                    _service.DevicePortNumber = 0;
+
+                else if (_devices.Find(Device => Device.DeviceId == _service.DeviceId).Data1Name == listb_ports.SelectedItem as string)
+                    _service.DevicePortNumber = 1;
+
+                else if (_devices.Find(Device => Device.DeviceId == _service.DeviceId).Data1Name == listb_ports.SelectedItem as string)
+                    _service.DevicePortNumber = 2;
+
+                else if (_devices.Find(Device => Device.DeviceId == _service.DeviceId).Data1Name == listb_ports.SelectedItem as string)
+                    _service.DevicePortNumber = 3;
+
+                #endregion
+
+                ServerHandler.ServerWrite(ServerHandler.Stream, "UpdateLink", 10000);
+
+                if (ServerHandler.ServerRead(ServerHandler.Stream, 10000) == "SendService")
+                    ServerHandler.ServerWriteSerialized(ServerHandler.Stream, _service, 10000);
+                else
+                {
+                    throw new Exception("Resposta inesperada.");
+                }
+
+                string response = ServerHandler.ServerRead(ServerHandler.Stream, 10000);
+
+                if (response == "LinkUpdated")
+                {
+                    MetroMessageBox.Show(this, "Link atualizado com sucesso.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Question, 150);
+                }
+                else if (response == "FailToUpdate")
+                {
+                    MetroMessageBox.Show(this, "Não foi possivel atualizar o Link.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                }
+                else if (response == "noPermission")
+                {
+                    MetroMessageBox.Show(this, "Você não tem permissão.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                }
+                else
+                {
+                    MetroMessageBox.Show(this, "Erro inesperado.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                }
+                
+                
+                ResetSpinner();
+
+                Application.OpenForms.OfType<ManageLinksForm>().First().PopulateGrid();
+
+                Invoke(new Action(() =>
+                {
+                    Application.OpenForms.OfType<LinkDeviceForm>().First().Close();
+                }));
+            }
+            catch (Exception e)
+            {
+                ResetSpinner();
+
+                MetroMessageBox.Show(this, "Erro ao aplicar alterações. \r\n" + e.Message, "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+            }
         }
     }
 }

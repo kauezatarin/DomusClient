@@ -90,6 +90,7 @@
             this.bt_save.UseCustomBackColor = true;
             this.bt_save.UseSelectable = true;
             this.bt_save.UseStyleColors = true;
+            this.bt_save.Click += new System.EventHandler(this.bt_save_Click);
             // 
             // bt_cancel
             // 
