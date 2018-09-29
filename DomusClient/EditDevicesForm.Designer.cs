@@ -48,6 +48,7 @@
             this.tg_data2Active = new MetroFramework.Controls.MetroToggle();
             this.tg_data3Active = new MetroFramework.Controls.MetroToggle();
             this.tg_data4Active = new MetroFramework.Controls.MetroToggle();
+            this.bt_createLink = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
             // 
             // pb_spinner
@@ -143,6 +144,7 @@
             this.tb_devicename.MaxLength = 32767;
             this.tb_devicename.Name = "tb_devicename";
             this.tb_devicename.PasswordChar = '\0';
+            this.tb_devicename.PromptText = "ex: nome do dispositivo";
             this.tb_devicename.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_devicename.SelectedText = "";
             this.tb_devicename.SelectionLength = 0;
@@ -219,6 +221,7 @@
             this.tb_data1Name.MaxLength = 32767;
             this.tb_data1Name.Name = "tb_data1Name";
             this.tb_data1Name.PasswordChar = '\0';
+            this.tb_data1Name.PromptText = "ex: Temperatura";
             this.tb_data1Name.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_data1Name.SelectedText = "";
             this.tb_data1Name.SelectionLength = 0;
@@ -250,6 +253,7 @@
             this.tb_data2Name.MaxLength = 32767;
             this.tb_data2Name.Name = "tb_data2Name";
             this.tb_data2Name.PasswordChar = '\0';
+            this.tb_data2Name.PromptText = "ex: Humidade";
             this.tb_data2Name.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_data2Name.SelectedText = "";
             this.tb_data2Name.SelectionLength = 0;
@@ -281,6 +285,7 @@
             this.tb_data3Name.MaxLength = 32767;
             this.tb_data3Name.Name = "tb_data3Name";
             this.tb_data3Name.PasswordChar = '\0';
+            this.tb_data3Name.PromptText = "ex: Sensação termica";
             this.tb_data3Name.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_data3Name.SelectedText = "";
             this.tb_data3Name.SelectionLength = 0;
@@ -312,6 +317,7 @@
             this.tb_data4Name.MaxLength = 32767;
             this.tb_data4Name.Name = "tb_data4Name";
             this.tb_data4Name.PasswordChar = '\0';
+            this.tb_data4Name.PromptText = "ex: Pressão atmosférica";
             this.tb_data4Name.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_data4Name.SelectedText = "";
             this.tb_data4Name.SelectionLength = 0;
@@ -364,11 +370,22 @@
             this.tg_data4Active.Text = "Off";
             this.tg_data4Active.UseSelectable = true;
             // 
+            // bt_createLink
+            // 
+            this.bt_createLink.Location = new System.Drawing.Point(78, 293);
+            this.bt_createLink.Name = "bt_createLink";
+            this.bt_createLink.Size = new System.Drawing.Size(75, 23);
+            this.bt_createLink.TabIndex = 40;
+            this.bt_createLink.Text = "Vincular";
+            this.bt_createLink.UseSelectable = true;
+            this.bt_createLink.Click += new System.EventHandler(this.bt_createLink_Click);
+            // 
             // EditDevicesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(515, 362);
+            this.Controls.Add(this.bt_createLink);
             this.Controls.Add(this.pb_spinner);
             this.Controls.Add(this.tg_data4Active);
             this.Controls.Add(this.tg_data3Active);
@@ -420,5 +437,6 @@
         private MetroFramework.Controls.MetroToggle tg_data2Active;
         private MetroFramework.Controls.MetroToggle tg_data3Active;
         private MetroFramework.Controls.MetroToggle tg_data4Active;
+        private MetroFramework.Controls.MetroButton bt_createLink;
     }
 }
