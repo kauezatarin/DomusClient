@@ -30,13 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LinkDeviceForm));
             this.lb_service = new MetroFramework.Controls.MetroLabel();
-            this.mlv_devices = new MetroFramework.Controls.MetroListView();
             this.lb_serviceName = new MetroFramework.Controls.MetroLabel();
-            this.mlv_ports = new MetroFramework.Controls.MetroListView();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.bt_save = new MetroFramework.Controls.MetroButton();
             this.bt_cancel = new MetroFramework.Controls.MetroButton();
+            this.pb_spinner = new MetroFramework.Controls.MetroProgressSpinner();
+            this.listb_devices = new System.Windows.Forms.ListBox();
+            this.listb_ports = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // lb_service
@@ -50,18 +51,6 @@
             this.lb_service.TabIndex = 0;
             this.lb_service.Text = "Serviço: ";
             // 
-            // mlv_devices
-            // 
-            this.mlv_devices.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.mlv_devices.FullRowSelect = true;
-            this.mlv_devices.Location = new System.Drawing.Point(23, 161);
-            this.mlv_devices.Name = "mlv_devices";
-            this.mlv_devices.OwnerDraw = true;
-            this.mlv_devices.Size = new System.Drawing.Size(179, 97);
-            this.mlv_devices.TabIndex = 1;
-            this.mlv_devices.UseCompatibleStateImageBehavior = false;
-            this.mlv_devices.UseSelectable = true;
-            // 
             // lb_serviceName
             // 
             this.lb_serviceName.AutoSize = true;
@@ -70,18 +59,6 @@
             this.lb_serviceName.Size = new System.Drawing.Size(117, 19);
             this.lb_serviceName.TabIndex = 2;
             this.lb_serviceName.Text = "Irrigation.Humidity";
-            // 
-            // mlv_ports
-            // 
-            this.mlv_ports.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.mlv_ports.FullRowSelect = true;
-            this.mlv_ports.Location = new System.Drawing.Point(261, 161);
-            this.mlv_ports.Name = "mlv_ports";
-            this.mlv_ports.OwnerDraw = true;
-            this.mlv_ports.Size = new System.Drawing.Size(152, 97);
-            this.mlv_ports.TabIndex = 3;
-            this.mlv_ports.UseCompatibleStateImageBehavior = false;
-            this.mlv_ports.UseSelectable = true;
             // 
             // metroLabel1
             // 
@@ -122,25 +99,55 @@
             this.bt_cancel.TabIndex = 16;
             this.bt_cancel.Text = "Cancelar";
             this.bt_cancel.UseSelectable = true;
+            this.bt_cancel.Click += new System.EventHandler(this.bt_cancel_Click);
+            // 
+            // pb_spinner
+            // 
+            this.pb_spinner.Location = new System.Drawing.Point(217, 166);
+            this.pb_spinner.Maximum = 4;
+            this.pb_spinner.Name = "pb_spinner";
+            this.pb_spinner.Size = new System.Drawing.Size(32, 32);
+            this.pb_spinner.TabIndex = 22;
+            this.pb_spinner.UseSelectable = true;
+            this.pb_spinner.Visible = false;
+            // 
+            // listb_devices
+            // 
+            this.listb_devices.FormattingEnabled = true;
+            this.listb_devices.Location = new System.Drawing.Point(23, 161);
+            this.listb_devices.Name = "listb_devices";
+            this.listb_devices.Size = new System.Drawing.Size(179, 95);
+            this.listb_devices.TabIndex = 23;
+            this.listb_devices.SelectedIndexChanged += new System.EventHandler(this.listb_devices_SelectedIndexChanged);
+            // 
+            // listb_ports
+            // 
+            this.listb_ports.FormattingEnabled = true;
+            this.listb_ports.Location = new System.Drawing.Point(261, 161);
+            this.listb_ports.Name = "listb_ports";
+            this.listb_ports.Size = new System.Drawing.Size(152, 95);
+            this.listb_ports.TabIndex = 24;
             // 
             // LinkDeviceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(478, 343);
+            this.Controls.Add(this.listb_ports);
+            this.Controls.Add(this.listb_devices);
+            this.Controls.Add(this.pb_spinner);
             this.Controls.Add(this.bt_save);
             this.Controls.Add(this.bt_cancel);
             this.Controls.Add(this.metroLabel2);
             this.Controls.Add(this.metroLabel1);
-            this.Controls.Add(this.mlv_ports);
             this.Controls.Add(this.lb_serviceName);
-            this.Controls.Add(this.mlv_devices);
             this.Controls.Add(this.lb_service);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LinkDeviceForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Vincular Dispositivo";
+            this.Load += new System.EventHandler(this.LinkDeviceForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -149,12 +156,13 @@
         #endregion
 
         private MetroFramework.Controls.MetroLabel lb_service;
-        private MetroFramework.Controls.MetroListView mlv_devices;
         private MetroFramework.Controls.MetroLabel lb_serviceName;
-        private MetroFramework.Controls.MetroListView mlv_ports;
         private MetroFramework.Controls.MetroLabel metroLabel1;
         private MetroFramework.Controls.MetroLabel metroLabel2;
         private MetroFramework.Controls.MetroButton bt_save;
         private MetroFramework.Controls.MetroButton bt_cancel;
+        private MetroFramework.Controls.MetroProgressSpinner pb_spinner;
+        private System.Windows.Forms.ListBox listb_devices;
+        private System.Windows.Forms.ListBox listb_ports;
     }
 }

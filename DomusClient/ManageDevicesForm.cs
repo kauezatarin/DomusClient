@@ -19,6 +19,7 @@ namespace DomusClient
         private Thread _workerThread;
         private EditDevicesForm _editDevicesForm;
         private ConfigureDeviceForm _configureDeviceForm;
+        private ManageLinksForm _manageLinksForm;
 
         public ManageDevicesForm()
         {
@@ -146,6 +147,7 @@ namespace DomusClient
                     bt_edit.Enabled = false;
                     bt_delet.Enabled = false;
                     bt_configDevice.Enabled = false;
+                    bt_link.Enabled = false;
                 }));
             }
             else
@@ -157,6 +159,7 @@ namespace DomusClient
                 bt_edit.Enabled = false;
                 bt_delet.Enabled = false;
                 bt_configDevice.Enabled = false;
+                bt_link.Enabled = false;
             }
         }
 
@@ -173,6 +176,7 @@ namespace DomusClient
                     bt_edit.Enabled = true;
                     bt_delet.Enabled = true;
                     bt_configDevice.Enabled = true;
+                    bt_link.Enabled = true;
                 }));
             }
             else
@@ -184,6 +188,7 @@ namespace DomusClient
                 bt_edit.Enabled = true;
                 bt_delet.Enabled = true;
                 bt_configDevice.Enabled = true;
+                bt_link.Enabled = true;
             }
         }
 
@@ -290,6 +295,24 @@ namespace DomusClient
                     150);
 
                 _configureDeviceForm.Focus();//caso a janela ja esteja aberta, foca na mesma
+            }
+        }
+
+        private void bt_link_Click(object sender, EventArgs e)
+        {
+            if (!Application.OpenForms.OfType<LinkDeviceForm>().Any())//verifica se ja existe uma aba aberta
+            {
+                _manageLinksForm = new ManageLinksForm();//cria o form
+                int x = this.Left + (this.Width / 2) - (_manageLinksForm.Width / 2);
+                int y = this.Top + (this.Height / 2) - (_manageLinksForm.Height / 2);
+
+                _manageLinksForm.Location = new Point(x, y);//seta a posição do formulario filho
+
+                _manageLinksForm.Show();//mostra o formulario
+            }
+            else
+            {
+                _manageLinksForm.Focus();//caso a janela ja esteja aberta, foca na mesma
             }
         }
     }
