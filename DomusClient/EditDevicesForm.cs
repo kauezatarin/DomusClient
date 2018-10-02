@@ -18,7 +18,6 @@ namespace DomusClient
     {
         private Device _device;
         private Thread _workerThread;
-        private ManageLinksForm _manageLinksForm;
 
         public EditDevicesForm()
         {
