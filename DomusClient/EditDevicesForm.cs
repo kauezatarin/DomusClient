@@ -241,23 +241,5 @@ namespace DomusClient
             this._workerThread = new Thread(SaveThread);
             this._workerThread.Start();
         }
-
-        private void bt_createLink_Click(object sender, EventArgs e)
-        {
-            if (!Application.OpenForms.OfType<LinkDeviceForm>().Any())//verifica se ja existe uma aba aberta
-            {
-                _manageLinksForm = new ManageLinksForm();//cria o form
-                int x = this.Left + (this.Width / 2) - (_manageLinksForm.Width / 2);
-                int y = this.Top + (this.Height / 2) - (_manageLinksForm.Height / 2);
-
-                _manageLinksForm.Location = new Point(x, y);//seta a posição do formulario filho
-
-                _manageLinksForm.Show();//mostra o formulario
-            }
-            else
-            {
-                _manageLinksForm.Focus();//caso a janela ja esteja aberta, foca na mesma
-            }
-        }
     }
 }
