@@ -17,6 +17,7 @@ namespace DomusClient
     public partial class IrrigationConfigForm : MetroForm
     {
         private Thread _workerThread;
+        private EditIrrigationSchedule _editIrrigationSchedule;
         private IrrigationConfig _irrigationConfig;
 
         public IrrigationConfigForm()
@@ -345,6 +346,54 @@ namespace DomusClient
             _workerThread = new Thread(SaveIrrigationConfigsThread);
 
             _workerThread.Start();
+        }
+
+        private void bt_newSchedule_Click(object sender, EventArgs e)
+        {
+            if (!Application.OpenForms.OfType<EditIrrigationSchedule>().Any())//verifica se ja existe uma aba aberta
+            {
+                _editIrrigationSchedule = new EditIrrigationSchedule();//cria o form
+                int x = this.Left + (this.Width / 2) - (_editIrrigationSchedule.Width / 2);
+                int y = this.Top + (this.Height / 2) - (_editIrrigationSchedule.Height / 2);
+
+                _editIrrigationSchedule.Location = new Point(x, y);//seta a posição do formulario filho
+
+                _editIrrigationSchedule.Show();//mostra o formulario
+            }
+            else
+            {
+                MetroMessageBox.Show(this, "Só é possivel realizar uma operação por vez.",
+                    "Domus Client - Informação",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    150);
+
+                _editIrrigationSchedule.Focus();//caso a janela ja esteja aberta, foca na mesma
+            }
+        }
+
+        private void bt_edit_Click(object sender, EventArgs e)
+        {
+            if (!Application.OpenForms.OfType<EditIrrigationSchedule>().Any())//verifica se ja existe uma aba aberta
+            {
+                _editIrrigationSchedule = new EditIrrigationSchedule(dtg_schedules.CurrentRow.DataBoundItem as IrrigationSchedule);//cria o form
+                int x = this.Left + (this.Width / 2) - (_editIrrigationSchedule.Width / 2);
+                int y = this.Top + (this.Height / 2) - (_editIrrigationSchedule.Height / 2);
+
+                _editIrrigationSchedule.Location = new Point(x, y);//seta a posição do formulario filho
+
+                _editIrrigationSchedule.Show();//mostra o formulario
+            }
+            else
+            {
+                MetroMessageBox.Show(this, "Só é possivel realizar uma operação por vez.",
+                    "Domus Client - Informação",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    150);
+
+                _editIrrigationSchedule.Focus();//caso a janela ja esteja aberta, foca na mesma
+            }
         }
     }
 }

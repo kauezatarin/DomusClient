@@ -239,6 +239,7 @@
             this.bt_edit.TabIndex = 73;
             this.bt_edit.Text = "Editar";
             this.bt_edit.UseSelectable = true;
+            this.bt_edit.Click += new System.EventHandler(this.bt_edit_Click);
             // 
             // bt_newSchedule
             // 
@@ -253,6 +254,7 @@
             this.bt_newSchedule.UseCustomBackColor = true;
             this.bt_newSchedule.UseSelectable = true;
             this.bt_newSchedule.UseStyleColors = true;
+            this.bt_newSchedule.Click += new System.EventHandler(this.bt_newSchedule_Click);
             // 
             // pb_spinner
             // 
