@@ -17,6 +17,7 @@ namespace DomusClient
     public partial class IrrigationConfigForm : MetroForm
     {
         private Thread _workerThread;
+        private IrrigationConfig _irrigationConfig;
 
         public IrrigationConfigForm()
         {
@@ -28,15 +29,59 @@ namespace DomusClient
 
         private void IrrigationConfigForm_Load(object sender, EventArgs e)
         {
-            PopulateGrid();
-        }
-
-        public void PopulateGrid()
-        {
-            _workerThread = new Thread(PopulateGridThread);
+            _workerThread = new Thread(LoadConfigsThread);
             _workerThread.Start();
 
             StartSpinner();
+        }
+
+        private void LoadConfigsThread()
+        {
+            Thread workerThread;
+
+            workerThread = new Thread(PopulateGridThread);
+            workerThread.Start();
+
+            workerThread.Join();
+
+            workerThread = new Thread(PopulateConfigsThread);
+            workerThread.Start();
+
+            workerThread.Join();
+
+            ResetSpinner();
+        }
+
+        private void PopulateConfigsThread()
+        {
+            try
+            {
+                ServerHandler.ServerWrite(ServerHandler.Stream, "GetIrrigationConfig");
+
+                SetSpinnerValue(3);
+
+                _irrigationConfig = (IrrigationConfig)ServerHandler.ServerReadSerilized(ServerHandler.Stream, 30000);
+
+                Invoke(new Action(() =>
+                {
+                    np_maxHumidity.Value = Convert.ToDecimal(_irrigationConfig.MaxSoilHumidity);
+                    np_maxTemperature.Value = Convert.ToDecimal(_irrigationConfig.MaxAirTemperature);
+                    np_minTemperature.Value = Convert.ToDecimal(_irrigationConfig.MinAirTemperature);
+                    tg_forecast.Checked = _irrigationConfig.UseForecast;
+
+                }));
+
+                SetSpinnerValue(4);
+
+            }
+            catch (Exception exception)
+            {
+                MetroMessageBox.Show(this, "Não foi possivel recuperar os dados.\r\n" + exception.Message,
+                    "Domus Client - Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error,
+                    150);
+            }
         }
 
         private void PopulateGridThread()
@@ -47,7 +92,7 @@ namespace DomusClient
 
             try
             {
-                ServerHandler.ServerWrite(ServerHandler.Stream, "ListIrrigationTimes");
+                ServerHandler.ServerWrite(ServerHandler.Stream, "ListIrrigationSchedules");
 
                 irrigationSchedules = (List<IrrigationSchedule>)ServerHandler.ServerReadSerilized(ServerHandler.Stream, 30000);
 
@@ -72,6 +117,8 @@ namespace DomusClient
                     dtg_schedules.Font = new Font("Segoe UI", 11f, FontStyle.Regular, GraphicsUnit.Pixel);
                 }));
 
+                SetSpinnerValue(2);
+
             }
             catch (Exception exception)
             {
@@ -82,18 +129,25 @@ namespace DomusClient
                     150);
             }
 
-            ResetSpinner();
         }
 
-        private void DeleteDeviceThread()
+        private void PopulateGrid()
         {
+            _workerThread = new Thread(PopulateGridThread);
+            _workerThread.Start();
+        }
+
+        private void DeleteScheduleThread()
+        {
+            throw new NotImplementedException();
+
             try
             {
                 StartSpinner();
                 SetSpinnerValue(1);
 
                 Device temp = dtg_schedules.CurrentRow.DataBoundItem as Device;
-                DialogResult result = MetroMessageBox.Show(this, "Gostaria de deletar o dispositivo " + temp.DeviceId + "?\r\nNão será possivel reverter a alteração.", "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, 150);
+                DialogResult result = MetroMessageBox.Show(this, "Gostaria de deletar o agendamento " + temp.DeviceId + "?\r\nNão será possivel reverter a alteração.", "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, 150);
 
                 if (result == DialogResult.No)
                 {
@@ -193,6 +247,11 @@ namespace DomusClient
             {
                 pb_spinner.Value = value;
             }
+        }
+
+        private void bt_cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
