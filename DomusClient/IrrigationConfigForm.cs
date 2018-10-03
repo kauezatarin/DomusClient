@@ -114,6 +114,9 @@ namespace DomusClient
                     dtg_schedules.Columns[10].HeaderText = "Sábado";
                     dtg_schedules.Columns[11].HeaderText = "Ativo?";
 
+                    //altera o formato de exibbição do horário
+                    dtg_schedules.Columns[2].DefaultCellStyle.Format = "HH:mm:ss";
+
                     dtg_schedules.Font = new Font("Segoe UI", 11f, FontStyle.Regular, GraphicsUnit.Pixel);
                 }));
 
@@ -139,15 +142,12 @@ namespace DomusClient
 
         private void DeleteScheduleThread()
         {
-            throw new NotImplementedException();
-
             try
             {
-                StartSpinner();
                 SetSpinnerValue(1);
 
-                Device temp = dtg_schedules.CurrentRow.DataBoundItem as Device;
-                DialogResult result = MetroMessageBox.Show(this, "Gostaria de deletar o agendamento " + temp.DeviceId + "?\r\nNão será possivel reverter a alteração.", "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, 150);
+                IrrigationSchedule temp = dtg_schedules.CurrentRow.DataBoundItem as IrrigationSchedule;
+                DialogResult result = MetroMessageBox.Show(this, "Gostaria de deletar o agendamento " + temp.ScheduleName + "?\r\nNão será possivel reverter a alteração.", "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, 150);
 
                 if (result == DialogResult.No)
                 {
@@ -155,15 +155,15 @@ namespace DomusClient
                     return;
                 }
 
-                ServerHandler.ServerWrite(ServerHandler.Stream, "DeleteDevice;" + temp.DeviceId, 3000);
+                ServerHandler.ServerWrite(ServerHandler.Stream, "DeleteIrrigationSchedule;" + temp.ScheduleId, 3000);
 
                 string response = ServerHandler.ServerRead(ServerHandler.Stream, 10000);
 
-                if (response == "DeviceDeleted")
-                    MetroMessageBox.Show(this, "Dispositivo deletado com sucesso.", "Sucesso", MessageBoxButtons.OK,
+                if (response == "ScheduleDeleted")
+                    MetroMessageBox.Show(this, "Agendamento deletado com sucesso.", "Sucesso", MessageBoxButtons.OK,
                         MessageBoxIcon.Question, 150);
                 else if (response == "FailToDelete")
-                    MetroMessageBox.Show(this, "Erro ao deletar dispositivo.", "Erro", MessageBoxButtons.OK,
+                    MetroMessageBox.Show(this, "Erro ao deletar agendamento.", "Erro", MessageBoxButtons.OK,
                         MessageBoxIcon.Error, 150);
                 else
                 {
@@ -184,6 +184,61 @@ namespace DomusClient
             }
         }
 
+        private void SaveIrrigationConfigsThread()
+        {
+            SetSpinnerValue(1);
+
+            try
+            {
+                Invoke(new Action(() =>
+                {
+                    _irrigationConfig.MinAirTemperature = Convert.ToInt32(np_minTemperature.Value);
+                    _irrigationConfig.MaxAirTemperature = Convert.ToInt32(np_maxTemperature.Value);
+                    _irrigationConfig.MaxSoilHumidity = Convert.ToInt32(np_maxHumidity.Value);
+                    _irrigationConfig.UseForecast = tg_forecast.Checked;
+                }));
+
+                ServerHandler.ServerWrite(ServerHandler.Stream, "SaveIrrigationConfig", 3000);
+
+                if (ServerHandler.ServerRead(ServerHandler.Stream, 10000) == "SendConfig")
+                {
+                    ServerHandler.ServerWriteSerialized(ServerHandler.Stream, _irrigationConfig, 10000);
+                    SetSpinnerValue(2);
+                }
+                else
+                {
+                    throw new Exception("Resposta inesperada.");
+                }
+
+                SetSpinnerValue(3);
+
+                string response = ServerHandler.ServerRead(ServerHandler.Stream, 10000);
+
+                if (response == "ConfigSaved")
+                {
+                    MetroMessageBox.Show(this, "Configuração aplicada com sucesso.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Question, 150);
+                }
+                else if (response == "FailToSave")
+                {
+                    MetroMessageBox.Show(this, "Não foi possivel aplicar as configurações.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                }
+                else if (response == "noPermission")
+                {
+                    MetroMessageBox.Show(this, "Você não tem permissão.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                }
+                else
+                {
+                    MetroMessageBox.Show(this, "Erro inesperado.", "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+                }
+            }
+            catch (Exception e)
+            {
+                MetroMessageBox.Show(this, "Erro inesperado.\r\n" + e.Message, "Falha", MessageBoxButtons.OK, MessageBoxIcon.Error, 150);
+            }
+
+            ResetSpinner();
+        }
+
         private void StartSpinner()
         {
             if (pb_spinner.InvokeRequired)
@@ -196,6 +251,11 @@ namespace DomusClient
                     bt_newSchedule.Enabled = false;
                     bt_edit.Enabled = false;
                     bt_delet.Enabled = false;
+                    bt_save.Enabled = false;
+                    np_maxHumidity.Enabled = false;
+                    np_maxTemperature.Enabled = false;
+                    np_minTemperature.Enabled = false;
+                    tg_forecast.Enabled = false;
                 }));
             }
             else
@@ -206,6 +266,11 @@ namespace DomusClient
                 bt_newSchedule.Enabled = false;
                 bt_edit.Enabled = false;
                 bt_delet.Enabled = false;
+                bt_save.Enabled = false;
+                np_maxHumidity.Enabled = false;
+                np_maxTemperature.Enabled = false;
+                np_minTemperature.Enabled = false;
+                tg_forecast.Enabled = false;
             }
         }
 
@@ -221,6 +286,11 @@ namespace DomusClient
                     bt_newSchedule.Enabled = true;
                     bt_edit.Enabled = true;
                     bt_delet.Enabled = true;
+                    bt_save.Enabled = true;
+                    np_maxHumidity.Enabled = true;
+                    np_maxTemperature.Enabled = true;
+                    np_minTemperature.Enabled = true;
+                    tg_forecast.Enabled = true;
                 }));
             }
             else
@@ -231,6 +301,11 @@ namespace DomusClient
                 bt_newSchedule.Enabled = true;
                 bt_edit.Enabled = true;
                 bt_delet.Enabled = true;
+                bt_save.Enabled = true;
+                np_maxHumidity.Enabled = true;
+                np_maxTemperature.Enabled = true;
+                np_minTemperature.Enabled = true;
+                tg_forecast.Enabled = true;
             }
         }
 
@@ -252,6 +327,24 @@ namespace DomusClient
         private void bt_cancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void bt_delet_Click(object sender, EventArgs e)
+        {
+            StartSpinner();
+
+            _workerThread = new Thread(DeleteScheduleThread);
+
+            _workerThread.Start();
+        }
+
+        private void bt_save_Click(object sender, EventArgs e)
+        {
+            StartSpinner();
+
+            _workerThread = new Thread(SaveIrrigationConfigsThread);
+
+            _workerThread.Start();
         }
     }
 }
