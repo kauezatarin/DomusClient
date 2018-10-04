@@ -100,11 +100,23 @@
     <Compile Include="EditDevicesForm.Designer.cs">
       <DependentUpon>EditDevicesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditIrrigationSchedule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditIrrigationSchedule.Designer.cs">
+      <DependentUpon>EditIrrigationSchedule.cs</DependentUpon>
+    </Compile>
     <Compile Include="EditUserForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="EditUserForm.Designer.cs">
       <DependentUpon>EditUserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IrrigationConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IrrigationConfigForm.Designer.cs">
+      <DependentUpon>IrrigationConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="LinkDeviceForm.cs">
       <SubType>Form</SubType>
@@ -158,8 +170,14 @@
     <EmbeddedResource Include="EditDevicesForm.resx">
       <DependentUpon>EditDevicesForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditIrrigationSchedule.resx">
+      <DependentUpon>EditIrrigationSchedule.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditUserForm.resx">
       <DependentUpon>EditUserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IrrigationConfigForm.resx">
+      <DependentUpon>IrrigationConfigForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LinkDeviceForm.resx">
       <DependentUpon>LinkDeviceForm.cs</DependentUpon>

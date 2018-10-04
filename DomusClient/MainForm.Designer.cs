@@ -127,6 +127,7 @@
             this.bt_irrigation.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Regular;
             this.bt_irrigation.UseSelectable = true;
             this.bt_irrigation.UseTileImage = true;
+            this.bt_irrigation.Click += new System.EventHandler(this.bt_irrigation_Click);
             // 
             // bt_cistern
             // 
