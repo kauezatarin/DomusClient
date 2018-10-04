@@ -37,7 +37,7 @@
             this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel5 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel6 = new MetroFramework.Controls.MetroLabel();
-            this.tg_moonday = new MetroFramework.Controls.MetroToggle();
+            this.tg_monday = new MetroFramework.Controls.MetroToggle();
             this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
             this.tg_friday = new MetroFramework.Controls.MetroToggle();
             this.metroLabel8 = new MetroFramework.Controls.MetroLabel();
@@ -161,15 +161,15 @@
             this.metroLabel6.TabIndex = 86;
             this.metroLabel6.Text = "Segunda:";
             // 
-            // tg_moonday
+            // tg_monday
             // 
-            this.tg_moonday.AutoSize = true;
-            this.tg_moonday.Location = new System.Drawing.Point(164, 201);
-            this.tg_moonday.Name = "tg_moonday";
-            this.tg_moonday.Size = new System.Drawing.Size(80, 17);
-            this.tg_moonday.TabIndex = 85;
-            this.tg_moonday.Text = "Off";
-            this.tg_moonday.UseSelectable = true;
+            this.tg_monday.AutoSize = true;
+            this.tg_monday.Location = new System.Drawing.Point(164, 201);
+            this.tg_monday.Name = "tg_monday";
+            this.tg_monday.Size = new System.Drawing.Size(80, 17);
+            this.tg_monday.TabIndex = 85;
+            this.tg_monday.Text = "Off";
+            this.tg_monday.UseSelectable = true;
             // 
             // metroLabel7
             // 
@@ -371,7 +371,7 @@
             this.Controls.Add(this.metroLabel7);
             this.Controls.Add(this.tg_friday);
             this.Controls.Add(this.metroLabel6);
-            this.Controls.Add(this.tg_moonday);
+            this.Controls.Add(this.tg_monday);
             this.Controls.Add(this.metroLabel5);
             this.Controls.Add(this.metroLabel3);
             this.Controls.Add(this.np_duration);
@@ -400,7 +400,7 @@
         private MetroFramework.Controls.MetroLabel metroLabel3;
         private MetroFramework.Controls.MetroLabel metroLabel5;
         private MetroFramework.Controls.MetroLabel metroLabel6;
-        private MetroFramework.Controls.MetroToggle tg_moonday;
+        private MetroFramework.Controls.MetroToggle tg_monday;
         private MetroFramework.Controls.MetroLabel metroLabel7;
         private MetroFramework.Controls.MetroToggle tg_friday;
         private MetroFramework.Controls.MetroLabel metroLabel8;

@@ -62,7 +62,7 @@ namespace DomusClient
 
             tg_active.Checked = _irrigationSchedule.Active;
             tg_sunday.Checked = _irrigationSchedule.Sunday;
-            tg_moonday.Checked = _irrigationSchedule.Moonday;
+            tg_monday.Checked = _irrigationSchedule.Monday;
             tg_tuesday.Checked = _irrigationSchedule.Tuesday;
             tg_wednesday.Checked = _irrigationSchedule.Wednesday;
             tg_thursday.Checked = _irrigationSchedule.Thursday;
@@ -178,7 +178,7 @@ namespace DomusClient
                     cb_timeScale.Enabled = false;
                     tg_active.Enabled = false;
                     tg_sunday.Enabled = false;
-                    tg_moonday.Enabled = false;
+                    tg_monday.Enabled = false;
                     tg_tuesday.Enabled = false;
                     tg_wednesday.Enabled = false;
                     tg_thursday.Enabled = false;
@@ -198,7 +198,7 @@ namespace DomusClient
                 cb_timeScale.Enabled = false;
                 tg_active.Enabled = false;
                 tg_sunday.Enabled = false;
-                tg_moonday.Enabled = false;
+                tg_monday.Enabled = false;
                 tg_tuesday.Enabled = false;
                 tg_wednesday.Enabled = false;
                 tg_thursday.Enabled = false;
@@ -223,7 +223,7 @@ namespace DomusClient
                     cb_timeScale.Enabled = true;
                     tg_active.Enabled = true;
                     tg_sunday.Enabled = true;
-                    tg_moonday.Enabled = true;
+                    tg_monday.Enabled = true;
                     tg_tuesday.Enabled = true;
                     tg_wednesday.Enabled = true;
                     tg_thursday.Enabled = true;
@@ -243,7 +243,7 @@ namespace DomusClient
                 cb_timeScale.Enabled = true;
                 tg_active.Enabled = true;
                 tg_sunday.Enabled = true;
-                tg_moonday.Enabled = true;
+                tg_monday.Enabled = true;
                 tg_tuesday.Enabled = true;
                 tg_wednesday.Enabled = true;
                 tg_thursday.Enabled = true;
@@ -278,7 +278,7 @@ namespace DomusClient
 
             _irrigationSchedule.Active = tg_active.Checked;
             _irrigationSchedule.Sunday = tg_sunday.Checked;
-            _irrigationSchedule.Moonday = tg_moonday.Checked;
+            _irrigationSchedule.Monday = tg_monday.Checked;
             _irrigationSchedule.Tuesday = tg_tuesday.Checked;
             _irrigationSchedule.Wednesday = tg_wednesday.Checked;
             _irrigationSchedule.Thursday = tg_thursday.Checked;
