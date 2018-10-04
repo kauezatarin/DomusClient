@@ -289,7 +289,7 @@ namespace DomusClient
                 _irrigationSchedule.RunFor = Convert.ToInt32(np_duration.Value);
             else
             {
-                _irrigationSchedule.RunFor = Convert.ToInt32(np_duration.Value) / 60;
+                _irrigationSchedule.RunFor = Convert.ToInt32(np_duration.Value) * 60;
             }
 
             _irrigationSchedule.ScheduleName = tb_name.Text;
