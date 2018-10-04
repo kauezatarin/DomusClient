@@ -306,6 +306,7 @@
             this.dtg_schedules.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.dtg_schedules.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.dtg_schedules.Location = new System.Drawing.Point(23, 126);
+            this.dtg_schedules.MultiSelect = false;
             this.dtg_schedules.Name = "dtg_schedules";
             this.dtg_schedules.ReadOnly = true;
             this.dtg_schedules.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;

@@ -74,6 +74,7 @@
             this.dtg_users.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.dtg_users.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.dtg_users.Location = new System.Drawing.Point(23, 104);
+            this.dtg_users.MultiSelect = false;
             this.dtg_users.Name = "dtg_users";
             this.dtg_users.ReadOnly = true;
             this.dtg_users.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
