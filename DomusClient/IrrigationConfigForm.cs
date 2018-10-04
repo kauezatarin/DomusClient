@@ -135,7 +135,7 @@ namespace DomusClient
 
         }
 
-        private void PopulateGrid()
+        public void PopulateGrid()
         {
             _workerThread = new Thread(PopulateGridThread);
             _workerThread.Start();

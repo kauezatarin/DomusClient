@@ -83,25 +83,6 @@ namespace DomusClient
                 {
                     SetSpinnerValue(2);
 
-                    _irrigationSchedule.Active = tg_active.Checked;
-                    _irrigationSchedule.Sunday = tg_sunday.Checked;
-                    _irrigationSchedule.Moonday = tg_moonday.Checked;
-                    _irrigationSchedule.Tuesday = tg_tuesday.Checked;
-                    _irrigationSchedule.Wednesday = tg_wednesday.Checked;
-                    _irrigationSchedule.Thursday = tg_thursday.Checked;
-                    _irrigationSchedule.Friday = tg_friday.Checked;
-                    _irrigationSchedule.Saturday = tg_saturday.Checked;
-
-                    if(cb_timeScale.SelectedIndex == 0)
-                        _irrigationSchedule.RunFor = Convert.ToInt32(np_duration.Value);
-                    else
-                    {
-                        _irrigationSchedule.RunFor = Convert.ToInt32(np_duration.Value)/60;
-                    }
-
-                    _irrigationSchedule.ScheduleName = tb_name.Text;
-                    _irrigationSchedule.ScheduleTime = dt_hour.Value;
-                    
                     ServerHandler.ServerWrite(ServerHandler.Stream, "UpdateIrrigationSchedule", 10000);
 
                     if (ServerHandler.ServerRead(ServerHandler.Stream, 10000) == "SendSchedule")
@@ -135,25 +116,6 @@ namespace DomusClient
                 {
                     SetSpinnerValue(2);
 
-                    _irrigationSchedule.Active = tg_active.Checked;
-                    _irrigationSchedule.Sunday = tg_sunday.Checked;
-                    _irrigationSchedule.Moonday = tg_moonday.Checked;
-                    _irrigationSchedule.Tuesday = tg_tuesday.Checked;
-                    _irrigationSchedule.Wednesday = tg_wednesday.Checked;
-                    _irrigationSchedule.Thursday = tg_thursday.Checked;
-                    _irrigationSchedule.Friday = tg_friday.Checked;
-                    _irrigationSchedule.Saturday = tg_saturday.Checked;
-
-                    if (cb_timeScale.SelectedIndex == 0)
-                        _irrigationSchedule.RunFor = Convert.ToInt32(np_duration.Value);
-                    else
-                    {
-                        _irrigationSchedule.RunFor = Convert.ToInt32(np_duration.Value) / 60;
-                    }
-
-                    _irrigationSchedule.ScheduleName = tb_name.Text;
-                    _irrigationSchedule.ScheduleTime = dt_hour.Value;
-
                     ServerHandler.ServerWrite(ServerHandler.Stream, "AddIrrigationSchedule", 10000);
 
                     if (ServerHandler.ServerRead(ServerHandler.Stream, 10000) == "sendNewSchedule")
@@ -185,11 +147,11 @@ namespace DomusClient
 
                 ResetSpinner();
 
-                Application.OpenForms.OfType<ManageDevicesForm>().First().PopulateGrid();
+                Application.OpenForms.OfType<IrrigationConfigForm>().First().PopulateGrid();
 
                 Invoke(new Action(() =>
                 {
-                    Application.OpenForms.OfType<EditDevicesForm>().First().Close();
+                    Application.OpenForms.OfType<EditIrrigationSchedule>().First().Close();
                 }));
             }
             catch (Exception e)
@@ -313,6 +275,25 @@ namespace DomusClient
         private void bt_save_Click(object sender, EventArgs e)
         {
             StartSpinner();
+
+            _irrigationSchedule.Active = tg_active.Checked;
+            _irrigationSchedule.Sunday = tg_sunday.Checked;
+            _irrigationSchedule.Moonday = tg_moonday.Checked;
+            _irrigationSchedule.Tuesday = tg_tuesday.Checked;
+            _irrigationSchedule.Wednesday = tg_wednesday.Checked;
+            _irrigationSchedule.Thursday = tg_thursday.Checked;
+            _irrigationSchedule.Friday = tg_friday.Checked;
+            _irrigationSchedule.Saturday = tg_saturday.Checked;
+
+            if (cb_timeScale.SelectedIndex == 0)
+                _irrigationSchedule.RunFor = Convert.ToInt32(np_duration.Value);
+            else
+            {
+                _irrigationSchedule.RunFor = Convert.ToInt32(np_duration.Value) / 60;
+            }
+
+            _irrigationSchedule.ScheduleName = tb_name.Text;
+            _irrigationSchedule.ScheduleTime = dt_hour.Value;
 
             this._workerThread = new Thread(SaveThread);
             this._workerThread.Start();
