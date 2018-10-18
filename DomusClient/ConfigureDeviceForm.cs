@@ -6,6 +6,8 @@ using System.Data;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -355,8 +357,8 @@ namespace DomusClient
             string outData = "";
             byte[] mac = GetMacBytes(tb_mac.Text);
 
-            outData += 2.ToString();
-            outData += ";" + tb_serverIp.Text.Replace(".",";");
+            outData += 2 + ";";
+            outData += tb_serverIp.Text == "localhost" ? "127;0;0;1" : tb_serverIp.Text.Replace(".",";");
             outData += ";" + tb_porta.Text;
             outData += ";" + Convert.ToInt32(tg_isDHCP.Checked);
             outData += ";" + tb_deviceIp.Text.Replace(".",";");

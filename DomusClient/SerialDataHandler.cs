@@ -85,6 +85,11 @@ namespace DomusClient
 
             _waitRx.Join(15000);//aguarda o arduino responder
 
+            if (_rxString.Count == 0)//se não receber nada
+            {
+                return " ";
+            }
+
             conf = _rxString[0];
             _rxString.RemoveAt(0);
 
