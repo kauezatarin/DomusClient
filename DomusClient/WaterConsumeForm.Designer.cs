@@ -33,6 +33,8 @@
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.bt_applyDate = new MetroFramework.Controls.MetroButton();
             this.pb_spinner = new MetroFramework.Controls.MetroProgressSpinner();
+            this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
+            this.lb_volume = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.np_year)).BeginInit();
             this.SuspendLayout();
             // 
@@ -99,7 +101,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pb_spinner.Enabled = false;
-            this.pb_spinner.Location = new System.Drawing.Point(369, 224);
+            this.pb_spinner.Location = new System.Drawing.Point(394, 222);
             this.pb_spinner.Maximum = 4;
             this.pb_spinner.Name = "pb_spinner";
             this.pb_spinner.Size = new System.Drawing.Size(32, 32);
@@ -109,11 +111,33 @@
             this.pb_spinner.Value = 1;
             this.pb_spinner.Visible = false;
             // 
+            // metroLabel2
+            // 
+            this.metroLabel2.AutoSize = true;
+            this.metroLabel2.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.metroLabel2.Location = new System.Drawing.Point(46, 105);
+            this.metroLabel2.Name = "metroLabel2";
+            this.metroLabel2.Size = new System.Drawing.Size(91, 19);
+            this.metroLabel2.TabIndex = 86;
+            this.metroLabel2.Text = "Volume Total:";
+            // 
+            // lb_volume
+            // 
+            this.lb_volume.AutoSize = true;
+            this.lb_volume.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lb_volume.Location = new System.Drawing.Point(143, 105);
+            this.lb_volume.Name = "lb_volume";
+            this.lb_volume.Size = new System.Drawing.Size(15, 19);
+            this.lb_volume.TabIndex = 87;
+            this.lb_volume.Text = "-";
+            // 
             // WaterConsumeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lb_volume);
+            this.Controls.Add(this.metroLabel2);
             this.Controls.Add(this.pb_spinner);
             this.Controls.Add(this.bt_applyDate);
             this.Controls.Add(this.metroLabel1);
@@ -137,5 +161,7 @@
         private MetroFramework.Controls.MetroLabel metroLabel1;
         private MetroFramework.Controls.MetroButton bt_applyDate;
         private MetroFramework.Controls.MetroProgressSpinner pb_spinner;
+        private MetroFramework.Controls.MetroLabel metroLabel2;
+        private MetroFramework.Controls.MetroLabel lb_volume;
     }
 }

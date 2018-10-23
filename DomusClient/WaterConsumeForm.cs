@@ -51,9 +51,15 @@ namespace DomusClient
 
                 ServerHandler.ServerWrite(ServerHandler.Stream, "GetWaterConsume;"+ year);
 
-                waterConsumeDatas = (List<WaterConsumeData>)ServerHandler.ServerReadSerilized(ServerHandler.Stream, 30000);
+                waterConsumeDatas = (List<WaterConsumeData>)ServerHandler.ServerReadSerilized(ServerHandler.Stream, 120000);
+
+                SetSpinnerValue(2);
 
                 Invoke(new Action(() => { InitializeChart(waterConsumeDatas); }));
+
+                Invoke(new Action(() => { lb_volume.Text = waterConsumeDatas.Sum(x => x.Value).ToString("N") + " m³"; }));
+
+                SetSpinnerValue(3);
 
             }
             catch (Exception exception)
