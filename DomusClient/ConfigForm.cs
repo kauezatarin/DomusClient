@@ -20,6 +20,9 @@ namespace DomusClient
         public ConfigForm()
         {
             InitializeComponent();
+
+            this.BorderStyle = MetroFormBorderStyle.FixedSingle;
+            this.ShadowType = MetroFormShadowType.AeroShadow;
         }
 
         private void ConfigForm_Load(object sender, EventArgs e)
