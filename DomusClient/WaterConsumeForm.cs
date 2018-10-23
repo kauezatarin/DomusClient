@@ -93,8 +93,8 @@ namespace DomusClient
 
             WaterConsumeChart.AxisY.Add(new Axis
             {
-                Title = "Litros",
-                LabelFormatter = value => value.ToString("C")
+                Title = "Volume",
+                LabelFormatter = value => ((value/1000).ToString("F") + " m³")
             });
 
             foreach (WaterConsumeData value in values)
