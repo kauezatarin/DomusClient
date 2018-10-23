@@ -92,6 +92,7 @@
             this.bt_wather.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Regular;
             this.bt_wather.UseSelectable = true;
             this.bt_wather.UseTileImage = true;
+            this.bt_wather.Click += new System.EventHandler(this.bt_wather_Click);
             // 
             // bt_energy
             // 
