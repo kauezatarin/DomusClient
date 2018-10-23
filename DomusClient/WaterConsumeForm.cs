@@ -51,9 +51,15 @@ namespace DomusClient
 
                 ServerHandler.ServerWrite(ServerHandler.Stream, "GetWaterConsume;"+ year);
 
-                waterConsumeDatas = (List<WaterConsumeData>)ServerHandler.ServerReadSerilized(ServerHandler.Stream, 30000);
+                waterConsumeDatas = (List<WaterConsumeData>)ServerHandler.ServerReadSerilized(ServerHandler.Stream, 120000);
+
+                SetSpinnerValue(2);
 
                 Invoke(new Action(() => { InitializeChart(waterConsumeDatas); }));
+
+                Invoke(new Action(() => { lb_volume.Text = waterConsumeDatas.Sum(x => x.Value).ToString("N") + " m³"; }));
+
+                SetSpinnerValue(3);
 
             }
             catch (Exception exception)
@@ -93,8 +99,8 @@ namespace DomusClient
 
             WaterConsumeChart.AxisY.Add(new Axis
             {
-                Title = "Litros",
-                LabelFormatter = value => value.ToString("C")
+                Title = "Volume",
+                LabelFormatter = value => ((value/1000).ToString("F") + " m³")
             });
 
             foreach (WaterConsumeData value in values)
