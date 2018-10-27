@@ -57,7 +57,7 @@ namespace DomusClient
 
                 Invoke(new Action(() => { InitializeChart(waterConsumeDatas); }));
 
-                Invoke(new Action(() => { lb_volume.Text = waterConsumeDatas.Sum(x => x.Value).ToString("N") + " m³"; }));
+                Invoke(new Action(() => { lb_volume.Text = (waterConsumeDatas.Sum(x => x.Value)/1000).ToString("N") + " m³"; }));
 
                 SetSpinnerValue(3);
 
