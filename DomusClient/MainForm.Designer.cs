@@ -111,6 +111,7 @@
             this.bt_energy.UseCustomBackColor = true;
             this.bt_energy.UseSelectable = true;
             this.bt_energy.UseTileImage = true;
+            this.bt_energy.Click += new System.EventHandler(this.bt_energy_Click);
             // 
             // bt_irrigation
             // 
@@ -166,6 +167,7 @@
             this.bt_plugs.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Regular;
             this.bt_plugs.UseSelectable = true;
             this.bt_plugs.UseTileImage = true;
+            this.bt_plugs.Click += new System.EventHandler(this.bt_plugs_Click);
             // 
             // bt_users
             // 

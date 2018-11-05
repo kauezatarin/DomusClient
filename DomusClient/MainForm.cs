@@ -364,7 +364,7 @@ namespace DomusClient
 
         private void llb_about_Click(object sender, EventArgs e)
         {
-            MetroMessageBox.Show(this, "Desenvolvido por Kauê S. Zatarin\r\nTCC - Ciências da Computação\r\nEscola de Engenharia de Piracicaba - EEP", 
+            MetroMessageBox.Show(this, "Desenvolvido por Kauê S. Zatarin\r\ncom a orientação de Prof. Dr. José Luiz Zem\r\nTCC - Ciências da Computação\r\nEscola de Engenharia de Piracicaba - EEP", 
                 "Domus Client", 
                 MessageBoxButtons.OK, 
                 MessageBoxIcon.Information,
@@ -377,6 +377,24 @@ namespace DomusClient
             _worker = new Thread(GetWeatherThread);
             _worker.IsBackground = true;
             _worker.Start();
+        }
+
+        private void bt_energy_Click(object sender, EventArgs e)
+        {
+            MetroMessageBox.Show(this, "Reservado para trabalhos futuros.",
+                "Domus Client",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning,
+                180);
+        }
+
+        private void bt_plugs_Click(object sender, EventArgs e)
+        {
+            MetroMessageBox.Show(this, "Reservado para trabalhos futuros.",
+                "Domus Client",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning,
+                180);
         }
     }
 }
